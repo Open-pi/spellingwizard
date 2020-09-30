@@ -26,30 +26,35 @@ class CategoriesView extends StatefulWidget {
 
 class CategoriesViewState extends State {
   Widget build(BuildContext context) {
-    final dividreTile = Divider();
+    final dividreTile = Divider(
+      color: Colors.white,
+      height: 20,
+      thickness: null,
+    );
 
     return Scaffold(
-      appBar: AppBar(title: Text('SpellingWizard')),
+      //appBar: AppBar(title: Text('SpellingWizard')),
       body: ListView(
-        //padding: const EdgeInsets.all(8),
+        padding: const EdgeInsets.all(40),
         children: <Widget>[
-          categorieBuilder('Verbs'),
+          categoryBuilder('assets/verbs_category.png'),
           dividreTile,
-          categorieBuilder('Animals'),
+          categoryBuilder('assets/animals_category.png'),
           dividreTile,
-          categorieBuilder('Tools')
+          categoryBuilder('assets/tools_category.png')
         ],
       ),
     );
   }
 }
 
-Widget categorieBuilder(String name) {
-  return ListTile(
-    title: Text(name,
-        style: TextStyle(
-            fontFamily: 'Raleway',
-            fontWeight: FontWeight.w900,
-            fontSize: 18.8)),
+Widget categoryBuilder(String iconName) {
+  return CircleAvatar(
+    radius: 55,
+    child: CircleAvatar(
+      backgroundColor: Color(0xFFF4511E),
+      radius: 55,
+      backgroundImage: AssetImage(iconName),
+    ),
   );
 }
