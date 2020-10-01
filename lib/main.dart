@@ -30,15 +30,38 @@ class CategoriesViewState extends State {
       thickness: null,
     );
     return Scaffold(
-      //appBar: AppBar(title: Text('SpellingWizard')),
+      appBar: AppBar(
+        title: Text('SpellingWizard'),
+        centerTitle: true,
+        backgroundColor: Colors.amber[850],
+        elevation: 0.0,
+      ),
       body: ListView(
         padding: const EdgeInsets.all(40),
         children: <Widget>[
-          categoryBuilder('assets/verbs_category.png'),
+          RaisedButton(
+              onPressed: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => VerbsPage()));
+              },
+              shape: CircleBorder(),
+              child: categoryBuilder('assets/verbs_category.png')),
           dividreTile,
-          categoryBuilder('assets/animals_category.png'),
+          RaisedButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => AnimalsPage()));
+              },
+              shape: CircleBorder(),
+              child: categoryBuilder('assets/animals_category.png')),
           dividreTile,
-          categoryBuilder('assets/tools_category.png')
+          RaisedButton(
+              onPressed: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => ToolsPage()));
+              },
+              shape: CircleBorder(),
+              child: categoryBuilder('assets/tools_category.png')),
         ],
       ),
     );
@@ -46,13 +69,48 @@ class CategoriesViewState extends State {
 }
 
 Widget categoryBuilder(String iconName) {
-  return RaisedButton(
-    onPressed: () {},
-    shape: CircleBorder(),
-    child: CircleAvatar(
-      backgroundColor: Color(0xFFF4511E),
-      radius: 55,
-      backgroundImage: AssetImage(iconName),
-    ),
+  return CircleAvatar(
+    backgroundColor: Color(0xFFF4511E),
+    radius: 55,
+    backgroundImage: AssetImage(iconName),
   );
+}
+
+class VerbsPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Verbs'),
+        centerTitle: true,
+        backgroundColor: Colors.blue[900],
+      ),
+    );
+  }
+}
+
+class AnimalsPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Animals'),
+        centerTitle: true,
+        backgroundColor: Colors.green[900],
+      ),
+    );
+  }
+}
+
+class ToolsPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Tools'),
+        centerTitle: true,
+        backgroundColor: Colors.grey[850],
+      ),
+    );
+  }
 }
