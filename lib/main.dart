@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'categories/verbs.dart';
+import 'categories/animals.dart';
+import 'categories/tools.dart';
 
 void main() => runApp(MyApp());
 
@@ -73,103 +76,5 @@ Widget categoryBuilder(String iconName) {
     backgroundColor: Color(0xFFF4511E),
     radius: 55,
     backgroundImage: AssetImage(iconName),
-  );
-}
-
-class VerbsPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Verbs'),
-        centerTitle: true,
-        backgroundColor: Colors.blue[900],
-      ),
-      body: _verbsListView(),
-    );
-  }
-
-  ListView _verbsListView() {
-    return ListView.builder(
-      itemCount: 10,
-      itemBuilder: (_, index) {
-        return ListTile(
-            title: Text('Lesson number $index'),
-            subtitle: Text('Put Small Description Here'),
-            leading: starsIcons());
-      },
-    );
-  }
-}
-
-class AnimalsPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text('Animals'),
-          centerTitle: true,
-          backgroundColor: Colors.green[900],
-        ),
-        body: _animalsListView());
-  }
-
-  ListView _animalsListView() {
-    return ListView.builder(
-      itemCount: 10,
-      itemBuilder: (_, index) {
-        return ListTile(
-            title: Text('Lesson number $index'),
-            subtitle: Text('Put Small Description Here'),
-            leading: starsIcons());
-      },
-    );
-  }
-}
-
-class ToolsPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text('Tools'),
-          centerTitle: true,
-          backgroundColor: Colors.grey[850],
-        ),
-        body: _toolsListView());
-  }
-
-  ListView _toolsListView() {
-    return ListView.builder(
-      itemCount: 10,
-      itemBuilder: (_, index) {
-        return ListTile(
-            title: Text('Lesson number $index'),
-            subtitle: Text('Put Small Description Here'),
-            leading: starsIcons());
-      },
-    );
-  }
-}
-
-Container starsIcons() {
-  return Container(
-    width: 50,
-    child: Row(
-      children: <Icon>[
-        Icon(
-          Icons.star,
-          size: 15,
-        ),
-        Icon(
-          Icons.star,
-          size: 20,
-        ),
-        Icon(
-          Icons.star,
-          size: 15,
-        )
-      ],
-    ),
   );
 }
