@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(MyApp());
-}
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
@@ -31,7 +29,6 @@ class CategoriesViewState extends State {
       height: 20,
       thickness: null,
     );
-
     return Scaffold(
       //appBar: AppBar(title: Text('SpellingWizard')),
       body: ListView(
@@ -49,8 +46,9 @@ class CategoriesViewState extends State {
 }
 
 Widget categoryBuilder(String iconName) {
-  return CircleAvatar(
-    radius: 55,
+  return RaisedButton(
+    onPressed: () {},
+    shape: CircleBorder(),
     child: CircleAvatar(
       backgroundColor: Color(0xFFF4511E),
       radius: 55,
