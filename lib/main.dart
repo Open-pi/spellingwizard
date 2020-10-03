@@ -29,7 +29,7 @@ class CategoriesViewState extends State {
   Widget build(BuildContext context) {
     final dividreTile = SizedBox(height: 25);
     return Scaffold(
-      backgroundColor: Colors.deepOrange[300],
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text('SpellingWizard'),
         centerTitle: true,
