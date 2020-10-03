@@ -16,11 +16,13 @@ class AnimalsPage extends StatelessWidget {
     return ListView.builder(
       itemCount: 10,
       itemBuilder: (_, index) {
-        return ListTile(
-          title: Text('Lesson number $index'),
-          subtitle: Text('Put Small Description Here'),
-          leading: starsIcons(),
-          trailing: Icon(Icons.arrow_forward),
+        return Card(
+          child: ListTile(
+            title: Text('Lesson number $index'),
+            subtitle: Text('Put Small Description Here'),
+            leading: starsIcons(),
+            trailing: Icon(Icons.arrow_forward),
+          ),
         );
       },
     );
@@ -29,20 +31,20 @@ class AnimalsPage extends StatelessWidget {
 
 Container starsIcons() {
   return Container(
-    width: 50,
+    width: 70,
     child: Row(
       children: <Icon>[
-        Icon(
-          Icons.star,
-          size: 15,
-        ),
         Icon(
           Icons.star,
           size: 20,
         ),
         Icon(
           Icons.star,
-          size: 15,
+          size: 25,
+        ),
+        Icon(
+          Icons.star,
+          size: 20,
         )
       ],
     ),

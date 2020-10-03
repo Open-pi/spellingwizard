@@ -27,12 +27,9 @@ class CategoriesView extends StatefulWidget {
 
 class CategoriesViewState extends State {
   Widget build(BuildContext context) {
-    final dividreTile = Divider(
-      color: Colors.white,
-      height: 20,
-      thickness: null,
-    );
+    final dividreTile = SizedBox(height: 25);
     return Scaffold(
+      backgroundColor: Colors.deepOrange[300],
       appBar: AppBar(
         title: Text('SpellingWizard'),
         centerTitle: true,

@@ -1,3 +1,4 @@
+import 'package:SpellingWizard/categories/challenge.dart';
 import 'package:flutter/material.dart';
 
 class VerbsPage extends StatelessWidget {
@@ -9,19 +10,25 @@ class VerbsPage extends StatelessWidget {
         centerTitle: true,
         backgroundColor: Colors.blue[900],
       ),
-      body: _verbsListView(),
+      body: _verbsListView(context),
     );
   }
 
-  ListView _verbsListView() {
+  ListView _verbsListView(BuildContext context) {
     return ListView.builder(
       itemCount: 10,
       itemBuilder: (_, index) {
-        return ListTile(
-          title: Text('Lesson number $index'),
-          subtitle: Text('Put Small Description Here'),
-          leading: starsIcons(),
-          trailing: Icon(Icons.arrow_forward),
+        return Card(
+          child: ListTile(
+            title: Text('Lesson number $index'),
+            subtitle: Text('Put Small Description Here'),
+            leading: starsIcons(),
+            trailing: Icon(Icons.arrow_forward),
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => ChallengePage()));
+            },
+          ),
         );
       },
     );
@@ -30,20 +37,20 @@ class VerbsPage extends StatelessWidget {
 
 Container starsIcons() {
   return Container(
-    width: 50,
+    width: 70,
     child: Row(
       children: <Icon>[
-        Icon(
-          Icons.star,
-          size: 15,
-        ),
         Icon(
           Icons.star,
           size: 20,
         ),
         Icon(
           Icons.star,
-          size: 15,
+          size: 25,
+        ),
+        Icon(
+          Icons.star,
+          size: 20,
         )
       ],
     ),
