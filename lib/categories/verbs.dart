@@ -26,7 +26,7 @@ class VerbsPage extends StatelessWidget {
       Word(
         word: 'Theater',
         meaning: 'Place for performing acts',
-        usage: 'The movie is showing in all ... in the country.',
+        usage: 'This movie is going to play in all ...',
         phonetic: "/'θɪətə(r)/",
       ),
     ];

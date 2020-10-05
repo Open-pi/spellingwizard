@@ -23,10 +23,18 @@ class ChallengeBody extends StatefulWidget {
 }
 
 class _ChallengeBodyState extends State<ChallengeBody> {
+  List messages = [
+    'Right!',
+    'Wrong!',
+    'moving to the next word',
+    'End of the Challenge',
+  ];
   int i = 0;
+  int attempt = 3;
   final List<Word> wordList;
   _ChallengeBodyState(this.wordList);
   String message = '';
+  final TextEditingController textController = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +70,7 @@ class _ChallengeBodyState extends State<ChallengeBody> {
         message,
         textAlign: TextAlign.right,
       ),
+      Text('You Have $attempt attempt(s) left.')
     ];
   }
 
@@ -70,13 +79,41 @@ class _ChallengeBodyState extends State<ChallengeBody> {
       child: Column(
         children: [
           TextFormField(
+            controller: textController,
             onFieldSubmitted: (value) {
               setState(() {
+                bool move = false;
+                bool stillPages = i < this.wordList.length - 1;
+                bool lastPage = i == this.wordList.length - 1;
                 if (this.wordList[i].word == value) {
-                  message = 'Right';
-                  if (i < this.wordList.length - 1) i++;
+                  move = true;
+                  if (lastPage) {
+                    // If we reached the last word
+                    attempt = 0;
+                    message = messages[3];
+                  } else {
+                    attempt = 3;
+                    message = messages[0];
+                  }
                 } else {
-                  message = 'Wrong';
+                  attempt--;
+                  message = messages[1];
+                  if (attempt < 1) {
+                    move = true;
+                    if (i == this.wordList.length - 1) {
+                      // If we reached the last word. The player lost the game
+                      message = messages[3];
+                      attempt = 0;
+                    } else {
+                      // otherwise, we move to the next word.
+                      message = messages[2];
+                      attempt = 3;
+                    }
+                  }
+                }
+                if (stillPages && move) {
+                  i++;
+                  textController.text = '';
                 }
               });
             },
