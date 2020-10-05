@@ -1,4 +1,5 @@
 import 'package:SpellingWizard/categories/challenge.dart';
+import 'package:SpellingWizard/categories/word.dart';
 import 'package:flutter/material.dart';
 
 class VerbsPage extends StatelessWidget {
@@ -15,6 +16,20 @@ class VerbsPage extends StatelessWidget {
   }
 
   ListView _verbsListView(BuildContext context) {
+    List<Word> wordList = [
+      Word(
+        word: 'Elephant',
+        meaning: 'Large animal with long trunk',
+        usage: 'We ride on an ... at zoo.',
+        phonetic: "/'elɪfənt/",
+      ),
+      Word(
+        word: 'Theater',
+        meaning: 'Place for performing acts',
+        usage: 'The movie is showing in all ... in the country.',
+        phonetic: "/'θɪətə(r)/",
+      ),
+    ];
     return ListView.builder(
       itemCount: 10,
       itemBuilder: (_, index) {
@@ -25,8 +40,10 @@ class VerbsPage extends StatelessWidget {
             leading: starsIcons(),
             trailing: Icon(Icons.arrow_forward),
             onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => ChallengePage()));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ChallengePage(wordList)));
             },
           ),
         );

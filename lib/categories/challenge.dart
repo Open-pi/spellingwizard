@@ -2,75 +2,84 @@ import 'package:flutter/material.dart';
 import 'word.dart';
 
 class ChallengePage extends StatelessWidget {
+  final List<Word> wordList;
+  ChallengePage(this.wordList);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Challenge'),
       ),
-      body: ChallengeBody(),
+      body: ChallengeBody(wordList),
     );
   }
 }
 
 class ChallengeBody extends StatefulWidget {
+  final List<Word> wordList;
+  ChallengeBody(this.wordList);
   @override
-  _ChallengeBodyState createState() => _ChallengeBodyState();
+  _ChallengeBodyState createState() => _ChallengeBodyState(wordList);
 }
 
 class _ChallengeBodyState extends State<ChallengeBody> {
-  Word word = Word(
-      word: 'Something',
-      meaning: 'meaning of something',
-      usage: 'usage of something',
-      phonetic: 'phonetic of something');
-  String message;
+  int i = 0;
+  final List<Word> wordList;
+  _ChallengeBodyState(this.wordList);
+  String message = '';
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      child: Column(
-        children: [
-          Text(
-            '${word.word}',
-            style: headinSyle,
-          ),
-          infoDevider,
-          Text(
-            'Meaning: ${word.meaning}',
-            textAlign: TextAlign.right,
-          ),
-          infoDevider,
-          Text(
-            'Usage: ${word.usage}',
-            textAlign: TextAlign.right,
-          ),
-          infoDevider,
-          Text(
-            'Phonetic: ${word.phonetic}',
-            textAlign: TextAlign.right,
-          ),
-          infoDevider,
-          InputWordForm(),
-        ],
-      ),
+    return Column(
+      children: body(i),
     );
   }
-}
 
-class InputWordForm extends StatefulWidget {
-  @override
-  _InputWordFormState createState() => _InputWordFormState();
-}
+  List<Widget> body(int i) {
+    return [
+      Text(
+        '${this.wordList[i].word}',
+        style: headinSyle,
+      ),
+      infoDevider,
+      Text(
+        'Meaning: ${this.wordList[i].meaning}',
+        textAlign: TextAlign.right,
+      ),
+      infoDevider,
+      Text(
+        'Usage: ${this.wordList[i].usage}',
+        textAlign: TextAlign.right,
+      ),
+      infoDevider,
+      Text(
+        'Phonetic: ${this.wordList[i].phonetic}',
+        textAlign: TextAlign.right,
+      ),
+      infoDevider,
+      inputWordForm(),
+      Text(
+        message,
+        textAlign: TextAlign.right,
+      ),
+    ];
+  }
 
-class _InputWordFormState extends State<InputWordForm> {
-  @override
-  Widget build(BuildContext context) {
+  Form inputWordForm() {
     return Form(
       child: Column(
         children: [
           TextFormField(
-            onFieldSubmitted: (value) {},
+            onFieldSubmitted: (value) {
+              setState(() {
+                if (this.wordList[i].word == value) {
+                  message = 'Right';
+                  if (i < this.wordList.length - 1) i++;
+                } else {
+                  message = 'Wrong';
+                }
+              });
+            },
             keyboardType: TextInputType.name,
             decoration: InputDecoration(
               labelText: 'Spell it!',
