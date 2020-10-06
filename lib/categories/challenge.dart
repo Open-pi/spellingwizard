@@ -45,27 +45,43 @@ class _ChallengeBodyState extends State<ChallengeBody> {
 
   List<Widget> body(int i) {
     return [
-      Text(
-        '${this.wordList[i].word}',
-        style: headinSyle,
+      Card(
+        color: Colors.deepOrange[400],
+        margin: EdgeInsets.fromLTRB(16, 16, 16, 16),
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Text(
+                '${this.wordList[i].word}',
+                style: headinSyle,
+                textAlign: TextAlign.center,
+              ),
+              infoDevider,
+              Text(
+                'Meaning: ${this.wordList[i].meaning}',
+                textAlign: TextAlign.center,
+              ),
+              infoDevider,
+              Text(
+                'Usage: ${this.wordList[i].usage}',
+                textAlign: TextAlign.center,
+              ),
+              infoDevider,
+              Text(
+                'Phonetic: ${this.wordList[i].phonetic}',
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+        ),
       ),
-      infoDevider,
-      Text(
-        'Meaning: ${this.wordList[i].meaning}',
-        textAlign: TextAlign.right,
+      //infoDevider,
+      Padding(
+        padding: const EdgeInsets.all(20),
+        child: inputWordForm(),
       ),
-      infoDevider,
-      Text(
-        'Usage: ${this.wordList[i].usage}',
-        textAlign: TextAlign.right,
-      ),
-      infoDevider,
-      Text(
-        'Phonetic: ${this.wordList[i].phonetic}',
-        textAlign: TextAlign.right,
-      ),
-      infoDevider,
-      inputWordForm(),
       Text(
         message,
         textAlign: TextAlign.right,
