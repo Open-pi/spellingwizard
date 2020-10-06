@@ -3,12 +3,14 @@ import 'word.dart';
 
 class ChallengePage extends StatelessWidget {
   final List<Word> wordList;
-  ChallengePage(this.wordList);
+  final Color color;
+  ChallengePage(this.wordList, this.color);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Challenge'),
+        backgroundColor: this.color,
       ),
       body: ChallengeBody(wordList),
     );

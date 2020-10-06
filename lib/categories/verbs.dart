@@ -9,7 +9,7 @@ class VerbsPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Verbs'),
         centerTitle: true,
-        backgroundColor: Colors.blue[900],
+        backgroundColor: Colors.blue[600],
       ),
       body: _verbsListView(context),
     );
@@ -43,7 +43,8 @@ class VerbsPage extends StatelessWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => ChallengePage(wordList)));
+                      builder: (context) =>
+                          ChallengePage(wordList, Colors.blue[600])));
             },
           ),
         );
