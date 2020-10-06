@@ -135,6 +135,7 @@ class _ChallengeBodyState extends State<ChallengeBody> {
             },
             keyboardType: TextInputType.name,
             decoration: InputDecoration(
+              labelStyle: TextStyle(fontWeight: FontWeight.w900),
               labelText: 'Spell it!',
               hintText: 'Just try!',
               floatingLabelBehavior: FloatingLabelBehavior.always,
