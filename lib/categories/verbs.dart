@@ -1,6 +1,8 @@
+import 'package:flutter/material.dart';
+import 'package:csv/csv.dart';
+import 'package:flutter/services.dart' show rootBundle;
 import 'package:SpellingWizard/categories/challenge.dart';
 import 'package:SpellingWizard/categories/word.dart';
-import 'package:flutter/material.dart';
 
 class VerbsPage extends StatelessWidget {
   @override
@@ -16,20 +18,14 @@ class VerbsPage extends StatelessWidget {
   }
 
   ListView _verbsListView(BuildContext context) {
-    List<Word> wordList = [
-      Word(
-        word: 'Elephant',
-        meaning: 'Large animal with long trunk',
-        usage: 'We ride on an ... at zoo.',
-        phonetic: "/'elɪfənt/",
-      ),
-      Word(
-        word: 'Theater',
-        meaning: 'Place for performing acts',
-        usage: 'This movie is going to play in all ...',
-        phonetic: "/'θɪətə(r)/",
-      ),
-    ];
+    List<Word> wordList = [];
+
+    loadAsset() async {
+      final myData = await rootBundle.loadString("assets/Mycsvfile1.csv");
+      List<List<dynamic>> data = CsvToListConverter().convert(myData);
+      wordList = convertListToWords(data);
+    }
+
     return ListView.builder(
       itemCount: 10,
       itemBuilder: (_, index) {
@@ -39,7 +35,8 @@ class VerbsPage extends StatelessWidget {
             subtitle: Text('Put Small Description Here'),
             leading: starsIcons(),
             trailing: Icon(Icons.arrow_forward),
-            onTap: () {
+            onTap: () async {
+              await loadAsset();
               Navigator.push(
                   context,
                   MaterialPageRoute(
