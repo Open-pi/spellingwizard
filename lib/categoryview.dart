@@ -3,6 +3,7 @@ import 'package:csv/csv.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:SpellingWizard/challenge.dart';
 import 'package:SpellingWizard/word.dart';
+import 'package:tuple/tuple.dart';
 
 class CategoryView extends StatelessWidget {
   final String title;
@@ -23,7 +24,6 @@ class CategoryView extends StatelessWidget {
 
   ListView _categListView(BuildContext context) {
     List<Word> wordList = [];
-
     loadAsset(int index) async {
       final myData = await rootBundle.loadString(
           "assets/categories/${this.title}_words/challenge$index.csv");
@@ -41,12 +41,15 @@ class CategoryView extends StatelessWidget {
             leading: starsIcons(),
             trailing: Icon(Icons.arrow_forward),
             onTap: () async {
+              Tuple2 audioPrefix = Tuple2<String, int>(
+                  'assets/categories/${this.title}_words/challenges_audio/',
+                  index);
               await loadAsset(index);
               Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) =>
-                          ChallengePage(wordList, this.color)));
+                          ChallengePage(wordList, this.color, audioPrefix)));
             },
           ),
         );

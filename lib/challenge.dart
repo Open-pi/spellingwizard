@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:audioplayers/audio_cache.dart';
+import 'package:tuple/tuple.dart';
 import 'word.dart';
 
 class ChallengePage extends StatelessWidget {
   final List<Word> wordList;
   final Color color;
-  ChallengePage(this.wordList, this.color);
+  final Tuple2 prefix;
+  ChallengePage(this.wordList, this.color, this.prefix);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -12,16 +15,17 @@ class ChallengePage extends StatelessWidget {
         title: Text('Challenge'),
         backgroundColor: this.color,
       ),
-      body: ChallengeBody(wordList),
+      body: ChallengeBody(wordList, prefix),
     );
   }
 }
 
 class ChallengeBody extends StatefulWidget {
   final List<Word> wordList;
-  ChallengeBody(this.wordList);
+  final Tuple2 prefix;
+  ChallengeBody(this.wordList, this.prefix);
   @override
-  _ChallengeBodyState createState() => _ChallengeBodyState(wordList);
+  _ChallengeBodyState createState() => _ChallengeBodyState(wordList, prefix);
 }
 
 class _ChallengeBodyState extends State<ChallengeBody> {
@@ -34,9 +38,25 @@ class _ChallengeBodyState extends State<ChallengeBody> {
   int i = 0;
   int attempt = 3;
   final List<Word> wordList;
-  _ChallengeBodyState(this.wordList);
+  final Tuple2 prefix;
+  _ChallengeBodyState(this.wordList, this.prefix);
   String message = '';
   final TextEditingController textController = new TextEditingController();
+
+  // related to playing audio files.
+  AudioCache player;
+
+  @override
+  initState() {
+    super.initState();
+    player = AudioCache(prefix: this.prefix.item1);
+  }
+
+  @override
+  void dispose() {
+    player = null;
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,6 +75,7 @@ class _ChallengeBodyState extends State<ChallengeBody> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
+              playButton(context),
               Text(
                 '${this.wordList[i].word}',
                 style: headinSyle,
@@ -142,6 +163,31 @@ class _ChallengeBodyState extends State<ChallengeBody> {
               hintText: 'Just try!',
               floatingLabelBehavior: FloatingLabelBehavior.always,
               suffixIcon: Padding(padding: EdgeInsets.fromLTRB(0, 20, 20, 20)),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget playButton(BuildContext context) {
+    return Container(
+      child: Stack(
+        children: <Widget>[
+          Container(
+            padding:
+                const EdgeInsets.symmetric(vertical: 5.0, horizontal: 16.0),
+            margin: const EdgeInsets.only(
+                top: 30, left: 30.0, right: 30.0, bottom: 20.0),
+            child: FlatButton(
+              onPressed: () {
+                player.play('sound_${prefix.item2}_$i.mp3');
+              },
+              child: Icon(
+                Icons.play_arrow,
+                size: 60,
+                color: Colors.green,
+              ),
             ),
           ),
         ],
