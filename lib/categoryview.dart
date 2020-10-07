@@ -6,8 +6,9 @@ import 'package:SpellingWizard/word.dart';
 
 class CategoryView extends StatelessWidget {
   final String title;
+  final int itemCount;
   final Color color;
-  CategoryView(this.title, this.color);
+  CategoryView({this.title, this.itemCount, this.color});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +32,7 @@ class CategoryView extends StatelessWidget {
     }
 
     return ListView.builder(
-      itemCount: 10,
+      itemCount: this.itemCount,
       itemBuilder: (_, index) {
         return Card(
           child: ListTile(

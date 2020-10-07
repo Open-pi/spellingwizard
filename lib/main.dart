@@ -40,8 +40,11 @@ class CategoriesViewState extends State {
           RaisedButton(
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) =>
-                        CategoryView('Verbs', Colors.blue[600])));
+                    builder: (context) => CategoryView(
+                          title: 'Verbs',
+                          itemCount: 5,
+                          color: Colors.blue[600],
+                        )));
               },
               shape: CircleBorder(),
               child: categoryBuilder('assets/verbs_category.png')),
@@ -49,8 +52,11 @@ class CategoriesViewState extends State {
           RaisedButton(
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) =>
-                        CategoryView('Animals', Colors.green[900])));
+                    builder: (context) => CategoryView(
+                          title: 'Animals',
+                          itemCount: 5,
+                          color: Colors.green[900],
+                        )));
               },
               shape: CircleBorder(),
               child: categoryBuilder('assets/animals_category.png')),
@@ -58,8 +64,11 @@ class CategoriesViewState extends State {
           RaisedButton(
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) =>
-                        CategoryView('Tools', Colors.grey[850])));
+                    builder: (context) => CategoryView(
+                          title: 'Tools',
+                          itemCount: 5,
+                          color: Colors.grey[850],
+                        )));
               },
               shape: CircleBorder(),
               child: categoryBuilder('assets/tools_category.png')),
