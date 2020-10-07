@@ -20,8 +20,9 @@ class VerbsPage extends StatelessWidget {
   ListView _verbsListView(BuildContext context) {
     List<Word> wordList = [];
 
-    loadAsset() async {
-      final myData = await rootBundle.loadString("assets/Mycsvfile1.csv");
+    loadAsset(int index) async {
+      final myData = await rootBundle
+          .loadString("assets/categories/verbs_words/challenge$index.csv");
       List<List<dynamic>> data = CsvToListConverter().convert(myData);
       wordList = convertListToWords(data);
     }
@@ -36,7 +37,8 @@ class VerbsPage extends StatelessWidget {
             leading: starsIcons(),
             trailing: Icon(Icons.arrow_forward),
             onTap: () async {
-              await loadAsset();
+              print(index);
+              await loadAsset(index);
               Navigator.push(
                   context,
                   MaterialPageRoute(
