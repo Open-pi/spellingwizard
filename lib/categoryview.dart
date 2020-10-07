@@ -1,28 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:csv/csv.dart';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:SpellingWizard/categories/challenge.dart';
-import 'package:SpellingWizard/categories/word.dart';
+import 'package:SpellingWizard/challenge.dart';
+import 'package:SpellingWizard/word.dart';
 
-class VerbsPage extends StatelessWidget {
+class CategoryView extends StatelessWidget {
+  final String title;
+  final Color color;
+  CategoryView(this.title, this.color);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Verbs'),
+        title: Text(this.title),
         centerTitle: true,
-        backgroundColor: Colors.blue[600],
+        backgroundColor: this.color,
       ),
-      body: _verbsListView(context),
+      body: _categListView(context),
     );
   }
 
-  ListView _verbsListView(BuildContext context) {
+  ListView _categListView(BuildContext context) {
     List<Word> wordList = [];
 
     loadAsset(int index) async {
-      final myData = await rootBundle
-          .loadString("assets/categories/verbs_words/challenge$index.csv");
+      final myData = await rootBundle.loadString(
+          "assets/categories/${this.title}_words/challenge$index.csv");
       List<List<dynamic>> data = CsvToListConverter().convert(myData);
       wordList = convertListToWords(data);
     }
@@ -32,18 +35,17 @@ class VerbsPage extends StatelessWidget {
       itemBuilder: (_, index) {
         return Card(
           child: ListTile(
-            title: Text('Lesson number $index'),
+            title: Text('Challenge number $index'),
             subtitle: Text('Put Small Description Here'),
             leading: starsIcons(),
             trailing: Icon(Icons.arrow_forward),
             onTap: () async {
-              print(index);
               await loadAsset(index);
               Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) =>
-                          ChallengePage(wordList, Colors.blue[600])));
+                          ChallengePage(wordList, this.color)));
             },
           ),
         );

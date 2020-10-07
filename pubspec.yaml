@@ -52,9 +52,9 @@ flutter:
     - assets/tools_category.png
     - assets/animals_category.png
     - assets/Mycsvfile1.csv
-    - assets/categories/verbs_words/
-    - assets/categories/tools_words/
-    - assets/categories/animals_words/
+    - assets/categories/Verbs_words/
+    - assets/categories/Tools_words/
+    - assets/categories/Animals_words/
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.

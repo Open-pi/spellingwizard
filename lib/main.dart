@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'categories/verbs.dart';
-import 'categories/animals.dart';
-import 'categories/tools.dart';
+import 'categoryview.dart';
 
 void main() => runApp(MyApp());
 
@@ -41,24 +39,27 @@ class CategoriesViewState extends State {
         children: <Widget>[
           RaisedButton(
               onPressed: () {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) => VerbsPage()));
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) =>
+                        CategoryView('Verbs', Colors.blue[600])));
               },
               shape: CircleBorder(),
               child: categoryBuilder('assets/verbs_category.png')),
           dividreTile,
           RaisedButton(
               onPressed: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => AnimalsPage()));
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) =>
+                        CategoryView('Animals', Colors.green[900])));
               },
               shape: CircleBorder(),
               child: categoryBuilder('assets/animals_category.png')),
           dividreTile,
           RaisedButton(
               onPressed: () {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) => ToolsPage()));
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) =>
+                        CategoryView('Tools', Colors.grey[850])));
               },
               shape: CircleBorder(),
               child: categoryBuilder('assets/tools_category.png')),
