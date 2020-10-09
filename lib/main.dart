@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
       title: 'Testing SpellingWizard',
       theme: ThemeData(
         fontFamily: 'Raleway',
-        primaryColor: Colors.orange[900],
+        primaryColor: Colors.purple[900],
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: CategoriesView(),
@@ -34,45 +34,52 @@ class CategoriesViewState extends State {
         backgroundColor: Colors.amber[850],
         elevation: 0.0,
       ),
-      body: ListView(
-        padding: const EdgeInsets.all(40),
-        children: <Widget>[
-          RaisedButton(
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => CategoryView(
-                          title: 'Verbs',
-                          itemCount: 5,
-                          color: Colors.blue[600],
-                        )));
-              },
-              shape: CircleBorder(),
-              child: categoryBuilder('assets/verbs_category.png')),
-          dividreTile,
-          RaisedButton(
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => CategoryView(
-                          title: 'Animals',
-                          itemCount: 5,
-                          color: Colors.green[900],
-                        )));
-              },
-              shape: CircleBorder(),
-              child: categoryBuilder('assets/animals_category.png')),
-          dividreTile,
-          RaisedButton(
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => CategoryView(
-                          title: 'Tools',
-                          itemCount: 5,
-                          color: Colors.grey[850],
-                        )));
-              },
-              shape: CircleBorder(),
-              child: categoryBuilder('assets/tools_category.png')),
-        ],
+      body: Container(
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [Colors.purple, Colors.orange])),
+        child: ListView(
+          padding: const EdgeInsets.all(40),
+          children: <Widget>[
+            RaisedButton(
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => CategoryView(
+                            title: 'Verbs',
+                            itemCount: 5,
+                            color: Colors.purple[500],
+                          )));
+                },
+                shape: CircleBorder(),
+                child: categoryBuilder('assets/verbs_category.png')),
+            dividreTile,
+            RaisedButton(
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => CategoryView(
+                            title: 'Animals',
+                            itemCount: 5,
+                            color: Colors.purple[600],
+                          )));
+                },
+                shape: CircleBorder(),
+                child: categoryBuilder('assets/animals_category.png')),
+            dividreTile,
+            RaisedButton(
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => CategoryView(
+                            title: 'Tools',
+                            itemCount: 5,
+                            color: Colors.deepPurple[850],
+                          )));
+                },
+                shape: CircleBorder(),
+                child: categoryBuilder('assets/tools_category.png')),
+          ],
+        ),
       ),
     );
   }
@@ -80,8 +87,8 @@ class CategoriesViewState extends State {
 
 Widget categoryBuilder(String iconName) {
   return CircleAvatar(
-    backgroundColor: Color(0xFFF4511E),
-    radius: 55,
+    backgroundColor: Colors.purple[500],
+    radius: 49,
     backgroundImage: AssetImage(iconName),
   );
 }

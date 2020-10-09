@@ -74,33 +74,41 @@ class _ChallengeBodyState extends State<ChallengeBody> {
       Card(
         color: this.accentColor,
         margin: EdgeInsets.fromLTRB(16, 16, 16, 16),
-        child: Padding(
-          padding: const EdgeInsets.all(12),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              playButton(context),
-              Text(
-                '${this.wordList[i].word}',
-                style: headinSyle,
-                textAlign: TextAlign.center,
-              ),
-              infoDevider,
-              Text(
-                'Meaning: ${this.wordList[i].meaning}',
-                textAlign: TextAlign.center,
-              ),
-              infoDevider,
-              Text(
-                'Usage: ${this.wordList[i].usage}',
-                textAlign: TextAlign.center,
-              ),
-              infoDevider,
-              Text(
-                'Phonetic: ${this.wordList[i].phonetic}',
-                textAlign: TextAlign.center,
-              ),
-            ],
+        child: Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomCenter,
+                  stops: [0.01, 1],
+                  colors: [Colors.purple, Colors.deepOrange])),
+          child: Padding(
+            padding: const EdgeInsets.all(12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                playButton(context),
+                Text(
+                  '${this.wordList[i].word}',
+                  style: headinSyle,
+                  textAlign: TextAlign.center,
+                ),
+                infoDevider,
+                Text(
+                  'Meaning: ${this.wordList[i].meaning}',
+                  textAlign: TextAlign.center,
+                ),
+                infoDevider,
+                Text(
+                  'Usage: ${this.wordList[i].usage}',
+                  textAlign: TextAlign.center,
+                ),
+                infoDevider,
+                Text(
+                  'Phonetic: ${this.wordList[i].phonetic}',
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
           ),
         ),
       ),
