@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:audioplayers/audio_cache.dart';
 import 'package:tuple/tuple.dart';
 import 'word.dart';
+import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 class ChallengePage extends StatelessWidget {
   final List<Word> wordList;
@@ -71,6 +72,10 @@ class _ChallengeBodyState extends State<ChallengeBody> {
 
   List<Widget> body(int i) {
     return [
+      SizedBox(
+        height: 2,
+      ),
+      progressIndicator(i),
       Card(
         color: this.accentColor,
         margin: EdgeInsets.fromLTRB(16, 16, 16, 16),
@@ -222,3 +227,14 @@ final infoDevider = Divider(
   color: Colors.black,
   thickness: 1.0,
 );
+
+StepProgressIndicator progressIndicator(int step) {
+  return StepProgressIndicator(
+    totalSteps: 10,
+    currentStep: step,
+    selectedColor: Colors.purple,
+    unselectedColor: Colors.grey,
+    size: 8,
+    padding: 1,
+  );
+}

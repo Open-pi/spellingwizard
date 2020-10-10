@@ -71,9 +71,6 @@ RatingBar ratingStars(double initrating) {
       Icons.star,
       color: Colors.amber,
     ),
-    onRatingUpdate: (rating) {
-      print(rating);
-    },
     itemSize: 38,
   );
 }

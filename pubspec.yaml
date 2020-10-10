@@ -30,6 +30,7 @@ dependencies:
   audioplayers: ^0.16.1
   tuple: ^1.0.3
   flutter_rating_bar: ^3.0.1+1
+  step_progress_indicator: ^0.2.4+7
 
 
 dev_dependencies:
