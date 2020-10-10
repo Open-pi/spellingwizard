@@ -63,6 +63,7 @@ RatingBar ratingStars(double initrating) {
   return RatingBar(
     initialRating: initrating,
     minRating: 0,
+    maxRating: 3,
     direction: Axis.horizontal,
     allowHalfRating: true,
     itemCount: 3,

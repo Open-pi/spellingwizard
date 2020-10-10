@@ -33,6 +33,8 @@ class ChallengeBody extends StatefulWidget {
 }
 
 class _ChallengeBodyState extends State<ChallengeBody> {
+  int numberOfRightAnswers = 0;
+  int numberOfWrongAnswers = 0;
   List messages = [
     'Right!',
     'Wrong!',
@@ -91,6 +93,47 @@ class _ChallengeBodyState extends State<ChallengeBody> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
+                Row(
+                  children: [
+                    Container(
+                      width: 25,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.greenAccent[400],
+                        border: Border.all(
+                          color: Colors.black,
+                        ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(5, 3, 5, 5),
+                        child: Text(
+                          '$numberOfRightAnswers',
+                          textAlign: TextAlign.center,
+                          textScaleFactor: 0.8,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      width: 25,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.redAccent[400],
+                        border: Border.all(
+                          color: Colors.black,
+                        ),
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.fromLTRB(5, 3, 5, 5),
+                        child: Text(
+                          '$numberOfWrongAnswers',
+                          textAlign: TextAlign.center,
+                          textScaleFactor: 0.8,
+                        ),
+                      ),
+                    ),
+                  ],
+                  mainAxisAlignment: MainAxisAlignment.end,
+                ),
                 playButton(context),
                 Text(
                   '${this.wordList[i].word}',
@@ -142,6 +185,7 @@ class _ChallengeBodyState extends State<ChallengeBody> {
                 bool lastPage = i == this.wordList.length - 1;
                 if (this.wordList[i].word == value) {
                   move = true;
+                  this.numberOfRightAnswers++;
                   if (lastPage) {
                     // If we reached the last word
                     attempt = 0;
@@ -151,6 +195,7 @@ class _ChallengeBodyState extends State<ChallengeBody> {
                     message = messages[0];
                   }
                 } else {
+                  this.numberOfWrongAnswers++;
                   attempt--;
                   message = messages[1];
                   if (attempt < 1) {
