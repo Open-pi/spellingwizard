@@ -29,6 +29,7 @@ dependencies:
   csv: ^4.0.3
   audioplayers: ^0.16.1
   tuple: ^1.0.3
+  flutter_rating_bar: ^3.0.1+1
 
 
 dev_dependencies:

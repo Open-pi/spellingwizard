@@ -4,6 +4,7 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:SpellingWizard/challenge.dart';
 import 'package:SpellingWizard/word.dart';
 import 'package:tuple/tuple.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class CategoryView extends StatelessWidget {
   final String title;
@@ -38,7 +39,7 @@ class CategoryView extends StatelessWidget {
           child: ListTile(
             title: Text('Challenge number $index'),
             subtitle: Text('Put Small Description Here'),
-            leading: starsIcons(),
+            leading: ratingStars(index.toDouble()),
             trailing: Icon(Icons.arrow_forward),
             onTap: () async {
               Tuple2 audioPrefix = Tuple2<String, int>(
@@ -58,24 +59,21 @@ class CategoryView extends StatelessWidget {
   }
 }
 
-Container starsIcons() {
-  return Container(
-    width: 70,
-    child: Row(
-      children: <Icon>[
-        Icon(
-          Icons.star,
-          size: 20,
-        ),
-        Icon(
-          Icons.star,
-          size: 25,
-        ),
-        Icon(
-          Icons.star,
-          size: 20,
-        )
-      ],
+RatingBar ratingStars(double initrating) {
+  return RatingBar(
+    initialRating: initrating,
+    minRating: 0,
+    direction: Axis.horizontal,
+    allowHalfRating: true,
+    itemCount: 3,
+    itemPadding: EdgeInsets.symmetric(horizontal: 0),
+    itemBuilder: (context, _) => Icon(
+      Icons.star,
+      color: Colors.amber,
     ),
+    onRatingUpdate: (rating) {
+      print(rating);
+    },
+    itemSize: 38,
   );
 }
