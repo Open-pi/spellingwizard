@@ -223,11 +223,8 @@ class _ChallengeBodyState extends State<ChallengeBody> {
                 }
                 if (endOfGame) {
                   // the save the results in the save files.
-                  print('==============Got the path===============');
-                  print(path);
                   final file = File('$path/${this.prefix.item3}.csv');
                   final SaveFile saveFile = SaveFile(file: file);
-                  print('${this.numberOfRightAnswers},${this.wordList.length}');
                   saveFile.saveChallenge(prefix.item2,
                       this.numberOfRightAnswers, this.wordList.length);
                 }
