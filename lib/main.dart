@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'categoryview.dart';
+import 'package:SpellingWizard/save.dart';
+import 'dart:io';
 
 void main() => runApp(MyApp());
 
@@ -44,36 +46,54 @@ class CategoriesViewState extends State {
           padding: const EdgeInsets.all(40),
           children: <Widget>[
             RaisedButton(
-                onPressed: () {
+                onPressed: () async {
+                  // load save files for the category
+                  final path = await savePath();
+                  final file = File('$path/Verbs.csv');
+                  final SaveFile saveFile = SaveFile(file: file);
+                  await saveFile.readFromFile();
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => CategoryView(
                             title: 'Verbs',
                             itemCount: 5,
                             color: Colors.purple[500],
+                            saveFile: saveFile,
                           )));
                 },
                 shape: CircleBorder(),
                 child: categoryBuilder('assets/verbs_category.png')),
             dividreTile,
             RaisedButton(
-                onPressed: () {
+                onPressed: () async {
+                  // load save files for the category
+                  final path = await savePath();
+                  final file = File('$path/Animals.csv');
+                  final SaveFile saveFile = SaveFile(file: file);
+                  await saveFile.readFromFile();
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => CategoryView(
                             title: 'Animals',
                             itemCount: 5,
                             color: Colors.purple[600],
+                            saveFile: saveFile,
                           )));
                 },
                 shape: CircleBorder(),
                 child: categoryBuilder('assets/animals_category.png')),
             dividreTile,
             RaisedButton(
-                onPressed: () {
+                onPressed: () async {
+                  // load save files for the category
+                  final path = await savePath();
+                  final file = File('$path/Tools.csv');
+                  final SaveFile saveFile = SaveFile(file: file);
+                  await saveFile.readFromFile();
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => CategoryView(
                             title: 'Tools',
                             itemCount: 5,
                             color: Colors.deepPurple[850],
+                            saveFile: saveFile,
                           )));
                 },
                 shape: CircleBorder(),

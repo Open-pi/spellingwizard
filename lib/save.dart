@@ -2,31 +2,24 @@ import 'dart:io';
 import 'dart:convert';
 import 'dart:async';
 import 'package:csv/csv.dart';
+import 'package:path_provider/path_provider.dart';
 
 class SaveFile {
   File file;
   List<SavedChallenge> save = [];
 
-  SaveFile(file) {
-    this.file = file;
-    Stream<List<int>> inputStream = this.file.openRead();
+  SaveFile({this.file});
 
-    inputStream
-        .transform(utf8.decoder) // Decode bytes to UTF-8.
-        .transform(new LineSplitter()) // Convert stream to individual lines.
-        .listen((String line) {
-      // Process results.
-      List<List<dynamic>> data = CsvToListConverter().convert(line);
-      SavedChallenge challenge = convertListToSavedChallenge(data);
-      this.save.add(challenge);
-
-      // Debug
-      print('$line: ${line.length} bytes');
-    }, onDone: () {
-      print('File is now closed.');
-    }, onError: (e) {
-      print(e.toString());
-    });
+  Future<void> readFromFile() async {
+    var lines =
+        utf8.decoder.bind(this.file.openRead()).transform(LineSplitter());
+    try {
+      await for (var line in lines) {
+        List<List<dynamic>> data = CsvToListConverter().convert(line);
+        SavedChallenge challenge = convertListToSavedChallenge(data);
+        this.save.add(challenge);
+      }
+    } catch (e) {}
   }
 
   playable(int id) {
@@ -43,39 +36,67 @@ class SaveFile {
     return false;
   }
 
-  isColored(int id, int indexStar) {
+  isColored(int id) {
     /* return True if the star of indexStar should be colored */
     if (id > this.save.length - 1) {
-      return false;
+      return 0;
     }
-    if (this.save[id].stars == 3) {
-      return true;
-    } else if (this.save[id].stars == 2) {
-      if (indexStar == 0) {
-        return true;
-      } else if (indexStar == 1) {
-        return true;
-      } else {
-        return false;
-      }
-    } else if (this.save[id].stars == 1) {
-      if (indexStar == 0) {
-        return true;
-      } else {
-        return false;
-      }
+    return this.save[id].stars;
+  }
+
+  saveChallenge(int index, int rightAnswers, int numberOfWords) {
+    /* save the result of the challenge */
+    int stars = 0;
+    if (rightAnswers >= numberOfWords / 2) {
+      stars = 1;
+    }
+    if (rightAnswers > numberOfWords - 1) {
+      stars = 2;
+    }
+    if (rightAnswers == numberOfWords) {
+      stars = 3;
+    }
+    if (index > this.save.length - 1) {
+      this.save.add(SavedChallenge(id: 'challenge$index', stars: stars));
     } else {
-      return false;
+      this.save[index].stars = stars;
     }
+    // re-write the file
+    updateFile();
+  }
+
+  updateFile() {
+    List<List<dynamic>> rows = List<List<dynamic>>();
+    for (int i = 0; i < this.save.length; i++) {
+      //row refer to each column of a row in csv file and rows refer to each row in a file
+      List<dynamic> row = List();
+      row.add(this.save[i].id);
+      row.add(this.save[i].stars);
+      rows.add(row);
+    }
+    String csv = const ListToCsvConverter().convert(rows);
+    print(csv);
+    this.file.writeAsString('$csv');
   }
 }
 
 class SavedChallenge {
-  int id;
+  String id;
   int stars;
   SavedChallenge({this.id, this.stars});
 }
 
 SavedChallenge convertListToSavedChallenge(List<List<dynamic>> data) {
   return SavedChallenge(id: data[0][0], stars: data[0][1]);
+}
+
+Future<String> savePath() async {
+  return await _localPath;
+}
+
+Future<String> get _localPath async {
+  final directory = await getApplicationDocumentsDirectory();
+  print(directory.listSync());
+  print(directory.path);
+  return directory.path;
 }

@@ -3,11 +3,13 @@ import 'package:audioplayers/audio_cache.dart';
 import 'package:tuple/tuple.dart';
 import 'word.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
+import 'package:SpellingWizard/save.dart';
+import 'dart:io';
 
 class ChallengePage extends StatelessWidget {
   final List<Word> wordList;
   final Color color;
-  final Tuple2 prefix;
+  final Tuple3 prefix;
   ChallengePage(this.wordList, this.color, this.prefix);
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,7 @@ class ChallengePage extends StatelessWidget {
 class ChallengeBody extends StatefulWidget {
   final List<Word> wordList;
   final Color accentColor;
-  final Tuple2 prefix;
+  final Tuple3 prefix;
   ChallengeBody(this.wordList, this.accentColor, this.prefix);
   @override
   _ChallengeBodyState createState() =>
@@ -45,7 +47,7 @@ class _ChallengeBodyState extends State<ChallengeBody> {
   int attempt = 3;
   final List<Word> wordList;
   final Color accentColor;
-  final Tuple2 prefix;
+  final Tuple3 prefix;
   _ChallengeBodyState(this.wordList, this.accentColor, this.prefix);
   String message = '';
   final TextEditingController textController = new TextEditingController();
@@ -178,9 +180,11 @@ class _ChallengeBodyState extends State<ChallengeBody> {
         children: [
           TextFormField(
             controller: textController,
-            onFieldSubmitted: (value) {
+            onFieldSubmitted: (value) async {
+              final path = await savePath();
               setState(() {
                 bool move = false;
+                bool endOfGame = false;
                 bool stillPages = i < this.wordList.length - 1;
                 bool lastPage = i == this.wordList.length - 1;
                 if (this.wordList[i].word == value) {
@@ -190,6 +194,7 @@ class _ChallengeBodyState extends State<ChallengeBody> {
                     // If we reached the last word
                     attempt = 0;
                     message = messages[3];
+                    endOfGame = true;
                   } else {
                     attempt = 3;
                     message = messages[0];
@@ -201,9 +206,10 @@ class _ChallengeBodyState extends State<ChallengeBody> {
                   if (attempt < 1) {
                     move = true;
                     if (i == this.wordList.length - 1) {
-                      // If we reached the last word. The player lost the game
+                      // If we reached the last word.
                       message = messages[3];
                       attempt = 0;
+                      endOfGame = true;
                     } else {
                       // otherwise, we move to the next word.
                       message = messages[2];
@@ -214,6 +220,16 @@ class _ChallengeBodyState extends State<ChallengeBody> {
                 if (stillPages && move) {
                   i++;
                   textController.text = '';
+                }
+                if (endOfGame) {
+                  // the save the results in the save files.
+                  print('==============Got the path===============');
+                  print(path);
+                  final file = File('$path/${this.prefix.item3}.csv');
+                  final SaveFile saveFile = SaveFile(file: file);
+                  print('${this.numberOfRightAnswers},${this.wordList.length}');
+                  saveFile.saveChallenge(prefix.item2,
+                      this.numberOfRightAnswers, this.wordList.length);
                 }
               });
             },

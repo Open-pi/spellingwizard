@@ -31,6 +31,7 @@ dependencies:
   tuple: ^1.0.3
   flutter_rating_bar: ^3.0.1+1
   step_progress_indicator: ^0.2.4+7
+  path_provider: ^1.6.18
 
 
 dev_dependencies:
