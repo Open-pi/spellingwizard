@@ -44,6 +44,7 @@ class _ChallengeBodyState extends State<ChallengeBody> {
     'End of the Challenge',
   ];
   int i = 0;
+  int step = 0;
   int attempt = 3;
   final List<Word> wordList;
   final Color accentColor;
@@ -70,16 +71,16 @@ class _ChallengeBodyState extends State<ChallengeBody> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: body(i),
+      children: body(),
     );
   }
 
-  List<Widget> body(int i) {
+  List<Widget> body() {
     return [
       SizedBox(
         height: 2,
       ),
-      progressIndicator(i),
+      progressIndicator(this.step),
       Card(
         color: this.accentColor,
         margin: EdgeInsets.fromLTRB(16, 16, 16, 16),
@@ -138,23 +139,23 @@ class _ChallengeBodyState extends State<ChallengeBody> {
                 ),
                 playButton(context),
                 Text(
-                  '${this.wordList[i].word}',
+                  '${this.wordList[this.i].word}',
                   style: headinSyle,
                   textAlign: TextAlign.center,
                 ),
                 infoDevider,
                 Text(
-                  'Meaning: ${this.wordList[i].meaning}',
+                  'Meaning: ${this.wordList[this.i].meaning}',
                   textAlign: TextAlign.center,
                 ),
                 infoDevider,
                 Text(
-                  'Usage: ${this.wordList[i].usage}',
+                  'Usage: ${this.wordList[this.i].usage}',
                   textAlign: TextAlign.center,
                 ),
                 infoDevider,
                 Text(
-                  'Phonetic: ${this.wordList[i].phonetic}',
+                  'Phonetic: ${this.wordList[this.i].phonetic}',
                   textAlign: TextAlign.center,
                 ),
               ],
@@ -162,7 +163,7 @@ class _ChallengeBodyState extends State<ChallengeBody> {
           ),
         ),
       ),
-      Text('You Have $attempt attempt(s) left.'),
+      Text('You Have ${this.attempt} attempt(s) left.'),
       Text(
         message,
         textAlign: TextAlign.center,
@@ -185,44 +186,46 @@ class _ChallengeBodyState extends State<ChallengeBody> {
               setState(() {
                 bool move = false;
                 bool endOfGame = false;
-                bool stillPages = i < this.wordList.length - 1;
-                bool lastPage = i == this.wordList.length - 1;
-                if (this.wordList[i].word == value) {
+                bool stillPages = this.i < this.wordList.length - 1;
+                bool lastPage = this.i == this.wordList.length - 1;
+                if (this.wordList[this.i].word == value) {
                   move = true;
                   this.numberOfRightAnswers++;
                   if (lastPage) {
                     // If we reached the last word
-                    attempt = 0;
-                    message = messages[3];
+                    this.attempt = 0;
+                    message = this.messages[3];
                     endOfGame = true;
                   } else {
-                    attempt = 3;
-                    message = messages[0];
+                    this.attempt = 3;
+                    message = this.messages[0];
                   }
                 } else {
                   this.numberOfWrongAnswers++;
-                  attempt--;
-                  message = messages[1];
-                  if (attempt < 1) {
+                  this.attempt--;
+                  message = this.messages[1];
+                  if (this.attempt < 1) {
                     move = true;
-                    if (i == this.wordList.length - 1) {
+                    if (this.i == this.wordList.length - 1) {
                       // If we reached the last word.
-                      message = messages[3];
-                      attempt = 0;
+                      message = this.messages[3];
+                      this.attempt = 0;
                       endOfGame = true;
                     } else {
                       // otherwise, we move to the next word.
-                      message = messages[2];
-                      attempt = 3;
+                      message = this.messages[2];
+                      this.attempt = 3;
                     }
                   }
                 }
                 if (stillPages && move) {
-                  i++;
+                  this.i++;
+                  this.step++;
                   textController.text = '';
                 }
                 if (endOfGame) {
                   // the save the results in the save files.
+                  this.step++;
                   final file = File('$path/${this.prefix.item3}.csv');
                   final SaveFile saveFile = SaveFile(file: file);
                   saveFile.saveChallenge(prefix.item2,
@@ -258,7 +261,7 @@ class _ChallengeBodyState extends State<ChallengeBody> {
                 materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 padding: EdgeInsets.all(1),
                 onPressed: () {
-                  player.play('sound_${prefix.item2}_$i.mp3', volume: 1);
+                  player.play('sound_${prefix.item2}_${this.i}.mp3', volume: 1);
                 },
                 child: Icon(
                   Icons.play_arrow,
@@ -270,6 +273,17 @@ class _ChallengeBodyState extends State<ChallengeBody> {
           ),
         ],
       ),
+    );
+  }
+
+  StepProgressIndicator progressIndicator(int step) {
+    return StepProgressIndicator(
+      totalSteps: this.wordList.length,
+      currentStep: step,
+      selectedColor: Colors.purple,
+      unselectedColor: Colors.grey,
+      size: 8,
+      padding: 1,
     );
   }
 }
@@ -285,14 +299,3 @@ final infoDevider = Divider(
   color: Colors.black,
   thickness: 1.0,
 );
-
-StepProgressIndicator progressIndicator(int step) {
-  return StepProgressIndicator(
-    totalSteps: 10,
-    currentStep: step,
-    selectedColor: Colors.purple,
-    unselectedColor: Colors.grey,
-    size: 8,
-    padding: 1,
-  );
-}
