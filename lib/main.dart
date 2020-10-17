@@ -98,6 +98,42 @@ class CategoriesViewState extends State {
                 },
                 shape: CircleBorder(),
                 child: categoryBuilder('assets/tools_category.png')),
+            dividreTile,
+            RaisedButton(
+                onPressed: () async {
+                  // load save files for the category
+                  final path = await savePath();
+                  final file = File('$path/Family.csv');
+                  final SaveFile saveFile = SaveFile(file: file);
+                  await saveFile.readFromFile();
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => CategoryView(
+                            title: 'Family',
+                            itemCount: 3,
+                            color: Colors.deepPurple[850],
+                            saveFile: saveFile,
+                          )));
+                },
+                shape: CircleBorder(),
+                child: categoryBuilder('assets/family_category.png')),
+            dividreTile,
+            RaisedButton(
+                onPressed: () async {
+                  // load save files for the category
+                  final path = await savePath();
+                  final file = File('$path/Abstract.csv');
+                  final SaveFile saveFile = SaveFile(file: file);
+                  await saveFile.readFromFile();
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => CategoryView(
+                            title: 'Abstract',
+                            itemCount: 2,
+                            color: Colors.deepPurple[850],
+                            saveFile: saveFile,
+                          )));
+                },
+                shape: CircleBorder(),
+                child: categoryBuilder('assets/abstract_category.png')),
           ],
         ),
       ),

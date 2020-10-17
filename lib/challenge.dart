@@ -76,6 +76,7 @@ class _ChallengeBodyState extends State<ChallengeBody> {
   }
 
   List<Widget> body() {
+    print(this.wordList.length);
     return [
       SizedBox(
         height: 2,
