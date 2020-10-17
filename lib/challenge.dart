@@ -76,7 +76,6 @@ class _ChallengeBodyState extends State<ChallengeBody> {
   }
 
   List<Widget> body() {
-    print(this.wordList.length);
     return [
       SizedBox(
         height: 2,
@@ -87,6 +86,7 @@ class _ChallengeBodyState extends State<ChallengeBody> {
         margin: EdgeInsets.fromLTRB(16, 16, 16, 16),
         child: Container(
           decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
               gradient: LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomCenter,

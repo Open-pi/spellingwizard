@@ -32,8 +32,6 @@ class CategoryView extends StatelessWidget {
           "assets/categories/${this.title}_words/challenge$index.csv");
       List<List<dynamic>> data = CsvToListConverter().convert(myData);
       wordList = convertListToWords(data);
-      print(myData);
-      print(wordList.length);
     }
 
     return ListView.builder(
@@ -51,7 +49,6 @@ class CategoryView extends StatelessWidget {
                   index,
                   this.title);
               await loadAsset(index);
-              print('parent ${wordList.length}');
               Navigator.push(
                   context,
                   MaterialPageRoute(
