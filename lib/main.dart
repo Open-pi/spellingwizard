@@ -1,114 +1,58 @@
 import 'package:flutter/material.dart';
-import 'categoryview.dart';
-import 'package:SpellingWizard/save.dart';
-import 'dart:io';
+import 'package:SpellingWizard/dashboard.dart';
 
-void main() => runApp(MyApp());
+void main() =>
+    runApp(MaterialApp(theme: ThemeData(fontFamily: 'Raleway'), home: Home()));
 
-class MyApp extends StatelessWidget {
+class Home extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Testing SpellingWizard',
-      theme: ThemeData(
-        fontFamily: 'Raleway',
-        primaryColor: Colors.purple[900],
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: CategoriesView(),
-    );
-  }
+  HomeState createState() => new HomeState();
 }
 
-class CategoriesView extends StatefulWidget {
+class HomeState extends State<Home> {
   @override
-  CategoriesViewState createState() => CategoriesViewState();
-}
-
-class CategoriesViewState extends State {
   Widget build(BuildContext context) {
-    final dividreTile = SizedBox(height: 25);
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: Text('SpellingWizard'),
-        centerTitle: true,
-        backgroundColor: Colors.amber[850],
-        elevation: 0.0,
-      ),
-      body: Container(
-        decoration: BoxDecoration(
-            gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [Colors.purple, Colors.orange])),
-        child: ListView(
-          padding: const EdgeInsets.all(40),
-          children: <Widget>[
-            RaisedButton(
-                onPressed: () async {
-                  // load save files for the category
-                  final path = await savePath();
-                  final file = File('$path/Verbs.csv');
-                  final SaveFile saveFile = SaveFile(file: file);
-                  await saveFile.readFromFile();
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => CategoryView(
-                            title: 'Verbs',
-                            itemCount: 5,
-                            color: Colors.purple[500],
-                            saveFile: saveFile,
-                          )));
-                },
-                shape: CircleBorder(),
-                child: categoryBuilder('assets/verbs_category.png')),
-            dividreTile,
-            RaisedButton(
-                onPressed: () async {
-                  // load save files for the category
-                  final path = await savePath();
-                  final file = File('$path/Animals.csv');
-                  final SaveFile saveFile = SaveFile(file: file);
-                  await saveFile.readFromFile();
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => CategoryView(
-                            title: 'Animals',
-                            itemCount: 5,
-                            color: Colors.purple[600],
-                            saveFile: saveFile,
-                          )));
-                },
-                shape: CircleBorder(),
-                child: categoryBuilder('assets/animals_category.png')),
-            dividreTile,
-            RaisedButton(
-                onPressed: () async {
-                  // load save files for the category
-                  final path = await savePath();
-                  final file = File('$path/Tools.csv');
-                  final SaveFile saveFile = SaveFile(file: file);
-                  await saveFile.readFromFile();
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => CategoryView(
-                            title: 'Tools',
-                            itemCount: 5,
-                            color: Colors.deepPurple[850],
-                            saveFile: saveFile,
-                          )));
-                },
-                shape: CircleBorder(),
-                child: categoryBuilder('assets/tools_category.png')),
-          ],
+      backgroundColor: Colors.purple[900],
+      body: Column(children: <Widget>[
+        SizedBox(
+          height: 80,
         ),
-      ),
+        Padding(
+          padding: EdgeInsets.only(left: 16, right: 16),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text("Spelling Wizard",
+                      style: TextStyle(
+                          fontSize: 30,
+                          fontFamily: 'Raleway',
+                          fontWeight: FontWeight.w900,
+                          color: Colors.white)),
+                  SizedBox(
+                    height: 4,
+                  ),
+                  Text(
+                    "Challenges",
+                    style: TextStyle(
+                        fontSize: 15,
+                        fontFamily: 'Raleway',
+                        fontWeight: FontWeight.w100,
+                        color: Colors.white),
+                  ),
+                ],
+              )
+            ],
+          ),
+        ),
+        SizedBox(
+          height: 40,
+        ),
+        GridDashboard(),
+      ]),
     );
   }
-}
-
-Widget categoryBuilder(String iconName) {
-  return CircleAvatar(
-    backgroundColor: Colors.purple[500],
-    radius: 49,
-    backgroundImage: AssetImage(iconName),
-  );
 }

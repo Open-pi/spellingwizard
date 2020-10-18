@@ -103,6 +103,7 @@ class _ChallengeBodyState extends State<ChallengeBody> {
         margin: EdgeInsets.fromLTRB(16, 16, 16, 16),
         child: Container(
           decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
               gradient: LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomCenter,
