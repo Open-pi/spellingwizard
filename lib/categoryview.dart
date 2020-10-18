@@ -41,7 +41,7 @@ class CategoryView extends StatelessWidget {
           child: ListTile(
             title: Text('Challenge number $index'),
             subtitle: Text('Put Small Description Here'),
-            leading: ratingStars(saveFile.isColored(index).toDouble()),
+            leading: _ratingStars(saveFile.isColored(index).toDouble()),
             trailing: Icon(Icons.arrow_forward),
             onTap: () async {
               Tuple3 audioPrefix = Tuple3<String, int, String>(
@@ -62,19 +62,14 @@ class CategoryView extends StatelessWidget {
   }
 }
 
-RatingBar ratingStars(double initrating) {
-  return RatingBar(
-    initialRating: initrating,
-    minRating: 0,
-    maxRating: 3,
-    direction: Axis.horizontal,
-    allowHalfRating: true,
-    itemCount: 3,
-    itemPadding: EdgeInsets.symmetric(horizontal: 0),
-    itemBuilder: (context, _) => Icon(
-      Icons.star,
-      color: Colors.amber,
-    ),
-    itemSize: 38,
-  );
-}
+_ratingStars(double rating) => RatingBarIndicator(
+      rating: rating,
+      direction: Axis.horizontal,
+      itemCount: 3,
+      itemPadding: EdgeInsets.symmetric(horizontal: 0),
+      itemBuilder: (context, _) => Icon(
+        Icons.star,
+        color: Colors.amber,
+      ),
+      itemSize: 38,
+    );
