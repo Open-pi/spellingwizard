@@ -49,11 +49,13 @@ class CategoryView extends StatelessWidget {
                   index,
                   this.title);
               await loadAsset(index);
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          ChallengePage(wordList, this.color, audioPrefix)));
+              if (saveFile.playable(index)) {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            ChallengePage(wordList, this.color, audioPrefix)));
+              }
             },
           ),
         );
