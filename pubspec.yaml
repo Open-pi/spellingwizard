@@ -33,6 +33,7 @@ dependencies:
   step_progress_indicator: ^0.2.4+7
   path_provider: ^1.6.18
   sleek_circular_slider : ^1.1.0
+  flip_card: ^0.4.4
 
 
 dev_dependencies:
