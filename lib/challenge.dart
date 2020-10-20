@@ -8,70 +8,53 @@ import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:flip_card/flip_card.dart';
 import 'dart:io';
 
-class ChallengePage extends StatelessWidget {
-  final List<Word> wordList;
-  final Color color;
-  final Tuple3 prefix;
-  ChallengePage(this.wordList, this.color, this.prefix);
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomPadding: true,
-      appBar: AppBar(
-        title: Text('Challenge'),
-        backgroundColor: this.color,
-      ),
-      body: ChallengeBody(wordList, color, prefix),
-    );
-  }
-}
-
-class ChallengeBody extends StatefulWidget {
+class ChallengePage extends StatefulWidget {
   final List<Word> wordList;
   final Color accentColor;
   final Tuple3 prefix;
-  ChallengeBody(this.wordList, this.accentColor, this.prefix);
+  ChallengePage(this.wordList, this.accentColor, this.prefix);
   @override
-  _ChallengeBodyState createState() =>
-      _ChallengeBodyState(wordList, accentColor, prefix);
+  _ChallengePageState createState() => _ChallengePageState();
 }
 
-class _ChallengeBodyState extends State<ChallengeBody> {
-  List scoreTitles = [
-    'Excellent!',
-    'Very Good!',
-    'Good!',
-    'Fair!',
-    'Poor!',
-  ];
-  List scoreMessages = ['You are a god', 'Practice more to gain higher mark'];
-  List scoreColors = [
-    [Colors.yellowAccent, Colors.yellowAccent[700]],
-    [Colors.lightBlue, Colors.greenAccent[400]],
-    [Colors.orangeAccent[400], Colors.red],
-  ];
+class _ChallengePageState extends State<ChallengePage> {
+  // challenge variables
   List messages = [
     'Right!',
     'Wrong!',
     'moving to the next word',
     'End of the Challenge',
   ];
-  GlobalKey<FlipCardState> cardKey = GlobalKey<FlipCardState>();
+  String message = '';
+  int i = 0;
+  int attempt = 3;
+  final TextEditingController textController = new TextEditingController();
+
+  // result popup variables
+  double score = 0;
   int correctAnswers = 0;
   int incorrectAnswers = 0;
-  double score = 0;
+  final List scoreTitles = [
+    'Excellent!',
+    'Very Good!',
+    'Good!',
+    'Fair!',
+    'Poor!',
+  ];
+  final List scoreMessages = [
+    'You are a god',
+    'Practice more to gain higher mark'
+  ];
+  final List scoreColors = [
+    [Colors.yellowAccent, Colors.yellowAccent[700]],
+    [Colors.lightBlue, Colors.greenAccent[400]],
+    [Colors.orangeAccent[400], Colors.red],
+  ];
   String scoreTitle = '';
   String scoreMessage = '';
   List scoreColor = [];
-  int i = 0;
-  int attempt = 3;
   List<Widget> answerList = [];
-  final List<Word> wordList;
-  final Color accentColor;
-  final Tuple3 prefix;
-  _ChallengeBodyState(this.wordList, this.accentColor, this.prefix);
-  String message = '';
-  final TextEditingController textController = new TextEditingController();
+  GlobalKey<FlipCardState> cardKey = GlobalKey<FlipCardState>();
 
   // related to playing audio files.
   AudioCache player;
@@ -79,7 +62,7 @@ class _ChallengeBodyState extends State<ChallengeBody> {
   @override
   initState() {
     super.initState();
-    player = AudioCache(prefix: this.prefix.item1);
+    player = AudioCache(prefix: widget.prefix.item1);
   }
 
   @override
@@ -90,8 +73,15 @@ class _ChallengeBodyState extends State<ChallengeBody> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: body(),
+    return Scaffold(
+      resizeToAvoidBottomPadding: true,
+      appBar: AppBar(
+        title: Text('Challenge'),
+        backgroundColor: widget.accentColor,
+      ),
+      body: Column(
+        children: body(),
+      ),
     );
   }
 
@@ -100,9 +90,9 @@ class _ChallengeBodyState extends State<ChallengeBody> {
       SizedBox(
         height: 2,
       ),
-      progressIndicator(step: this.i + 1, totalSteps: this.wordList.length),
+      progressIndicator(step: this.i + 1, totalSteps: widget.wordList.length),
       Card(
-        color: this.accentColor,
+        color: widget.accentColor,
         margin: EdgeInsets.fromLTRB(16, 16, 16, 16),
         child: Container(
           decoration: BoxDecoration(
@@ -160,23 +150,23 @@ class _ChallengeBodyState extends State<ChallengeBody> {
                 ),
                 _playButton(context),
                 Text(
-                  '${this.wordList[this.i].word}',
+                  '${widget.wordList[this.i].word}',
                   style: headinSyle,
                   textAlign: TextAlign.center,
                 ),
                 infoDevider,
                 Text(
-                  'Meaning: ${this.wordList[this.i].meaning}',
+                  'Meaning: ${widget.wordList[this.i].meaning}',
                   textAlign: TextAlign.center,
                 ),
                 infoDevider,
                 Text(
-                  'Usage: ${this.wordList[this.i].usage}',
+                  'Usage: ${widget.wordList[this.i].usage}',
                   textAlign: TextAlign.center,
                 ),
                 infoDevider,
                 Text(
-                  'Phonetic: ${this.wordList[this.i].phonetic}',
+                  'Phonetic: ${widget.wordList[this.i].phonetic}',
                   textAlign: TextAlign.center,
                 ),
               ],
@@ -206,9 +196,9 @@ class _ChallengeBodyState extends State<ChallengeBody> {
                 setState(() {
                   bool move = false;
                   bool endOfGame = false;
-                  bool stillPages = this.i < this.wordList.length - 1;
-                  bool lastPage = this.i == this.wordList.length - 1;
-                  if (this.wordList[this.i].word == userWord) {
+                  bool stillPages = this.i < widget.wordList.length - 1;
+                  bool lastPage = this.i == widget.wordList.length - 1;
+                  if (widget.wordList[this.i].word == userWord) {
                     move = true;
                     if (this.attempt == 3) {
                       this.answerList.add(Row(
@@ -217,7 +207,7 @@ class _ChallengeBodyState extends State<ChallengeBody> {
                                   style: TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.w600)),
-                              Text('${this.wordList[this.i].word}',
+                              Text('${widget.wordList[this.i].word}',
                                   style: TextStyle(
                                       fontSize: 20,
                                       color: Colors.greenAccent[700],
@@ -243,7 +233,7 @@ class _ChallengeBodyState extends State<ChallengeBody> {
                                   style: TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.w600)),
-                              Text('${this.wordList[this.i].word}',
+                              Text('${widget.wordList[this.i].word}',
                                   style: TextStyle(
                                       fontSize: 20,
                                       color: Colors.greenAccent[700],
@@ -283,12 +273,12 @@ class _ChallengeBodyState extends State<ChallengeBody> {
                   }
                   if (endOfGame) {
                     // the save the results in the save files.
-                    final file = File('$path/${this.prefix.item3}.csv');
+                    final file = File('$path/${widget.prefix.item3}.csv');
                     final SaveFile saveFile = SaveFile(file: file);
-                    saveFile.saveChallenge(prefix.item2, this.correctAnswers,
-                        this.wordList.length);
+                    saveFile.saveChallenge(widget.prefix.item2,
+                        this.correctAnswers, widget.wordList.length);
                     this.score =
-                        (this.correctAnswers / this.wordList.length) * 100;
+                        (this.correctAnswers / widget.wordList.length) * 100;
                     if (this.score == 100) {
                       this.scoreTitle = this.scoreTitles[0];
                       this.scoreMessage = this.scoreMessages[0];
@@ -317,7 +307,7 @@ class _ChallengeBodyState extends State<ChallengeBody> {
               keyboardType: TextInputType.name,
               decoration: InputDecoration(
                 labelStyle: TextStyle(
-                    fontWeight: FontWeight.w900, color: this.accentColor),
+                    fontWeight: FontWeight.w900, color: widget.accentColor),
                 labelText: 'Spell it!',
                 hintText: 'Just try!',
                 floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -341,13 +331,13 @@ class _ChallengeBodyState extends State<ChallengeBody> {
                   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   padding: EdgeInsets.all(1),
                   onPressed: () {
-                    player.play('sound_${prefix.item2}_${this.i}.mp3',
+                    player.play('sound_${widget.prefix.item2}_${this.i}.mp3',
                         volume: 1);
                   },
                   child: Icon(
                     Icons.play_arrow,
                     size: 40,
-                    color: this.accentColor,
+                    color: widget.accentColor,
                   ),
                 ),
               ),
@@ -489,7 +479,7 @@ class _ChallengeBodyState extends State<ChallengeBody> {
                 Text('Answers',
                     style: TextStyle(
                       fontSize: 25,
-                      color: this.accentColor,
+                      color: widget.accentColor,
                       fontWeight: FontWeight.bold,
                     )),
                 SizedBox(
