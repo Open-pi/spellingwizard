@@ -30,6 +30,10 @@ class _ChallengePageState extends State<ChallengePage> {
   int attempt = 3;
   final TextEditingController textController = new TextEditingController();
 
+  // input field vriable
+  Color inputBackgroundColor = Colors.white;
+  String hintText = 'Just try...';
+
   // result popup variables
   double score = 0;
   int correctAnswers = 0;
@@ -186,136 +190,151 @@ class _ChallengePageState extends State<ChallengePage> {
     ];
   }
 
-  _inputWordForm() => Form(
-        child: Column(
-          children: [
-            TextFormField(
-              controller: textController,
-              onFieldSubmitted: (userWord) async {
-                final path = await savePath();
-                setState(() {
-                  bool move = false;
-                  bool endOfGame = false;
-                  bool stillPages = this.i < widget.wordList.length - 1;
-                  bool lastPage = this.i == widget.wordList.length - 1;
-                  if (widget.wordList[this.i].word == userWord) {
+  _inputWordForm() => Container(
+        margin: EdgeInsets.fromLTRB(85.0, 0.0, 85.0, 0.0),
+        child: Form(
+          child: TextFormField(
+            controller: textController,
+            onFieldSubmitted: (userWord) async {
+              final path = await savePath();
+              setState(() {
+                bool move = false;
+                bool endOfGame = false;
+                bool stillPages = this.i < widget.wordList.length - 1;
+                bool lastPage = this.i == widget.wordList.length - 1;
+                if (widget.wordList[this.i].word == userWord) {
+                  this.inputBackgroundColor = Colors.green;
+                  move = true;
+                  if (this.attempt == 3) {
+                    this.answerList.add(Row(
+                          children: [
+                            Text('${this.i + 1} - ',
+                                style: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.w600)),
+                            Text('${widget.wordList[this.i].word}',
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.greenAccent[700],
+                                    fontWeight: FontWeight.w600)),
+                          ],
+                        ));
+                    this.correctAnswers++;
+                  }
+                  if (lastPage) {
+                    // If we reached the last word
+                    this.attempt = 0;
+                    message = this.messages[3];
+                    endOfGame = true;
+                  } else {
+                    this.attempt = 3;
+                    message = this.messages[0];
+                  }
+                } else {
+                  if (this.attempt == 3) {
+                    this.inputBackgroundColor = Colors.red[100];
+                    this.hintText = 'Keep trying...';
+                    this.answerList.add(Row(
+                          children: [
+                            Text('${this.i + 1} - ',
+                                style: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.w600)),
+                            Text('${widget.wordList[this.i].word}',
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.greenAccent[700],
+                                    fontWeight: FontWeight.w600)),
+                            Text(' not ',
+                                style: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.w600)),
+                            Text('$userWord',
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.redAccent[700],
+                                    fontWeight: FontWeight.w600)),
+                          ],
+                        ));
+                    this.incorrectAnswers++;
+                  }
+                  this.attempt--;
+                  message = this.messages[1];
+                  if (this.attempt < 1) {
                     move = true;
-                    if (this.attempt == 3) {
-                      this.answerList.add(Row(
-                            children: [
-                              Text('${this.i + 1} - ',
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w600)),
-                              Text('${widget.wordList[this.i].word}',
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      color: Colors.greenAccent[700],
-                                      fontWeight: FontWeight.w600)),
-                            ],
-                          ));
-                      this.correctAnswers++;
-                    }
                     if (lastPage) {
                       // If we reached the last word
                       this.attempt = 0;
                       message = this.messages[3];
                       endOfGame = true;
                     } else {
+                      // otherwise, we move to the next word.
                       this.attempt = 3;
-                      message = this.messages[0];
+                      message = this.messages[2];
                     }
+                  }
+                }
+                if (stillPages && move) {
+                  this.hintText = 'Just try...';
+                  this.inputBackgroundColor = Colors.white;
+                  this.i++;
+                  textController.text = '';
+                }
+                if (endOfGame) {
+                  // the save the results in the save files.
+                  final file = File('$path/${widget.prefix.item3}.csv');
+                  final SaveFile saveFile = SaveFile(file: file);
+                  saveFile.saveChallenge(widget.prefix.item2,
+                      this.correctAnswers, widget.wordList.length);
+                  this.score =
+                      (this.correctAnswers / widget.wordList.length) * 100;
+                  if (this.score == 100) {
+                    this.scoreTitle = this.scoreTitles[0];
+                    this.scoreMessage = this.scoreMessages[0];
+                    this.scoreColor = this.scoreColors[0];
+                  } else if (this.score >= 75) {
+                    this.scoreTitle = this.scoreTitles[1];
+                    this.scoreMessage = this.scoreMessages[1];
+                    this.scoreColor = this.scoreColors[1];
+                  } else if (this.score >= 50) {
+                    this.scoreTitle = this.scoreTitles[2];
+                    this.scoreMessage = this.scoreMessages[1];
+                    this.scoreColor = this.scoreColors[1];
+                  } else if (this.score >= 25) {
+                    this.scoreTitle = this.scoreTitles[3];
+                    this.scoreMessage = this.scoreMessages[1];
+                    this.scoreColor = this.scoreColors[2];
                   } else {
-                    if (this.attempt == 3) {
-                      this.answerList.add(Row(
-                            children: [
-                              Text('${this.i + 1} - ',
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w600)),
-                              Text('${widget.wordList[this.i].word}',
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      color: Colors.greenAccent[700],
-                                      fontWeight: FontWeight.w600)),
-                              Text(' not ',
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w600)),
-                              Text('$userWord',
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      color: Colors.redAccent[700],
-                                      fontWeight: FontWeight.w600)),
-                            ],
-                          ));
-                      this.incorrectAnswers++;
-                    }
-                    this.attempt--;
-                    message = this.messages[1];
-                    if (this.attempt < 1) {
-                      move = true;
-                      if (lastPage) {
-                        // If we reached the last word
-                        this.attempt = 0;
-                        message = this.messages[3];
-                        endOfGame = true;
-                      } else {
-                        // otherwise, we move to the next word.
-                        this.attempt = 3;
-                        message = this.messages[2];
-                      }
-                    }
+                    this.scoreTitle = this.scoreTitles[4];
+                    this.scoreMessage = this.scoreMessages[1];
+                    this.scoreColor = this.scoreColors[2];
                   }
-                  if (stillPages && move) {
-                    this.i++;
-                    textController.text = '';
-                  }
-                  if (endOfGame) {
-                    // the save the results in the save files.
-                    final file = File('$path/${widget.prefix.item3}.csv');
-                    final SaveFile saveFile = SaveFile(file: file);
-                    saveFile.saveChallenge(widget.prefix.item2,
-                        this.correctAnswers, widget.wordList.length);
-                    this.score =
-                        (this.correctAnswers / widget.wordList.length) * 100;
-                    if (this.score == 100) {
-                      this.scoreTitle = this.scoreTitles[0];
-                      this.scoreMessage = this.scoreMessages[0];
-                      this.scoreColor = this.scoreColors[0];
-                    } else if (this.score >= 75) {
-                      this.scoreTitle = this.scoreTitles[1];
-                      this.scoreMessage = this.scoreMessages[1];
-                      this.scoreColor = this.scoreColors[1];
-                    } else if (this.score >= 50) {
-                      this.scoreTitle = this.scoreTitles[2];
-                      this.scoreMessage = this.scoreMessages[1];
-                      this.scoreColor = this.scoreColors[1];
-                    } else if (this.score >= 25) {
-                      this.scoreTitle = this.scoreTitles[3];
-                      this.scoreMessage = this.scoreMessages[1];
-                      this.scoreColor = this.scoreColors[2];
-                    } else {
-                      this.scoreTitle = this.scoreTitles[4];
-                      this.scoreMessage = this.scoreMessages[1];
-                      this.scoreColor = this.scoreColors[2];
-                    }
-                    _resultPopup(context);
-                  }
-                });
-              },
-              keyboardType: TextInputType.name,
-              decoration: InputDecoration(
-                labelStyle: TextStyle(
-                    fontWeight: FontWeight.w900, color: widget.accentColor),
-                labelText: 'Spell it!',
-                hintText: 'Just try!',
-                floatingLabelBehavior: FloatingLabelBehavior.always,
-                suffixIcon:
-                    Padding(padding: EdgeInsets.fromLTRB(0, 20, 20, 20)),
+                  _resultPopup(context);
+                }
+              });
+            },
+            keyboardType: TextInputType.name,
+            style: TextStyle(fontWeight: FontWeight.bold),
+            decoration: InputDecoration(
+              fillColor: this.inputBackgroundColor,
+              filled: true,
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(25.0),
+                borderSide: BorderSide(width: 3.0, color: Colors.deepOrange),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(25.0),
+                borderSide: BorderSide(width: 3.0, color: widget.accentColor),
+              ),
+              labelStyle: TextStyle(
+                  fontWeight: FontWeight.w900, color: widget.accentColor),
+              hintText: '${this.hintText}',
+              floatingLabelBehavior: FloatingLabelBehavior.always,
+              suffixIcon: IconButton(
+                onPressed: () {},
+                icon: Icon(
+                  Icons.arrow_forward,
+                ),
               ),
             ),
-          ],
+          ),
         ),
       );
 
