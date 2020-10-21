@@ -437,7 +437,8 @@ class _ChallengePageState extends State<ChallengePage> {
                 children: <Widget>[
                   FlatButton(
                     onPressed: () {
-                      Navigator.of(context).pop();
+                      Navigator.pop(context);
+                      Navigator.pop(context);
                     },
                     child: Text('Quit'),
                     textColor: Colors.white,
@@ -447,7 +448,20 @@ class _ChallengePageState extends State<ChallengePage> {
                   ),
                   RaisedButton(
                     onPressed: () {
-                      return Navigator.of(context).pop(true);
+                      setState(() {
+                        this.i = 0;
+                        this.textController.text = '';
+                        this.message = '';
+                        this.attempt = 3;
+                        this.score = 0;
+                        this.correctAnswers = 0;
+                        this.incorrectAnswers = 0;
+                        this.scoreTitle = '';
+                        this.scoreMessage = '';
+                        this.scoreColor = [];
+                        this.answerList = [];
+                      });
+                      Navigator.pop(context, true);
                     },
                     child: Text('Retake'),
                     color: Colors.white,

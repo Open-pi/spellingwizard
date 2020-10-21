@@ -58,13 +58,17 @@ class GridDashboardState extends State {
                   final file = File('$path/${data.title}.csv');
                   final SaveFile saveFile = SaveFile(file: file);
                   await saveFile.readFromFile();
-                  Navigator.of(context).push(MaterialPageRoute(
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
                       builder: (context) => CategoryView(
-                            title: '${data.title}',
-                            itemCount: int.parse(data.event),
-                            color: Colors.purple[500],
-                            saveFile: saveFile,
-                          )));
+                        title: '${data.title}',
+                        itemCount: int.parse(data.event),
+                        color: Colors.purple[500],
+                        saveFile: saveFile,
+                      ),
+                    ),
+                  );
                 },
                 child: Container(
                   decoration: BoxDecoration(
