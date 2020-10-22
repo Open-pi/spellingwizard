@@ -48,7 +48,6 @@ class CategoryView extends StatelessWidget {
           );
           stateIcon = Icon(
             Icons.arrow_forward,
-            color: Colors.grey[200],
           );
         } else {
           colors = [Colors.purple[900], Colors.deepOrange[900]];
@@ -64,7 +63,7 @@ class CategoryView extends StatelessWidget {
         return Card(
           child: Container(
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(4.5),
                 gradient: LinearGradient(
                     begin: Alignment.topLeft,
                     end: Alignment.bottomCenter,

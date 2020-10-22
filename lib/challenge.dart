@@ -93,7 +93,7 @@ class _ChallengePageState extends State<ChallengePage> {
         margin: EdgeInsets.all(16.0),
         child: Container(
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(4.5),
               gradient: LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomCenter,
