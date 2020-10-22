@@ -19,13 +19,6 @@ class ChallengePage extends StatefulWidget {
 
 class _ChallengePageState extends State<ChallengePage> {
   // challenge variables
-  List messages = [
-    'Right!',
-    'Wrong!',
-    'moving to the next word',
-    'End of the Challenge',
-  ];
-  String message = '';
   int i = 0;
   int attempt = 3;
   final TextEditingController textController = new TextEditingController();
@@ -97,7 +90,7 @@ class _ChallengePageState extends State<ChallengePage> {
       progressIndicator(step: this.i + 1, totalSteps: widget.wordList.length),
       Card(
         color: widget.accentColor,
-        margin: EdgeInsets.fromLTRB(16, 16, 16, 16),
+        margin: EdgeInsets.all(16.0),
         child: Container(
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
@@ -179,12 +172,8 @@ class _ChallengePageState extends State<ChallengePage> {
         ),
       ),
       Text('You Have ${this.attempt} attempt(s) left.'),
-      Text(
-        message,
-        textAlign: TextAlign.center,
-      ),
       Padding(
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
         child: _inputWordForm(),
       ),
     ];
@@ -195,124 +184,17 @@ class _ChallengePageState extends State<ChallengePage> {
         child: Form(
           child: TextFormField(
             controller: textController,
-            onFieldSubmitted: (userWord) async {
-              final path = await savePath();
-              setState(() {
-                bool move = false;
-                bool endOfGame = false;
-                bool stillPages = this.i < widget.wordList.length - 1;
-                bool lastPage = this.i == widget.wordList.length - 1;
-                if (widget.wordList[this.i].word == userWord) {
-                  this.inputBackgroundColor = Colors.green;
-                  move = true;
-                  if (this.attempt == 3) {
-                    this.answerList.add(Row(
-                          children: [
-                            Text('${this.i + 1} - ',
-                                style: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.w600)),
-                            Text('${widget.wordList[this.i].word}',
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.greenAccent[700],
-                                    fontWeight: FontWeight.w600)),
-                          ],
-                        ));
-                    this.correctAnswers++;
-                  }
-                  if (lastPage) {
-                    // If we reached the last word
-                    this.attempt = 0;
-                    message = this.messages[3];
-                    endOfGame = true;
-                  } else {
-                    this.attempt = 3;
-                    message = this.messages[0];
-                  }
-                } else {
-                  if (this.attempt == 3) {
-                    this.inputBackgroundColor = Colors.red[100];
-                    this.hintText = 'Keep trying...';
-                    this.answerList.add(Row(
-                          children: [
-                            Text('${this.i + 1} - ',
-                                style: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.w600)),
-                            Text('${widget.wordList[this.i].word}',
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.greenAccent[700],
-                                    fontWeight: FontWeight.w600)),
-                            Text(' not ',
-                                style: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.w600)),
-                            Text('$userWord',
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.redAccent[700],
-                                    fontWeight: FontWeight.w600)),
-                          ],
-                        ));
-                    this.incorrectAnswers++;
-                  }
-                  this.attempt--;
-                  message = this.messages[1];
-                  if (this.attempt < 1) {
-                    move = true;
-                    if (lastPage) {
-                      // If we reached the last word
-                      this.attempt = 0;
-                      message = this.messages[3];
-                      endOfGame = true;
-                    } else {
-                      // otherwise, we move to the next word.
-                      this.attempt = 3;
-                      message = this.messages[2];
-                    }
-                  }
-                }
-                if (stillPages && move) {
-                  this.hintText = 'Just try...';
-                  this.inputBackgroundColor = Colors.white;
-                  this.i++;
-                  textController.text = '';
-                }
-                if (endOfGame) {
-                  // the save the results in the save files.
-                  final file = File('$path/${widget.prefix.item3}.csv');
-                  final SaveFile saveFile = SaveFile(file: file);
-                  saveFile.saveChallenge(widget.prefix.item2,
-                      this.correctAnswers, widget.wordList.length);
-                  this.score =
-                      (this.correctAnswers / widget.wordList.length) * 100;
-                  if (this.score == 100) {
-                    this.scoreTitle = this.scoreTitles[0];
-                    this.scoreMessage = this.scoreMessages[0];
-                    this.scoreColor = this.scoreColors[0];
-                  } else if (this.score >= 75) {
-                    this.scoreTitle = this.scoreTitles[1];
-                    this.scoreMessage = this.scoreMessages[1];
-                    this.scoreColor = this.scoreColors[1];
-                  } else if (this.score >= 50) {
-                    this.scoreTitle = this.scoreTitles[2];
-                    this.scoreMessage = this.scoreMessages[1];
-                    this.scoreColor = this.scoreColors[1];
-                  } else if (this.score >= 25) {
-                    this.scoreTitle = this.scoreTitles[3];
-                    this.scoreMessage = this.scoreMessages[1];
-                    this.scoreColor = this.scoreColors[2];
-                  } else {
-                    this.scoreTitle = this.scoreTitles[4];
-                    this.scoreMessage = this.scoreMessages[1];
-                    this.scoreColor = this.scoreColors[2];
-                  }
-                  _resultPopup(context);
-                }
-              });
-            },
+            onFieldSubmitted: (userWord) => _inputFieldUpdate(userWord),
+            //readOnly: true,
+            //showCursor: true,
             keyboardType: TextInputType.name,
-            style: TextStyle(fontWeight: FontWeight.bold),
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.indigo[900],
+              fontSize: 22.0,
+            ),
             decoration: InputDecoration(
+              contentPadding: EdgeInsets.fromLTRB(21.0, 0.0, 0.0, 0.0),
               fillColor: this.inputBackgroundColor,
               filled: true,
               enabledBorder: OutlineInputBorder(
@@ -328,7 +210,7 @@ class _ChallengePageState extends State<ChallengePage> {
               hintText: '${this.hintText}',
               floatingLabelBehavior: FloatingLabelBehavior.always,
               suffixIcon: IconButton(
-                onPressed: () {},
+                onPressed: () => _inputFieldUpdate(this.textController.text),
                 icon: Icon(
                   Icons.arrow_forward,
                 ),
@@ -337,6 +219,115 @@ class _ChallengePageState extends State<ChallengePage> {
           ),
         ),
       );
+
+  _inputFieldUpdate(String userWord) async {
+    final path = await savePath();
+    setState(() {
+      bool move = false;
+      bool endOfGame = false;
+      bool stillPages = this.i < widget.wordList.length - 1;
+      bool lastPage = this.i == widget.wordList.length - 1;
+      if (widget.wordList[this.i].word == userWord) {
+        this.inputBackgroundColor = Colors.green;
+        move = true;
+        if (this.attempt == 3) {
+          this.answerList.add(Row(
+                children: [
+                  Text('${this.i + 1} - ',
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
+                  Text('${widget.wordList[this.i].word}',
+                      style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.greenAccent[700],
+                          fontWeight: FontWeight.w600)),
+                ],
+              ));
+          this.correctAnswers++;
+        }
+        if (lastPage) {
+          // If we reached the last word
+          this.attempt = 0;
+          endOfGame = true;
+        } else {
+          this.attempt = 3;
+        }
+      } else {
+        if (this.attempt == 3) {
+          this.inputBackgroundColor = Colors.red[100];
+          this.hintText = 'Keep trying...';
+          this.answerList.add(Row(
+                children: [
+                  Text('${this.i + 1} - ',
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
+                  Text('${widget.wordList[this.i].word}',
+                      style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.greenAccent[700],
+                          fontWeight: FontWeight.w600)),
+                  Text(' not ',
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
+                  Text('$userWord',
+                      style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.redAccent[700],
+                          fontWeight: FontWeight.w600)),
+                ],
+              ));
+          this.incorrectAnswers++;
+        }
+        this.attempt--;
+        if (this.attempt < 1) {
+          this.textController.text = widget.wordList[this.i].word;
+          this.inputBackgroundColor = Colors.green[100];
+          if (lastPage) {
+            // If we reached the last word
+            this.attempt = 0;
+            endOfGame = true;
+          }
+        }
+      }
+      if (stillPages && move) {
+        this.attempt = 3;
+        this.hintText = 'Just try...';
+        this.inputBackgroundColor = Colors.white;
+        this.i++;
+        textController.text = '';
+      }
+      if (endOfGame) {
+        // the save the results in the save files.
+        final file = File('$path/${widget.prefix.item3}.csv');
+        final SaveFile saveFile = SaveFile(file: file);
+        saveFile.saveChallenge(
+            widget.prefix.item2, this.correctAnswers, widget.wordList.length);
+        this.score = (this.correctAnswers / widget.wordList.length) * 100;
+        if (this.score == 100) {
+          this.scoreTitle = this.scoreTitles[0];
+          this.scoreMessage = this.scoreMessages[0];
+          this.scoreColor = this.scoreColors[0];
+        } else if (this.score >= 75) {
+          this.scoreTitle = this.scoreTitles[1];
+          this.scoreMessage = this.scoreMessages[1];
+          this.scoreColor = this.scoreColors[1];
+        } else if (this.score >= 50) {
+          this.scoreTitle = this.scoreTitles[2];
+          this.scoreMessage = this.scoreMessages[1];
+          this.scoreColor = this.scoreColors[1];
+        } else if (this.score >= 25) {
+          this.scoreTitle = this.scoreTitles[3];
+          this.scoreMessage = this.scoreMessages[1];
+          this.scoreColor = this.scoreColors[2];
+        } else {
+          this.scoreTitle = this.scoreTitles[4];
+          this.scoreMessage = this.scoreMessages[1];
+          this.scoreColor = this.scoreColors[2];
+        }
+        _resultPopup(context);
+      }
+    });
+  }
 
   _playButton(BuildContext context) => Container(
         child: Stack(
@@ -470,7 +461,6 @@ class _ChallengePageState extends State<ChallengePage> {
                       setState(() {
                         this.i = 0;
                         this.textController.text = '';
-                        this.message = '';
                         this.attempt = 3;
                         this.score = 0;
                         this.correctAnswers = 0;
