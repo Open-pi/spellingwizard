@@ -506,21 +506,28 @@ class _ChallengePageState extends State<ChallengePage> {
                       fontWeight: FontWeight.bold,
                     )),
                 SizedBox(
-                  height: 20,
+                  height: 15,
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: this
-                      .answerList
-                      .map((row) => Column(
-                            children: [
-                              row,
-                              SizedBox(
-                                height: 13,
-                              )
-                            ],
-                          ))
-                      .toList(),
+                Container(
+                  height: 280,
+                  child: Scrollbar(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: this
+                            .answerList
+                            .map((row) => Column(
+                                  children: [
+                                    row,
+                                    SizedBox(
+                                      height: 13,
+                                    )
+                                  ],
+                                ))
+                            .toList(),
+                      ),
+                    ),
+                  ),
                 ),
                 FlatButton(
                   onPressed: () {
