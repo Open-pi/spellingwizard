@@ -150,7 +150,7 @@ class _ChallengePageState extends State<ChallengePage> {
                 ),
                 _playButton(context),
                 Text(
-                  '${widget.wordList[this.i].word}',
+                  '${widget.wordList[this.i].word.toLowerCase()}',
                   style: headinSyle,
                   textAlign: TextAlign.center,
                 ),
@@ -245,7 +245,7 @@ class _ChallengePageState extends State<ChallengePage> {
       bool endOfGame = false;
       bool stillPages = this.i < widget.wordList.length - 1;
       bool lastPage = this.i == widget.wordList.length - 1;
-      if (widget.wordList[this.i].word == userWord) {
+      if (widget.wordList[this.i].word.toUpperCase() == userWord) {
         move = true;
         if (this.attempt == 3) {
           this.answerList.add(Row(
@@ -253,7 +253,7 @@ class _ChallengePageState extends State<ChallengePage> {
                   Text('${this.i + 1} - ',
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
-                  Text('${widget.wordList[this.i].word}',
+                  Text('${widget.wordList[this.i].word.toUpperCase()}',
                       style: TextStyle(
                           fontSize: 20,
                           color: Colors.greenAccent[700],
@@ -278,7 +278,7 @@ class _ChallengePageState extends State<ChallengePage> {
                   Text('${this.i + 1} - ',
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
-                  Text('${widget.wordList[this.i].word}',
+                  Text('${widget.wordList[this.i].word.toUpperCase()}',
                       style: TextStyle(
                           fontSize: 20,
                           color: Colors.greenAccent[700],
@@ -297,7 +297,7 @@ class _ChallengePageState extends State<ChallengePage> {
         }
         this.attempt--;
         if (this.attempt < 1) {
-          this.textController.text = widget.wordList[this.i].word;
+          this.textController.text = widget.wordList[this.i].word.toUpperCase();
           this.inputBackgroundColor = Colors.green[100];
           if (lastPage) {
             // If we reached the last word
