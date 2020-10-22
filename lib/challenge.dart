@@ -43,7 +43,7 @@ class _ChallengePageState extends State<ChallengePage> {
     'Practice more to gain higher mark'
   ];
   final List scoreColors = [
-    [Colors.yellowAccent, Colors.yellowAccent[700]],
+    [Colors.amberAccent, Colors.amber],
     [Colors.lightBlue, Colors.greenAccent[400]],
     [Colors.orangeAccent[400], Colors.red],
   ];

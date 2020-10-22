@@ -37,41 +37,75 @@ class CategoryView extends StatelessWidget {
     return ListView.builder(
       itemCount: this.itemCount,
       itemBuilder: (_, index) {
+        List<Color> colors;
+        Icon rateIcon;
+        Icon stateIcon;
+        if (saveFile.playable(index)) {
+          colors = [Colors.purple, Colors.deepOrange];
+          rateIcon = Icon(
+            Icons.star,
+            color: Colors.amber,
+          );
+          stateIcon = Icon(
+            Icons.arrow_forward,
+            color: Colors.grey[200],
+          );
+        } else {
+          colors = [Colors.purple[900], Colors.deepOrange[900]];
+          rateIcon = Icon(
+            Icons.star,
+            color: Colors.black26,
+          );
+          stateIcon = Icon(
+            Icons.lock,
+            color: Colors.black45,
+          );
+        }
         return Card(
-          child: ListTile(
-            title: Text('Challenge number $index'),
-            subtitle: Text('Put Small Description Here'),
-            leading: _ratingStars(saveFile.isColored(index).toDouble()),
-            trailing: Icon(Icons.arrow_forward),
-            onTap: () async {
-              Tuple3 audioPrefix = Tuple3<String, int, String>(
+          child: Container(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomCenter,
+                    stops: [0.01, 1],
+                    colors: colors)),
+            child: ListTile(
+              title: Text(
+                'Challenge number ${index + 1}',
+                style: TextStyle(fontWeight: FontWeight.w600),
+              ),
+              subtitle: Text('Put Small Description Here'),
+              leading: RatingBarIndicator(
+                rating: saveFile.isColored(index).toDouble(),
+                direction: Axis.horizontal,
+                itemCount: 3,
+                itemPadding: EdgeInsets.symmetric(horizontal: 0),
+                itemBuilder: (context, _) => rateIcon,
+                itemSize: 38,
+              ),
+              trailing: stateIcon,
+              onTap: () async {
+                Tuple3 audioPrefix = Tuple3<String, int, String>(
                   'assets/categories/${this.title}_words/challenges_audio/',
                   index,
-                  this.title);
-              await loadAsset(index);
-              if (saveFile.playable(index)) {
-                Navigator.push(
+                  this.title,
+                );
+                await loadAsset(index);
+                if (saveFile.playable(index)) {
+                  Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            ChallengePage(wordList, this.color, audioPrefix)));
-              }
-            },
+                      builder: (context) =>
+                          ChallengePage(wordList, this.color, audioPrefix),
+                    ),
+                  );
+                }
+              },
+            ),
           ),
         );
       },
     );
   }
 }
-
-_ratingStars(double rating) => RatingBarIndicator(
-      rating: rating,
-      direction: Axis.horizontal,
-      itemCount: 3,
-      itemPadding: EdgeInsets.symmetric(horizontal: 0),
-      itemBuilder: (context, _) => Icon(
-        Icons.star,
-        color: Colors.amber,
-      ),
-      itemSize: 38,
-    );
