@@ -1,3 +1,4 @@
+import 'package:built_in_keyboard/builtInKeyboard.dart';
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audio_cache.dart';
 import 'package:tuple/tuple.dart';
@@ -93,12 +94,14 @@ class _ChallengePageState extends State<ChallengePage> {
         margin: EdgeInsets.all(16.0),
         child: Container(
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(4.5),
-              gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomCenter,
-                  stops: [0.01, 1],
-                  colors: [Colors.purple, Colors.deepOrange])),
+            borderRadius: BorderRadius.circular(4.5),
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomCenter,
+              stops: [0.01, 1],
+              colors: [Colors.purple, Colors.deepOrange],
+            ),
+          ),
           child: Padding(
             padding: const EdgeInsets.all(12),
             child: Column(
@@ -172,9 +175,25 @@ class _ChallengePageState extends State<ChallengePage> {
         ),
       ),
       Text('You Have ${this.attempt} attempt(s) left.'),
-      Padding(
-        padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
-        child: _inputWordForm(),
+      Expanded(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+          child: _inputWordForm(),
+        ),
+      ),
+      Container(
+        height: 159,
+        child: Align(
+          alignment: FractionalOffset.bottomCenter,
+          child: BuiltInKeyboard(
+            layoutType: 'EN',
+            letterStyle: TextStyle(fontSize: 25, color: Colors.black),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(7),
+                color: Colors.deepOrange),
+            controller: this.textController,
+          ),
+        ),
       ),
     ];
   }
@@ -185,8 +204,7 @@ class _ChallengePageState extends State<ChallengePage> {
           child: TextFormField(
             controller: textController,
             onFieldSubmitted: (userWord) => _inputFieldUpdate(userWord),
-            //readOnly: true,
-            //showCursor: true,
+            readOnly: true,
             keyboardType: TextInputType.name,
             style: TextStyle(
               fontWeight: FontWeight.bold,

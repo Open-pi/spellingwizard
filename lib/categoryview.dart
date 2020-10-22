@@ -53,7 +53,7 @@ class CategoryView extends StatelessWidget {
           colors = [Colors.purple[900], Colors.deepOrange[900]];
           rateIcon = Icon(
             Icons.star,
-            color: Colors.black26,
+            color: Colors.black38,
           );
           stateIcon = Icon(
             Icons.lock,
