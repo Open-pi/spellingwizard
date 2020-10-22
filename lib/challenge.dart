@@ -228,7 +228,6 @@ class _ChallengePageState extends State<ChallengePage> {
       bool stillPages = this.i < widget.wordList.length - 1;
       bool lastPage = this.i == widget.wordList.length - 1;
       if (widget.wordList[this.i].word == userWord) {
-        this.inputBackgroundColor = Colors.green;
         move = true;
         if (this.attempt == 3) {
           this.answerList.add(Row(
