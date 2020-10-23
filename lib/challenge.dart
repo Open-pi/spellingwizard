@@ -32,6 +32,7 @@ class _ChallengePageState extends State<ChallengePage> {
   double score = 0;
   int correctAnswers = 0;
   int incorrectAnswers = 0;
+  bool enableTextController = true;
   final List scoreTitles = [
     'Excellent!',
     'Very Good!',
@@ -190,7 +191,9 @@ class _ChallengePageState extends State<ChallengePage> {
             enableUppercaseAll: true,
             borderRadius: BorderRadius.circular(8.0),
             letterStyle: TextStyle(fontSize: 25, color: Colors.black),
-            controller: this.textController,
+            controller: this.enableTextController
+                ? this.textController
+                : TextEditingController(),
           ),
         ),
       ),
@@ -296,6 +299,7 @@ class _ChallengePageState extends State<ChallengePage> {
         }
         this.attempt--;
         if (this.attempt < 1) {
+          this.enableTextController = false;
           this.textController.text = widget.wordList[this.i].word.toUpperCase();
           this.inputBackgroundColor = Colors.green[100];
           if (lastPage) {
@@ -311,6 +315,7 @@ class _ChallengePageState extends State<ChallengePage> {
         this.inputBackgroundColor = Colors.white;
         this.i++;
         textController.text = '';
+        this.enableTextController = true;
       }
       if (endOfGame) {
         // the save the results in the save files.
