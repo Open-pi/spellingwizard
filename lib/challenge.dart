@@ -187,10 +187,9 @@ class _ChallengePageState extends State<ChallengePage> {
           alignment: FractionalOffset.bottomCenter,
           child: BuiltInKeyboard(
             layoutType: 'EN',
+            enableUppercaseAll: true,
+            borderRadius: BorderRadius.circular(8.0),
             letterStyle: TextStyle(fontSize: 25, color: Colors.black),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(7),
-                color: Colors.deepOrange),
             controller: this.textController,
           ),
         ),
@@ -199,7 +198,7 @@ class _ChallengePageState extends State<ChallengePage> {
   }
 
   _inputWordForm() => Container(
-        margin: EdgeInsets.fromLTRB(85.0, 0.0, 85.0, 0.0),
+        margin: EdgeInsets.fromLTRB(70.0, 0.0, 70.0, 0.0),
         child: Form(
           child: TextFormField(
             controller: textController,

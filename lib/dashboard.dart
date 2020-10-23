@@ -60,13 +60,25 @@ class GridDashboardState extends State {
                   await saveFile.readFromFile();
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                      builder: (context) => CategoryView(
-                        title: '${data.title}',
-                        itemCount: int.parse(data.event),
-                        color: Colors.purple[500],
-                        saveFile: saveFile,
-                      ),
+                    PageRouteBuilder(
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) {
+                        animation = CurvedAnimation(
+                            parent: animation, curve: Curves.easeInOut);
+                        return ScaleTransition(
+                          alignment: Alignment.center,
+                          scale: animation,
+                          child: child,
+                        );
+                      },
+                      pageBuilder: (context, animation, secondaryAnimation) {
+                        return CategoryView(
+                          title: data.title,
+                          itemCount: int.parse(data.event),
+                          color: Colors.purple[500],
+                          saveFile: saveFile,
+                        );
+                      },
                     ),
                   );
                 },

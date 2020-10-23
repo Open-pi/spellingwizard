@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:csv/csv.dart';
 import 'package:flutter/services.dart' show rootBundle;
@@ -93,12 +94,11 @@ class CategoryView extends StatelessWidget {
                 await loadAsset(index);
                 if (saveFile.playable(index)) {
                   Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          ChallengePage(wordList, this.color, audioPrefix),
-                    ),
-                  );
+                      context,
+                      CupertinoPageRoute(
+                          maintainState: true,
+                          builder: (BuildContext context) => ChallengePage(
+                              wordList, this.color, audioPrefix)));
                 }
               },
             ),
