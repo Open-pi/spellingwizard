@@ -4,11 +4,13 @@ import 'package:SpellingWizard/save.dart';
 import 'dart:io';
 
 class GridDashboard extends StatefulWidget {
+  final List<Items> myList;
+  GridDashboard(this.myList);
   @override
   GridDashboardState createState() => GridDashboardState();
 }
 
-class GridDashboardState extends State {
+class GridDashboardState extends State<GridDashboard> {
   Items item1 = new Items(
       title: "Verbs",
       subtitle: "Verbs are essential",
@@ -42,7 +44,6 @@ class GridDashboardState extends State {
 
   @override
   Widget build(BuildContext context) {
-    List<Items> myList = [item1, item2, item3, item4, item5];
     return Flexible(
       child: GridView.count(
           childAspectRatio: 1.0,
@@ -50,14 +51,9 @@ class GridDashboardState extends State {
           crossAxisCount: 2,
           crossAxisSpacing: 18,
           mainAxisSpacing: 18,
-          children: myList.map((data) {
+          children: widget.myList.map((data) {
             return InkWell(
                 onTap: () async {
-                  // load save files for the category
-                  final path = await savePath();
-                  final file = File('$path/${data.title}.csv');
-                  final SaveFile saveFile = SaveFile(file: file);
-                  await saveFile.readFromFile();
                   Navigator.push(
                     context,
                     PageRouteBuilder(
@@ -76,7 +72,7 @@ class GridDashboardState extends State {
                           title: data.title,
                           itemCount: int.parse(data.event),
                           color: Colors.purple[500],
-                          saveFile: saveFile,
+                          saveFile: data.saveFile,
                         );
                       },
                     ),
@@ -138,10 +134,53 @@ class Items {
   String subtitle;
   String event;
   String img;
-  Items({this.title, this.subtitle, this.event, this.img});
+  SaveFile saveFile;
+
+  Items({this.title, this.subtitle, this.event, this.img, this.saveFile});
 }
 
-Column homePage() {
+Future<List<Items>> categoryList() async {
+  Items item1 = new Items(
+    title: "Verbs",
+    subtitle: "Verbs are essential",
+    event: "6",
+    img: "assets/verbs_category.png",
+    saveFile: await saveFileOfCategory("Verbs"),
+  );
+
+  Items item2 = new Items(
+    title: "Family",
+    subtitle: "",
+    event: "3",
+    img: "assets/family_category.png",
+    saveFile: await saveFileOfCategory("Family"),
+  );
+  Items item3 = new Items(
+    title: "Tools",
+    subtitle: "",
+    event: "6",
+    img: "assets/tools_category.png",
+    saveFile: await saveFileOfCategory("Tools"),
+  );
+  Items item4 = new Items(
+    title: "Animals",
+    subtitle: "",
+    event: "6",
+    img: "assets/animals_category.png",
+    saveFile: await saveFileOfCategory("Animals"),
+  );
+  Items item5 = new Items(
+    title: "Abstract",
+    subtitle: "these are hard",
+    event: "2",
+    img: "assets/abstract_category.png",
+    saveFile: await saveFileOfCategory("Abstract"),
+  );
+
+  return [item1, item2, item3, item4, item5];
+}
+
+Column homePage(List<Items> items) {
   return Column(children: <Widget>[
     SizedBox(
       height: 80,
@@ -179,6 +218,6 @@ Column homePage() {
     SizedBox(
       height: 40,
     ),
-    GridDashboard(),
+    GridDashboard(items),
   ]);
 }

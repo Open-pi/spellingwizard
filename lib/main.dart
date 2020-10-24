@@ -14,10 +14,10 @@ class Home extends StatefulWidget {
 
 class HomeState extends State<Home> {
   Future<Widget> loadFromFuture() async {
-    // load our stuff
+    List<Items> items = await categoryList();
     return Future.value(new Scaffold(
       backgroundColor: Colors.purple[900],
-      body: homePage(),
+      body: homePage(items),
     ));
   }
 
@@ -30,7 +30,7 @@ class HomeState extends State<Home> {
           style: new TextStyle(
               fontWeight: FontWeight.bold, fontSize: 20.0, color: Colors.white),
         ),
-        image: new Image.asset('assets/wizard.png'),
+        image: new Image.asset('assets/splash_icon.png'),
         backgroundColor: Colors.purple[900],
         loaderColor: Colors.purple);
   }

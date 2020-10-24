@@ -100,3 +100,12 @@ Future<String> get _localPath async {
   print(directory.path);
   return directory.path;
 }
+
+Future<SaveFile> saveFileOfCategory(String title) async {
+  // load save files for the category
+  final path = await savePath();
+  final file = File('$path/$title.csv');
+  final SaveFile saveFile = SaveFile(file: file);
+  await saveFile.readFromFile();
+  return saveFile;
+}
