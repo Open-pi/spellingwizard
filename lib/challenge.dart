@@ -185,20 +185,14 @@ class _ChallengePageState extends State<ChallengePage> {
           child: _inputWordForm(),
         ),
       ),
-      Container(
-        height: 159,
-        child: Align(
-          alignment: FractionalOffset.bottomCenter,
-          child: BuiltInKeyboard(
-            layoutType: 'EN',
-            enableUppercaseAll: true,
-            borderRadius: BorderRadius.circular(8.0),
-            letterStyle: TextStyle(fontSize: 25, color: Colors.black),
-            controller: this.enableTextController
-                ? this.textController
-                : TextEditingController(),
-          ),
-        ),
+      BuiltInKeyboard(
+        layoutType: 'EN',
+        enableUppercaseAll: true,
+        borderRadius: BorderRadius.circular(8.0),
+        letterStyle: TextStyle(fontSize: 25, color: Colors.black),
+        controller: this.enableTextController
+            ? this.textController
+            : TextEditingController(),
       ),
     ];
   }
