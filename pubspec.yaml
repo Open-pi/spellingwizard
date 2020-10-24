@@ -38,6 +38,7 @@ dependencies:
     git:
       url: https://github.com/Open-Segmentation-Systems/BuiltInKeyboard.git
       ref: main
+  splashscreen:
 
 
 dev_dependencies:

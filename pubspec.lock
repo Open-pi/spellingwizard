@@ -22,6 +22,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0"
+  built_in_keyboard:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: main
+      resolved-ref: e83e4d31387069e7caf0717eb62779f23f40dd64
+      url: "https://github.com/Open-Segmentation-Systems/BuiltInKeyboard.git"
+    source: git
+    version: "0.0.1"
   characters:
     dependency: transitive
     description:
@@ -238,6 +247,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.7.0"
+  splashscreen:
+    dependency: "direct main"
+    description:
+      name: splashscreen
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.2.0"
   stack_trace:
     dependency: transitive
     description:
@@ -324,4 +340,4 @@ packages:
     version: "0.1.0"
 sdks:
   dart: ">=2.9.0-14.0.dev <3.0.0"
-  flutter: ">=1.12.13+hotfix.5 <2.0.0"
+  flutter: ">=1.17.0 <2.0.0"
