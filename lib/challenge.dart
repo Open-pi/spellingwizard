@@ -77,7 +77,7 @@ class _ChallengePageState extends State<ChallengePage> {
       resizeToAvoidBottomPadding: true,
       appBar: AppBar(
         title: Text(widget.title),
-        backgroundColor: widget.accentColor,
+        backgroundColor: Colors.purple[900],
         centerTitle: true,
         automaticallyImplyLeading: false,
       ),
@@ -100,9 +100,9 @@ class _ChallengePageState extends State<ChallengePage> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(4.5),
             gradient: LinearGradient(
-              begin: Alignment.topLeft,
+              begin: Alignment.topRight,
               end: Alignment.bottomCenter,
-              stops: [0.01, 1],
+              stops: [0.2, 1],
               colors: [Colors.purple, Colors.deepOrange],
             ),
           ),
@@ -584,7 +584,7 @@ final infoDevider = Divider(
 progressIndicator({int step, int totalSteps}) => StepProgressIndicator(
       totalSteps: totalSteps,
       currentStep: step,
-      selectedColor: Colors.purple,
+      selectedColor: Colors.purple[900],
       unselectedColor: Colors.grey,
       size: 8,
       padding: 1,

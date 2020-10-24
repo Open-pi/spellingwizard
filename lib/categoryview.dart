@@ -17,10 +17,11 @@ class CategoryView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.purple[900],
       appBar: AppBar(
         title: Text(this.title),
         centerTitle: true,
-        backgroundColor: this.color,
+        backgroundColor: Colors.purple[900],
       ),
       body: _categListView(context),
     );

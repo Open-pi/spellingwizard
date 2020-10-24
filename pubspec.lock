@@ -41,7 +41,7 @@ packages:
     description:
       path: "."
       ref: main
-      resolved-ref: e83e4d31387069e7caf0717eb62779f23f40dd64
+      resolved-ref: bd1f87fc91c6172f0f715263ea723cca5a07467e
       url: "https://github.com/Open-Segmentation-Systems/BuiltInKeyboard.git"
     source: git
     version: "0.0.1"
