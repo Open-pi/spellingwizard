@@ -1,4 +1,4 @@
-import 'package:built_in_keyboard/builtInKeyboard.dart';
+import 'package:built_in_keyboard/built_in_keyboard.dart';
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audio_cache.dart';
 import 'package:tuple/tuple.dart';
