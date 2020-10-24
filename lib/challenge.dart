@@ -13,7 +13,8 @@ class ChallengePage extends StatefulWidget {
   final List<Word> wordList;
   final Color accentColor;
   final Tuple3 prefix;
-  ChallengePage(this.wordList, this.accentColor, this.prefix);
+  final String title;
+  ChallengePage(this.wordList, this.accentColor, this.prefix, this.title);
   @override
   _ChallengePageState createState() => _ChallengePageState();
 }
@@ -75,8 +76,10 @@ class _ChallengePageState extends State<ChallengePage> {
     return Scaffold(
       resizeToAvoidBottomPadding: true,
       appBar: AppBar(
-        title: Text('Challenge'),
+        title: Text(widget.title),
         backgroundColor: widget.accentColor,
+        centerTitle: true,
+        automaticallyImplyLeading: false,
       ),
       body: Column(
         children: body(),

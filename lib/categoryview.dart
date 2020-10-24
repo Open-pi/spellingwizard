@@ -37,6 +37,7 @@ class CategoryView extends StatelessWidget {
 
     return ListView.builder(
       itemCount: this.itemCount,
+      padding: EdgeInsets.only(top: 3.0),
       itemBuilder: (_, index) {
         List<Color> colors;
         Icon rateIcon;
@@ -98,7 +99,10 @@ class CategoryView extends StatelessWidget {
                       CupertinoPageRoute(
                           maintainState: true,
                           builder: (BuildContext context) => ChallengePage(
-                              wordList, this.color, audioPrefix)));
+                              wordList,
+                              this.color,
+                              audioPrefix,
+                              '${this.title} Challenge ${index + 1}')));
                 }
               },
             ),
