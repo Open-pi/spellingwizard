@@ -57,6 +57,8 @@ class GridDashboardState extends State<GridDashboard> {
                   Navigator.push(
                     context,
                     PageRouteBuilder(
+                      transitionDuration: Duration(milliseconds: 250),
+                      reverseTransitionDuration: Duration(milliseconds: 150),
                       transitionsBuilder:
                           (context, animation, secondaryAnimation, child) {
                         animation = CurvedAnimation(
