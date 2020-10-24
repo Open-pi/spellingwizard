@@ -22,14 +22,11 @@ class HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return new SplashScreen(
-        navigateAfterFuture: loadFromFuture(),
-        title: new Text(
-          'Welcome to SpellingWizard\n\tmade by OSS',
-          style: new TextStyle(
-              fontWeight: FontWeight.bold, fontSize: 20.0, color: Colors.white),
-        ),
-        image: new Image.asset('assets/splash_icon.png'),
-        backgroundColor: Colors.purple[900],
-        loaderColor: Colors.purple);
+      navigateAfterFuture: loadFromFuture(),
+      image: new Image.asset('assets/splash_icon.png'),
+      photoSize: 120.0,
+      backgroundColor: Colors.purple[900],
+      loaderColor: Colors.white,
+    );
   }
 }
