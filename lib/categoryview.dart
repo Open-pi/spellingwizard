@@ -11,9 +11,8 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 class CategoryView extends StatelessWidget {
   final String title;
   final int itemCount;
-  final Color color;
   final SaveFile saveFile;
-  CategoryView({this.title, this.itemCount, this.color, this.saveFile});
+  CategoryView({this.title, this.itemCount, this.saveFile});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -101,7 +100,6 @@ class CategoryView extends StatelessWidget {
                           maintainState: true,
                           builder: (BuildContext context) => ChallengePage(
                               wordList,
-                              this.color,
                               audioPrefix,
                               '${this.title} Challenge ${index + 1}')));
                 }

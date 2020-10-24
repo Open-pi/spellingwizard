@@ -12,37 +12,6 @@ class GridDashboard extends StatefulWidget {
 }
 
 class GridDashboardState extends State<GridDashboard> {
-  Items item1 = new Items(
-      title: "Verbs",
-      subtitle: "Verbs are essential",
-      event: "6",
-      img: "assets/verbs_category.png");
-
-  Items item2 = new Items(
-    title: "Family",
-    subtitle: "",
-    event: "3",
-    img: "assets/family_category.png",
-  );
-  Items item3 = new Items(
-    title: "Tools",
-    subtitle: "",
-    event: "6",
-    img: "assets/tools_category.png",
-  );
-  Items item4 = new Items(
-    title: "Animals",
-    subtitle: "",
-    event: "6",
-    img: "assets/animals_category.png",
-  );
-  Items item5 = new Items(
-    title: "Abstract",
-    subtitle: "these are hard",
-    event: "2",
-    img: "assets/abstract_category.png",
-  );
-
   @override
   Widget build(BuildContext context) {
     return Flexible(

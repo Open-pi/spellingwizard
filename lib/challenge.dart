@@ -11,16 +11,16 @@ import 'dart:io';
 
 class ChallengePage extends StatefulWidget {
   final List<Word> wordList;
-  final Color accentColor;
   final Tuple3 prefix;
   final String title;
-  ChallengePage(this.wordList, this.accentColor, this.prefix, this.title);
+  ChallengePage(this.wordList, this.prefix, this.title);
   @override
   _ChallengePageState createState() => _ChallengePageState();
 }
 
 class _ChallengePageState extends State<ChallengePage> {
   // challenge variables
+  Color accentColor = Colors.purple[500];
   int i = 0;
   int attempt = 3;
   final TextEditingController textController = new TextEditingController();
@@ -94,7 +94,7 @@ class _ChallengePageState extends State<ChallengePage> {
       ),
       progressIndicator(step: this.i + 1, totalSteps: widget.wordList.length),
       Card(
-        color: widget.accentColor,
+        color: this.accentColor,
         margin: EdgeInsets.all(16.0),
         child: Container(
           decoration: BoxDecoration(
@@ -220,10 +220,10 @@ class _ChallengePageState extends State<ChallengePage> {
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(25.0),
-                borderSide: BorderSide(width: 3.0, color: widget.accentColor),
+                borderSide: BorderSide(width: 3.0, color: this.accentColor),
               ),
               labelStyle: TextStyle(
-                  fontWeight: FontWeight.w900, color: widget.accentColor),
+                  fontWeight: FontWeight.w900, color: this.accentColor),
               hintText: '${this.hintText}',
               floatingLabelBehavior: FloatingLabelBehavior.always,
               suffixIcon: IconButton(
@@ -365,7 +365,7 @@ class _ChallengePageState extends State<ChallengePage> {
                   child: Icon(
                     Icons.play_arrow,
                     size: 40,
-                    color: widget.accentColor,
+                    color: this.accentColor,
                   ),
                 ),
               ),
@@ -520,7 +520,7 @@ class _ChallengePageState extends State<ChallengePage> {
                 Text('Answers',
                     style: TextStyle(
                       fontSize: 25,
-                      color: widget.accentColor,
+                      color: this.accentColor,
                       fontWeight: FontWeight.bold,
                     )),
                 SizedBox(

@@ -27,6 +27,7 @@ class HomeState extends State<Home> {
       photoSize: 120.0,
       backgroundColor: Colors.purple[900],
       loaderColor: Colors.white,
+      seconds: 2,
     );
   }
 }
