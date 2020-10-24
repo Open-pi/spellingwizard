@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:SpellingWizard/dashboard.dart';
+import 'package:splashscreen/splashscreen.dart';
 
 void main() =>
     runApp(MaterialApp(theme: ThemeData(fontFamily: 'Raleway'), home: Home()));
@@ -10,11 +13,25 @@ class Home extends StatefulWidget {
 }
 
 class HomeState extends State<Home> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
+  Future<Widget> loadFromFuture() async {
+    // load our stuff
+    return Future.value(new Scaffold(
       backgroundColor: Colors.purple[900],
       body: homePage(),
-    );
+    ));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return new SplashScreen(
+        navigateAfterFuture: loadFromFuture(),
+        title: new Text(
+          'Welcome to SpellingWizard\n\tmade by OSS',
+          style: new TextStyle(
+              fontWeight: FontWeight.bold, fontSize: 20.0, color: Colors.white),
+        ),
+        image: new Image.asset('assets/wizard.png'),
+        backgroundColor: Colors.purple[900],
+        loaderColor: Colors.purple);
   }
 }
