@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'categoryview.dart';
 import 'package:SpellingWizard/save.dart';
@@ -55,30 +56,14 @@ class GridDashboardState extends State<GridDashboard> {
             return InkWell(
                 onTap: () async {
                   Navigator.push(
-                    context,
-                    PageRouteBuilder(
-                      transitionDuration: Duration(milliseconds: 250),
-                      reverseTransitionDuration: Duration(milliseconds: 150),
-                      transitionsBuilder:
-                          (context, animation, secondaryAnimation, child) {
-                        animation = CurvedAnimation(
-                            parent: animation, curve: Curves.easeInOut);
-                        return ScaleTransition(
-                          alignment: Alignment.center,
-                          scale: animation,
-                          child: child,
-                        );
-                      },
-                      pageBuilder: (context, animation, secondaryAnimation) {
-                        return CategoryView(
-                          title: data.title,
-                          itemCount: int.parse(data.event),
-                          color: Colors.purple[500],
-                          saveFile: data.saveFile,
-                        );
-                      },
-                    ),
-                  );
+                      context,
+                      CupertinoPageRoute(
+                          maintainState: true,
+                          builder: (BuildContext context) => CategoryView(
+                                title: data.title,
+                                itemCount: int.parse(data.event),
+                                saveFile: data.saveFile,
+                              )));
                 },
                 child: Container(
                   decoration: BoxDecoration(
