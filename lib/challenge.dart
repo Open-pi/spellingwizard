@@ -75,6 +75,7 @@ class _ChallengePageState extends State<ChallengePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomPadding: true,
+      backgroundColor: Colors.purple[900],
       appBar: AppBar(
         title: Text(widget.title),
         backgroundColor: Colors.purple[900],
@@ -178,22 +179,25 @@ class _ChallengePageState extends State<ChallengePage> {
           ),
         ),
       ),
-      Text('You Have ${this.attempt} attempt(s) left.'),
-      Expanded(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
-          child: _inputWordForm(),
-        ),
+      Text(
+        'You Have ${this.attempt} attempt(s) left.',
+        style: TextStyle(color: Colors.white),
       ),
+      Padding(
+        padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+        child: _inputWordForm(),
+      ),
+      Spacer(),
       BuiltInKeyboard(
         layoutType: 'EN',
-        enableUppercaseAll: true,
+        enableAllUppercase: true,
         borderRadius: BorderRadius.circular(8.0),
         letterStyle: TextStyle(fontSize: 25, color: Colors.black),
         controller: this.enableTextController
             ? this.textController
             : TextEditingController(),
       ),
+      Spacer(),
     ];
   }
 
@@ -225,6 +229,7 @@ class _ChallengePageState extends State<ChallengePage> {
               labelStyle: TextStyle(
                   fontWeight: FontWeight.w900, color: this.accentColor),
               hintText: '${this.hintText}',
+              hintStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
               floatingLabelBehavior: FloatingLabelBehavior.always,
               suffixIcon: IconButton(
                 onPressed: () => _inputFieldUpdate(this.textController.text),

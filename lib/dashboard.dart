@@ -22,64 +22,68 @@ class GridDashboardState extends State<GridDashboard> {
           crossAxisSpacing: 18,
           mainAxisSpacing: 18,
           children: widget.myList.map((data) {
-            return InkWell(
-                onTap: () async {
-                  Navigator.push(
-                      context,
-                      CupertinoPageRoute(
-                          maintainState: true,
-                          builder: (BuildContext context) => CategoryView(
-                                title: data.title,
-                                itemCount: int.parse(data.event),
-                                saveFile: data.saveFile,
-                              )));
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          colors: [Colors.purple, Colors.orange[900]]),
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Image.asset(
-                        data.img,
-                        width: 42,
-                      ),
-                      SizedBox(
-                        height: 14,
-                      ),
-                      Text(
-                        data.title,
-                        style: TextStyle(
-                            fontSize: 18,
-                            fontFamily: 'Raleway',
-                            fontWeight: FontWeight.w900,
-                            color: Colors.white),
-                      ),
-                      SizedBox(
-                        height: 8,
-                      ),
-                      Text(
-                        data.subtitle,
-                        style: TextStyle(
-                            fontSize: 12,
-                            fontFamily: 'Raleway',
-                            fontWeight: FontWeight.w100,
-                            color: Colors.black),
-                      ),
-                      SizedBox(
-                        height: 14,
-                      ),
-                      Text(
-                        data.event,
-                      ),
-                    ],
-                  ),
-                ));
+            return Material(
+              color: Colors.purple[900],
+              borderRadius: BorderRadius.circular(10),
+              child: InkWell(
+                  onTap: () async {
+                    Navigator.push(
+                        context,
+                        CupertinoPageRoute(
+                            maintainState: true,
+                            builder: (BuildContext context) => CategoryView(
+                                  title: data.title,
+                                  itemCount: int.parse(data.event),
+                                  saveFile: data.saveFile,
+                                )));
+                  },
+                  child: Ink(
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [Colors.purple, Colors.orange[900]]),
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Image.asset(
+                          data.img,
+                          width: 42,
+                        ),
+                        SizedBox(
+                          height: 14,
+                        ),
+                        Text(
+                          data.title,
+                          style: TextStyle(
+                              fontSize: 18,
+                              fontFamily: 'Raleway',
+                              fontWeight: FontWeight.w900,
+                              color: Colors.white),
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Text(
+                          data.subtitle,
+                          style: TextStyle(
+                              fontSize: 12,
+                              fontFamily: 'Raleway',
+                              fontWeight: FontWeight.w100,
+                              color: Colors.black),
+                        ),
+                        SizedBox(
+                          height: 14,
+                        ),
+                        Text(
+                          data.event,
+                        ),
+                      ],
+                    ),
+                  )),
+            );
           }).toList()),
     );
   }

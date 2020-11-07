@@ -8,17 +8,25 @@ import 'package:SpellingWizard/save.dart';
 import 'package:tuple/tuple.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
-class CategoryView extends StatelessWidget {
+class CategoryView extends StatefulWidget {
   final String title;
   final int itemCount;
   final SaveFile saveFile;
   CategoryView({this.title, this.itemCount, this.saveFile});
   @override
+  _CategoryViewState createState() => _CategoryViewState();
+}
+
+class _CategoryViewState extends State<CategoryView> {
+  int fileLen;
+  List<Word> wordList = [];
+  List<List<Word>> fileWordList = [];
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.purple[900],
       appBar: AppBar(
-        title: Text(this.title),
+        title: Text(widget.title),
         centerTitle: true,
         backgroundColor: Colors.purple[900],
       ),
@@ -30,19 +38,19 @@ class CategoryView extends StatelessWidget {
     List<Word> wordList = [];
     loadAsset(int index) async {
       final myData = await rootBundle.loadString(
-          "assets/categories/${this.title}_words/challenge$index.csv");
+          "assets/categories/${widget.title}_words/challenge$index.csv");
       List<List<dynamic>> data = CsvToListConverter().convert(myData);
       wordList = convertListToWords(data);
     }
 
     return ListView.builder(
-      itemCount: this.itemCount,
+      itemCount: widget.itemCount,
       padding: EdgeInsets.only(top: 3.0),
       itemBuilder: (_, index) {
         List<Color> colors;
         Icon rateIcon;
         Icon stateIcon;
-        if (saveFile.playable(index)) {
+        if (widget.saveFile.playable(index)) {
           colors = [Colors.purple, Colors.deepOrange];
           rateIcon = Icon(
             Icons.star,
@@ -62,48 +70,55 @@ class CategoryView extends StatelessWidget {
             color: Colors.black45,
           );
         }
-        return Card(
-          child: Container(
-            decoration: BoxDecoration(
+        return Container(
+          margin: EdgeInsets.all(4),
+          child: Material(
+            borderRadius: BorderRadius.circular(4.5),
+            color: Colors.purple,
+            child: Ink(
+              decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(4.5),
                 gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomCenter,
-                    stops: [0.01, 1],
-                    colors: colors)),
-            child: ListTile(
-              title: Text(
-                'Challenge number ${index + 1}',
-                style: TextStyle(fontWeight: FontWeight.w600),
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomCenter,
+                  stops: [0.01, 1],
+                  colors: colors,
+                ),
               ),
-              subtitle: Text('Put Small Description Here'),
-              leading: RatingBarIndicator(
-                rating: saveFile.isColored(index).toDouble(),
-                direction: Axis.horizontal,
-                itemCount: 3,
-                itemPadding: EdgeInsets.symmetric(horizontal: 0),
-                itemBuilder: (context, _) => rateIcon,
-                itemSize: 38,
+              child: ListTile(
+                title: Text(
+                  'Challenge ${index + 1}',
+                  style: TextStyle(fontWeight: FontWeight.w600),
+                ),
+                subtitle: Text('Put Small Description Here'),
+                leading: RatingBarIndicator(
+                  rating: widget.saveFile.isColored(index).toDouble(),
+                  direction: Axis.horizontal,
+                  itemCount: 3,
+                  itemPadding: EdgeInsets.symmetric(horizontal: 0),
+                  itemBuilder: (context, _) => rateIcon,
+                  itemSize: 38,
+                ),
+                trailing: stateIcon,
+                onTap: () async {
+                  Tuple3 audioPrefix = Tuple3<String, int, String>(
+                    'assets/categories/${widget.title}_words/challenges_audio/',
+                    index,
+                    widget.title,
+                  );
+                  await loadAsset(index);
+                  if (widget.saveFile.playable(index)) {
+                    Navigator.push(
+                        context,
+                        CupertinoPageRoute(
+                            maintainState: true,
+                            builder: (BuildContext context) => ChallengePage(
+                                wordList,
+                                audioPrefix,
+                                '${widget.title} Challenge ${index + 1}')));
+                  }
+                },
               ),
-              trailing: stateIcon,
-              onTap: () async {
-                Tuple3 audioPrefix = Tuple3<String, int, String>(
-                  'assets/categories/${this.title}_words/challenges_audio/',
-                  index,
-                  this.title,
-                );
-                await loadAsset(index);
-                if (saveFile.playable(index)) {
-                  Navigator.push(
-                      context,
-                      CupertinoPageRoute(
-                          maintainState: true,
-                          builder: (BuildContext context) => ChallengePage(
-                              wordList,
-                              audioPrefix,
-                              '${this.title} Challenge ${index + 1}')));
-                }
-              },
             ),
           ),
         );
