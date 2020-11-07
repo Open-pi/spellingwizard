@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'categoryview.dart';
 import 'package:SpellingWizard/save.dart';
-import 'dart:io';
 
 class GridDashboard extends StatefulWidget {
   final List<Items> myList;
@@ -56,7 +55,7 @@ class GridDashboardState extends State<GridDashboard> {
                         data.title,
                         style: TextStyle(
                             fontSize: 18,
-                            fontFamily: 'Raleway',
+                            fontFamily: 'WorkSans',
                             fontWeight: FontWeight.w900,
                             color: Colors.white),
                       ),
@@ -67,7 +66,7 @@ class GridDashboardState extends State<GridDashboard> {
                         data.subtitle,
                         style: TextStyle(
                             fontSize: 12,
-                            fontFamily: 'Raleway',
+                            fontFamily: 'WorkSans',
                             fontWeight: FontWeight.w100,
                             color: Colors.black),
                       ),
@@ -152,7 +151,7 @@ Column homePage(List<Items> items) {
               Text("Spelling Wizard",
                   style: TextStyle(
                       fontSize: 30,
-                      fontFamily: 'Raleway',
+                      fontFamily: 'WorkSans',
                       fontWeight: FontWeight.w900,
                       color: Colors.white)),
               SizedBox(
@@ -162,7 +161,7 @@ Column homePage(List<Items> items) {
                 "Challenges",
                 style: TextStyle(
                     fontSize: 15,
-                    fontFamily: 'Raleway',
+                    fontFamily: 'WorkSans',
                     fontWeight: FontWeight.w100,
                     color: Colors.white),
               ),
