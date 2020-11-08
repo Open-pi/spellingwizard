@@ -14,7 +14,7 @@ class HomeState extends State<Home> {
   Future<Widget> loadFromFuture() async {
     List<Items> items = await categoryList();
     return Future.value(new Scaffold(
-      backgroundColor: Colors.purple[900],
+      backgroundColor: Colors.deepPurpleAccent[700],
       body: homePage(items),
     ));
   }

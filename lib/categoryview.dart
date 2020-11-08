@@ -24,13 +24,31 @@ class _CategoryViewState extends State<CategoryView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.purple[900],
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
-        title: Text(widget.title),
+        elevation: 0,
+        title: Text(
+          widget.title,
+          style: TextStyle(
+              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 21),
+        ),
         centerTitle: true,
-        backgroundColor: Colors.purple[900],
+        backgroundColor: Colors.deepPurpleAccent[100],
       ),
-      body: _categListView(context),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            stops: [0.01, 1],
+            colors: [
+              Colors.deepPurpleAccent[100],
+              Colors.deepPurpleAccent[700]
+            ],
+          ),
+        ),
+        child: _categListView(context),
+      ),
     );
   }
 
@@ -50,31 +68,48 @@ class _CategoryViewState extends State<CategoryView> {
         List<Color> colors;
         Icon rateIcon;
         Icon stateIcon;
+        TextStyle titleStyle;
+        TextStyle subStyle;
         if (widget.saveFile.playable(index)) {
-          colors = [Colors.purple, Colors.deepOrange];
+          colors = [Colors.deepPurpleAccent[700], Colors.purpleAccent[700]];
           rateIcon = Icon(
             Icons.star,
             color: Colors.amber,
           );
           stateIcon = Icon(
             Icons.arrow_forward,
+            color: Colors.white,
           );
+          titleStyle = TextStyle(
+            fontWeight: FontWeight.w600,
+            color: Colors.white,
+          );
+          subStyle = TextStyle(color: Colors.white);
         } else {
-          colors = [Colors.purple[900], Colors.deepOrange[900]];
+          colors = [
+            darken(Colors.deepPurpleAccent[700]),
+            darken(Colors.purpleAccent[700])
+          ];
           rateIcon = Icon(
             Icons.star,
             color: Colors.black38,
           );
           stateIcon = Icon(
             Icons.lock,
-            color: Colors.black45,
+            color: Colors.white38,
           );
+          titleStyle = TextStyle(
+            fontWeight: FontWeight.w600,
+            color: Colors.white38,
+          );
+          subStyle = TextStyle(color: Colors.white38);
         }
         return Container(
           margin: EdgeInsets.all(4),
           child: Material(
+            elevation: 6,
             borderRadius: BorderRadius.circular(4.5),
-            color: Colors.purple,
+            color: Colors.transparent,
             child: Ink(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(4.5),
@@ -88,9 +123,12 @@ class _CategoryViewState extends State<CategoryView> {
               child: ListTile(
                 title: Text(
                   'Challenge ${index + 1}',
-                  style: TextStyle(fontWeight: FontWeight.w600),
+                  style: titleStyle,
                 ),
-                subtitle: Text('Put Small Description Here'),
+                subtitle: Text(
+                  'Put Small Description Here',
+                  style: subStyle,
+                ),
                 leading: RatingBarIndicator(
                   rating: widget.saveFile.isColored(index).toDouble(),
                   direction: Axis.horizontal,
@@ -125,4 +163,13 @@ class _CategoryViewState extends State<CategoryView> {
       },
     );
   }
+}
+
+Color darken(Color color, [double amount = .29]) {
+  assert(amount >= 0 && amount <= 1);
+
+  final hsl = HSLColor.fromColor(color);
+  final hslDark = hsl.withLightness((hsl.lightness - amount).clamp(0.0, 1.0));
+
+  return hslDark.toColor();
 }

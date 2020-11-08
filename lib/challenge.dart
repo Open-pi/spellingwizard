@@ -20,6 +20,7 @@ class ChallengePage extends StatefulWidget {
 
 class _ChallengePageState extends State<ChallengePage> {
   // challenge variables
+  double screenHeight;
   Color accentColor = Colors.purple[500];
   int i = 0;
   int attempt = 3;
@@ -75,13 +76,7 @@ class _ChallengePageState extends State<ChallengePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomPadding: true,
-      backgroundColor: Colors.purple[900],
-      appBar: AppBar(
-        title: Text(widget.title),
-        backgroundColor: Colors.purple[900],
-        centerTitle: true,
-        automaticallyImplyLeading: false,
-      ),
+      backgroundColor: Colors.deepPurpleAccent[700],
       body: Column(
         children: body(),
       ),
@@ -89,110 +84,133 @@ class _ChallengePageState extends State<ChallengePage> {
   }
 
   List<Widget> body() {
+    this.screenHeight = MediaQuery.of(context).size.height;
+    double height = this.screenHeight < 550
+        ? this.screenHeight * 0.004
+        : this.screenHeight * 0.13;
     return [
-      SizedBox(
-        height: 2,
-      ),
-      progressIndicator(step: this.i + 1, totalSteps: widget.wordList.length),
-      Card(
-        color: this.accentColor,
-        margin: EdgeInsets.all(16.0),
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(4.5),
-            gradient: LinearGradient(
-              begin: Alignment.topRight,
-              end: Alignment.bottomCenter,
-              stops: [0.2, 1],
-              colors: [Colors.purple, Colors.deepOrange],
-            ),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Row(
-                  children: [
-                    Container(
-                      width: 25,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.greenAccent[400],
-                        border: Border.all(
-                          color: Colors.black,
-                        ),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(5, 3, 5, 5),
-                        child: Text(
-                          '$correctAnswers',
-                          textAlign: TextAlign.center,
-                          textScaleFactor: 0.8,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      width: 25,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.redAccent[400],
-                        border: Border.all(
-                          color: Colors.black,
-                        ),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.fromLTRB(5, 3, 5, 5),
-                        child: Text(
-                          '$incorrectAnswers',
-                          textAlign: TextAlign.center,
-                          textScaleFactor: 0.8,
-                        ),
-                      ),
-                    ),
-                  ],
-                  mainAxisAlignment: MainAxisAlignment.end,
-                ),
-                _playButton(context),
-                Text(
-                  '${widget.wordList[this.i].word.toLowerCase()}',
-                  style: headinSyle,
-                  textAlign: TextAlign.center,
-                ),
-                infoDevider,
-                Text(
-                  'Meaning: ${widget.wordList[this.i].meaning}',
-                  textAlign: TextAlign.center,
-                ),
-                infoDevider,
-                Text(
-                  'Usage: ${widget.wordList[this.i].usage}',
-                  textAlign: TextAlign.center,
-                ),
-                infoDevider,
-                Text(
-                  'Phonetic: ${widget.wordList[this.i].phonetic}',
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            ),
+      Container(
+        padding: EdgeInsets.only(bottom: height),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(60),
+            bottomRight: Radius.circular(60),
           ),
         ),
-      ),
-      Text(
-        'You Have ${this.attempt} attempt(s) left.',
-        style: TextStyle(color: Colors.white),
-      ),
-      Padding(
-        padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
-        child: _inputWordForm(),
+        child: Column(
+          children: [
+            SizedBox(
+              height: 2,
+            ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(8.0, 25.0, 8.0, 0.0),
+              child: progressIndicator(
+                  step: this.i + 1, totalSteps: widget.wordList.length),
+            ),
+            Container(
+              margin: EdgeInsets.all(16.0),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5.0),
+                color: Colors.deepPurpleAccent[700],
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(12),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(right: 2),
+                          width: 25,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(9.0),
+                            color: Colors.lightGreen,
+                            border: Border.all(
+                              color: Colors.white,
+                            ),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(5, 3, 5, 5),
+                            child: Text(
+                              '$correctAnswers',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w600, fontSize: 10.5),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(left: 2),
+                          width: 25,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(9.0),
+                            color: Colors.red[400],
+                            border: Border.all(
+                              color: Colors.white,
+                            ),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.fromLTRB(5, 3, 5, 5),
+                            child: Text(
+                              '$incorrectAnswers',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w600, fontSize: 10.5),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    _playButton(context),
+                    Text(
+                      '${widget.wordList[this.i].word.toLowerCase()}',
+                      style: headinSyle,
+                      textAlign: TextAlign.center,
+                    ),
+                    infoDevider,
+                    Text(
+                      'Meaning: ${widget.wordList[this.i].meaning}',
+                      style: TextStyle(color: Colors.white),
+                      textAlign: TextAlign.center,
+                    ),
+                    infoDevider,
+                    Text(
+                      'Usage: ${widget.wordList[this.i].usage}',
+                      style: TextStyle(color: Colors.white),
+                      textAlign: TextAlign.center,
+                    ),
+                    infoDevider,
+                    Text(
+                      'Phonetic: ${widget.wordList[this.i].phonetic}',
+                      style: TextStyle(color: Colors.white),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Text(
+              'You Have ${this.attempt} attempt(s) left.',
+              style: TextStyle(color: Colors.black),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+              child: _inputWordForm(),
+            ),
+          ],
+        ),
       ),
       Spacer(),
       BuiltInKeyboard(
         layoutType: 'EN',
         enableAllUppercase: true,
+        color: Colors.deepPurpleAccent[700],
         borderRadius: BorderRadius.circular(8.0),
-        letterStyle: TextStyle(fontSize: 25, color: Colors.black),
+        letterStyle: TextStyle(
+            fontSize: 25, color: Colors.white, fontWeight: FontWeight.w600),
         controller: this.enableTextController
             ? this.textController
             : TextEditingController(),
@@ -208,6 +226,7 @@ class _ChallengePageState extends State<ChallengePage> {
             controller: textController,
             onFieldSubmitted: (userWord) => _inputFieldUpdate(userWord),
             readOnly: true,
+            autocorrect: false,
             keyboardType: TextInputType.name,
             style: TextStyle(
               fontWeight: FontWeight.bold,
@@ -220,11 +239,13 @@ class _ChallengePageState extends State<ChallengePage> {
               filled: true,
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(25.0),
-                borderSide: BorderSide(width: 3.0, color: Colors.deepOrange),
+                borderSide:
+                    BorderSide(width: 3.0, color: Colors.deepPurpleAccent[700]),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(25.0),
-                borderSide: BorderSide(width: 3.0, color: this.accentColor),
+                borderSide:
+                    BorderSide(width: 3.0, color: Colors.deepPurpleAccent[700]),
               ),
               labelStyle: TextStyle(
                   fontWeight: FontWeight.w900, color: this.accentColor),
@@ -255,8 +276,10 @@ class _ChallengePageState extends State<ChallengePage> {
           this.answerList.add(Row(
                 children: [
                   Text('${this.i + 1} - ',
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.amber)),
                   Text('${widget.wordList[this.i].word.toUpperCase()}',
                       style: TextStyle(
                           fontSize: 20,
@@ -280,16 +303,20 @@ class _ChallengePageState extends State<ChallengePage> {
           this.answerList.add(Row(
                 children: [
                   Text('${this.i + 1} - ',
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.amber)),
                   Text('${widget.wordList[this.i].word.toUpperCase()}',
                       style: TextStyle(
                           fontSize: 20,
                           color: Colors.greenAccent[700],
                           fontWeight: FontWeight.w600)),
                   Text(' not ',
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.amber)),
                   Text('$userWord',
                       style: TextStyle(
                           fontSize: 20,
@@ -370,7 +397,7 @@ class _ChallengePageState extends State<ChallengePage> {
                   child: Icon(
                     Icons.play_arrow,
                     size: 40,
-                    color: this.accentColor,
+                    color: Colors.amber,
                   ),
                 ),
               ),
@@ -391,141 +418,140 @@ class _ChallengePageState extends State<ChallengePage> {
         );
       });
 
-  _frontChild(BuildContext context) => Dialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
-        elevation: 0,
-        child: Container(
-          height: 395,
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomCenter,
-                  stops: [0.01, 1],
-                  colors: [Colors.purple, Colors.deepOrange]),
-              shape: BoxShape.rectangle,
-              borderRadius: BorderRadius.all(Radius.circular(12))),
-          child: Column(
-            children: <Widget>[
-              Container(
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(15, 15, 15, 0),
-                  child: Column(
-                    children: [
-                      circularSlider(
-                        invalue: this.score,
-                        colors: this.scoreColor,
+  _frontChild(BuildContext context) {
+    return Dialog(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      child: Container(
+        height: 395,
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomCenter,
+                stops: [0.01, 1],
+                colors: [Colors.purple, Colors.deepPurpleAccent[700]]),
+            shape: BoxShape.rectangle,
+            borderRadius: BorderRadius.all(Radius.circular(12))),
+        child: Column(
+          children: <Widget>[
+            Container(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(15, 15, 15, 0),
+                child: Column(
+                  children: [
+                    circularSlider(
+                      invalue: this.score,
+                      colors: this.scoreColor,
+                    ),
+                    answersCount(
+                      correct: this.correctAnswers,
+                      incorrect: this.incorrectAnswers,
+                    ),
+                    FlatButton(
+                      onPressed: () {
+                        this.cardKey.currentState.toggleCard();
+                      },
+                      child: Text(
+                        'View Answers',
+                        style: TextStyle(color: Colors.blue),
                       ),
-                      answersCount(
-                        correct: this.correctAnswers,
-                        incorrect: this.incorrectAnswers,
-                      ),
-                      FlatButton(
-                        onPressed: () {
-                          this.cardKey.currentState.toggleCard();
-                        },
-                        child: Text(
-                          'View Answers',
-                          style: TextStyle(color: Colors.blue),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                width: double.infinity,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    shape: BoxShape.rectangle,
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(12),
-                        topRight: Radius.circular(12))),
-              ),
-              SizedBox(
-                height: 24,
-              ),
-              Text(
-                '${this.scoreTitle}',
-                style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold),
-              ),
-              SizedBox(
-                height: 8,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(right: 16, left: 16),
-                child: Text(
-                  '${this.scoreMessage}',
-                  style: TextStyle(color: Colors.white),
-                  textAlign: TextAlign.center,
+                    ),
+                  ],
                 ),
               ),
-              SizedBox(
-                height: 24,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  shape: BoxShape.rectangle,
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(12),
+                      topRight: Radius.circular(12))),
+            ),
+            SizedBox(
+              height: 24,
+            ),
+            Text(
+              '${this.scoreTitle}',
+              style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold),
+            ),
+            SizedBox(
+              height: 8,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 16, left: 16),
+              child: Text(
+                '${this.scoreMessage}',
+                style: TextStyle(color: Colors.white),
+                textAlign: TextAlign.center,
               ),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  FlatButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                      Navigator.pop(context);
-                    },
-                    child: Text('Quit'),
-                    textColor: Colors.white,
-                  ),
-                  SizedBox(
-                    width: 8,
-                  ),
-                  RaisedButton(
-                    onPressed: () {
-                      setState(() {
-                        this.i = 0;
-                        this.textController.text = '';
-                        this.attempt = 3;
-                        this.score = 0;
-                        this.correctAnswers = 0;
-                        this.incorrectAnswers = 0;
-                        this.scoreTitle = '';
-                        this.scoreMessage = '';
-                        this.scoreColor = [];
-                        this.answerList = [];
-                      });
-                      Navigator.pop(context, true);
-                    },
-                    child: Text('Retake'),
-                    color: Colors.white,
-                    textColor: Colors.deepOrange,
-                  )
-                ],
-              )
-            ],
-          ),
+            ),
+            SizedBox(
+              height: this.screenHeight * 0.029,
+            ),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                FlatButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                  },
+                  child: Text('Quit'),
+                  textColor: Colors.white,
+                ),
+                SizedBox(
+                  width: 8,
+                ),
+                RaisedButton(
+                  onPressed: () {
+                    setState(() {
+                      this.i = 0;
+                      this.textController.text = '';
+                      this.attempt = 3;
+                      this.score = 0;
+                      this.correctAnswers = 0;
+                      this.incorrectAnswers = 0;
+                      this.scoreTitle = '';
+                      this.scoreMessage = '';
+                      this.scoreColor = [];
+                      this.answerList = [];
+                    });
+                    Navigator.pop(context, true);
+                  },
+                  child: Text('Retake'),
+                  color: Colors.white,
+                  textColor: Colors.deepPurpleAccent[700],
+                )
+              ],
+            )
+          ],
         ),
-      );
+      ),
+    );
+  }
 
   _backChild(BuildContext context) => Dialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
+        backgroundColor: Colors.transparent,
         elevation: 0,
         child: Container(
           height: 395,
           decoration: BoxDecoration(
-              color: Colors.amber[300],
+              color: Colors.deepPurpleAccent[700],
               shape: BoxShape.rectangle,
               borderRadius: BorderRadius.all(Radius.circular(12))),
           width: double.infinity,
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(30, 20, 30, 0),
+            padding: const EdgeInsets.fromLTRB(15, 20, 15, 0),
             child: Column(
               children: [
                 Text('Answers',
+                    textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 25,
-                      color: this.accentColor,
+                      color: Colors.amber,
                       fontWeight: FontWeight.bold,
                     )),
                 SizedBox(
@@ -534,6 +560,7 @@ class _ChallengePageState extends State<ChallengePage> {
                 Container(
                   height: 280,
                   child: Scrollbar(
+                    thickness: 1,
                     child: SingleChildScrollView(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -558,7 +585,7 @@ class _ChallengePageState extends State<ChallengePage> {
                   },
                   child: Text(
                     'Go back',
-                    style: TextStyle(color: Colors.blue),
+                    style: TextStyle(color: Colors.amber),
                   ),
                 ),
               ],
@@ -568,22 +595,35 @@ class _ChallengePageState extends State<ChallengePage> {
       );
 }
 
+final headinSyleT = TextStyle(
+  fontSize: 20,
+  fontWeight: FontWeight.bold,
+  color: Colors.black,
+);
+
+final headinSyleD = TextStyle(
+  fontSize: 20,
+  fontWeight: FontWeight.w600,
+  color: Colors.black,
+);
+
 final headinSyle = TextStyle(
   fontSize: 28,
   fontWeight: FontWeight.bold,
-  color: Colors.black,
+  color: Colors.white,
   height: 1.5,
 );
 
 final infoDevider = Divider(
-  color: Colors.black,
+  color: Colors.white,
   thickness: 1.0,
 );
 
 progressIndicator({int step, int totalSteps}) => StepProgressIndicator(
+      roundedEdges: Radius.circular(10),
       totalSteps: totalSteps,
       currentStep: step,
-      selectedColor: Colors.purple[900],
+      selectedColor: Colors.deepPurpleAccent[700],
       unselectedColor: Colors.grey,
       size: 8,
       padding: 1,

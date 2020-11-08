@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'categoryview.dart';
 import 'package:SpellingWizard/save.dart';
-import 'dart:io';
 
 class GridDashboard extends StatefulWidget {
   final List<Items> myList;
@@ -23,8 +22,9 @@ class GridDashboardState extends State<GridDashboard> {
           mainAxisSpacing: 18,
           children: widget.myList.map((data) {
             return Material(
-              color: Colors.purple[900],
+              elevation: 5,
               borderRadius: BorderRadius.circular(10),
+              color: Colors.transparent,
               child: InkWell(
                   onTap: () async {
                     Navigator.push(
@@ -42,7 +42,14 @@ class GridDashboardState extends State<GridDashboard> {
                         gradient: LinearGradient(
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
-                            colors: [Colors.purple, Colors.orange[900]]),
+                            stops: [
+                              0.01,
+                              1
+                            ],
+                            colors: [
+                              Colors.deepPurpleAccent[700],
+                              Colors.purpleAccent[700]
+                            ]),
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(10)),
                     child: Column(
@@ -60,7 +67,7 @@ class GridDashboardState extends State<GridDashboard> {
                           style: TextStyle(
                               fontSize: 18,
                               fontFamily: 'Raleway',
-                              fontWeight: FontWeight.w900,
+                              fontWeight: FontWeight.bold,
                               color: Colors.white),
                         ),
                         SizedBox(
@@ -72,13 +79,18 @@ class GridDashboardState extends State<GridDashboard> {
                               fontSize: 12,
                               fontFamily: 'Raleway',
                               fontWeight: FontWeight.w100,
-                              color: Colors.black),
+                              color: Colors.white),
                         ),
                         SizedBox(
                           height: 14,
                         ),
                         Text(
                           data.event,
+                          style: TextStyle(
+                              fontSize: 12,
+                              fontFamily: 'Raleway',
+                              fontWeight: FontWeight.w100,
+                              color: Colors.white),
                         ),
                       ],
                     ),
