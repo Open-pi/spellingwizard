@@ -7,7 +7,6 @@ import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:SpellingWizard/save.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:flip_card/flip_card.dart';
-import 'dart:io';
 
 class ChallengePage extends StatefulWidget {
   final List<Word> wordList;
@@ -86,7 +85,7 @@ class _ChallengePageState extends State<ChallengePage> {
   List<Widget> body() {
     this.screenHeight = MediaQuery.of(context).size.height;
     double height = this.screenHeight < 550
-        ? this.screenHeight * 0.004
+        ? this.screenHeight * 0.00005
         : this.screenHeight * 0.13;
     return [
       Container(
@@ -197,7 +196,7 @@ class _ChallengePageState extends State<ChallengePage> {
               style: TextStyle(color: Colors.black),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+              padding: const EdgeInsets.fromLTRB(10.0, 9.3, 10.0, 0.0),
               child: _inputWordForm(),
             ),
           ],
@@ -488,7 +487,7 @@ class _ChallengePageState extends State<ChallengePage> {
               ),
             ),
             SizedBox(
-              height: this.screenHeight * 0.029,
+              height: this.screenHeight * 0.016,
             ),
             Row(
               mainAxisSize: MainAxisSize.min,
@@ -554,7 +553,7 @@ class _ChallengePageState extends State<ChallengePage> {
                       fontWeight: FontWeight.bold,
                     )),
                 SizedBox(
-                  height: 15,
+                  height: 5,
                 ),
                 Container(
                   height: 280,
@@ -569,7 +568,7 @@ class _ChallengePageState extends State<ChallengePage> {
                                   children: [
                                     row,
                                     SizedBox(
-                                      height: 13,
+                                      height: 10,
                                     )
                                   ],
                                 ))
@@ -584,7 +583,7 @@ class _ChallengePageState extends State<ChallengePage> {
                   },
                   child: Text(
                     'Go back',
-                    style: TextStyle(color: Colors.amber),
+                    style: TextStyle(color: Colors.lightBlueAccent),
                   ),
                 ),
               ],

@@ -69,7 +69,6 @@ class _CategoryViewState extends State<CategoryView> {
         Icon rateIcon;
         Icon stateIcon;
         TextStyle titleStyle;
-        TextStyle subStyle;
         if (widget.saveFile.playable(index)) {
           colors = [Colors.deepPurpleAccent[700], Colors.purpleAccent[700]];
           rateIcon = Icon(
@@ -84,7 +83,6 @@ class _CategoryViewState extends State<CategoryView> {
             fontWeight: FontWeight.w600,
             color: Colors.white,
           );
-          subStyle = TextStyle(color: Colors.white);
         } else {
           colors = [
             darken(Colors.deepPurpleAccent[700]),
@@ -102,7 +100,6 @@ class _CategoryViewState extends State<CategoryView> {
             fontWeight: FontWeight.w600,
             color: Colors.white38,
           );
-          subStyle = TextStyle(color: Colors.white38);
         }
         return Container(
           margin: EdgeInsets.all(4),
@@ -124,10 +121,6 @@ class _CategoryViewState extends State<CategoryView> {
                 title: Text(
                   'Challenge ${index + 1}',
                   style: titleStyle,
-                ),
-                subtitle: Text(
-                  'Put Small Description Here',
-                  style: subStyle,
                 ),
                 leading: RatingBarIndicator(
                   rating: widget.saveFile.isColored(index).toDouble(),
