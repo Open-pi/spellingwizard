@@ -143,6 +143,7 @@ class _ChallengePageState extends State<ChallengePage> {
                       children: [
                         Container(
                           margin: EdgeInsets.only(right: 2),
+                          padding: EdgeInsets.fromLTRB(5, 5, 5, 3),
                           width: 25,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(9.0),
@@ -151,18 +152,16 @@ class _ChallengePageState extends State<ChallengePage> {
                               color: Colors.white,
                             ),
                           ),
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(5, 3, 5, 5),
-                            child: Text(
-                              '$correctAnswers',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w600, fontSize: 10.5),
-                              textAlign: TextAlign.center,
-                            ),
+                          child: Text(
+                            '$correctAnswers',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600, fontSize: 10.5),
+                            textAlign: TextAlign.center,
                           ),
                         ),
                         Container(
                           margin: EdgeInsets.only(left: 2),
+                          padding: EdgeInsets.fromLTRB(5, 5, 5, 3),
                           width: 25,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(9.0),
@@ -171,14 +170,11 @@ class _ChallengePageState extends State<ChallengePage> {
                               color: Colors.white,
                             ),
                           ),
-                          child: Padding(
-                            padding: EdgeInsets.fromLTRB(5, 3, 5, 5),
-                            child: Text(
-                              '$incorrectAnswers',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w600, fontSize: 10.5),
-                              textAlign: TextAlign.center,
-                            ),
+                          child: Text(
+                            '$incorrectAnswers',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600, fontSize: 10.5),
+                            textAlign: TextAlign.center,
                           ),
                         ),
                       ],
