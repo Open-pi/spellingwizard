@@ -294,7 +294,7 @@ class _ChallengePageState extends State<ChallengePage> {
                       style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w600,
-                          color: Colors.amber)),
+                          color: Colors.white)),
                   Text('${widget.wordList[this.i].word.toUpperCase()}',
                       style: TextStyle(
                           fontSize: 20,
@@ -321,7 +321,7 @@ class _ChallengePageState extends State<ChallengePage> {
                       style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w600,
-                          color: Colors.amber)),
+                          color: Colors.white)),
                   Text('${widget.wordList[this.i].word.toUpperCase()}',
                       style: TextStyle(
                           fontSize: 20,
@@ -553,9 +553,14 @@ class _ChallengePageState extends State<ChallengePage> {
         child: Container(
           height: 395,
           decoration: BoxDecoration(
-              color: Colors.deepPurpleAccent[700],
-              shape: BoxShape.rectangle,
-              borderRadius: BorderRadius.all(Radius.circular(12))),
+            shape: BoxShape.rectangle,
+            borderRadius: BorderRadius.all(Radius.circular(12)),
+            gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                stops: [0.001, 1],
+                colors: [Colors.purple, Colors.deepPurpleAccent[700]]),
+          ),
           width: double.infinity,
           child: Padding(
             padding: const EdgeInsets.fromLTRB(15, 20, 15, 0),
@@ -565,7 +570,7 @@ class _ChallengePageState extends State<ChallengePage> {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 25,
-                      color: Colors.amber,
+                      color: Colors.white,
                       fontWeight: FontWeight.bold,
                     )),
                 SizedBox(
