@@ -75,9 +75,19 @@ class _ChallengePageState extends State<ChallengePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomPadding: true,
-      backgroundColor: Colors.deepPurpleAccent[700],
-      body: Column(
-        children: body(),
+      backgroundColor: Colors.transparent,
+      body: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5.0),
+          gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomCenter,
+              stops: [0.01, 1],
+              colors: [Colors.purpleAccent[700], Colors.deepPurpleAccent[700]]),
+        ),
+        child: Column(
+          children: body(),
+        ),
       ),
     );
   }
@@ -111,7 +121,17 @@ class _ChallengePageState extends State<ChallengePage> {
               margin: EdgeInsets.all(16.0),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5.0),
-                color: Colors.deepPurpleAccent[700],
+                gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomCenter,
+                    stops: [
+                      0.001,
+                      1
+                    ],
+                    colors: [
+                      Colors.purpleAccent[700],
+                      Colors.deepPurpleAccent[700]
+                    ]),
               ),
               child: Padding(
                 padding: const EdgeInsets.all(12),
@@ -206,7 +226,7 @@ class _ChallengePageState extends State<ChallengePage> {
       BuiltInKeyboard(
         layoutType: 'EN',
         enableAllUppercase: true,
-        color: Colors.deepPurpleAccent[700],
+        color: Colors.transparent,
         borderRadius: BorderRadius.circular(8.0),
         letterStyle: TextStyle(
             fontSize: 25, color: Colors.white, fontWeight: FontWeight.w600),
