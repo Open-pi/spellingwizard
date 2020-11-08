@@ -238,7 +238,7 @@ class _ChallengePageState extends State<ChallengePage> {
       );
 
   _inputFieldUpdate(String userWord) async {
-    final path = await savePath();
+    final SaveFile saveFile = await saveFileOfCategory(widget.prefix.item3);
     setState(() {
       bool move = false;
       bool endOfGame = false;
@@ -316,8 +316,7 @@ class _ChallengePageState extends State<ChallengePage> {
       }
       if (endOfGame) {
         // the save the results in the save files.
-        final file = File('$path/${widget.prefix.item3}.csv');
-        final SaveFile saveFile = SaveFile(file: file);
+
         saveFile.saveChallenge(
             widget.prefix.item2, this.correctAnswers, widget.wordList.length);
         this.score = (this.correctAnswers / widget.wordList.length) * 100;

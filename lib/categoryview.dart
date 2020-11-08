@@ -8,17 +8,22 @@ import 'package:SpellingWizard/save.dart';
 import 'package:tuple/tuple.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
-class CategoryView extends StatelessWidget {
+class CategoryView extends StatefulWidget {
   final String title;
   final int itemCount;
-  final SaveFile saveFile;
+  SaveFile saveFile;
   CategoryView({this.title, this.itemCount, this.saveFile});
+  @override
+  CategoryViewState createState() => CategoryViewState();
+}
+
+class CategoryViewState extends State<CategoryView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.purple[900],
       appBar: AppBar(
-        title: Text(this.title),
+        title: Text(widget.title),
         centerTitle: true,
         backgroundColor: Colors.purple[900],
       ),
@@ -30,19 +35,22 @@ class CategoryView extends StatelessWidget {
     List<Word> wordList = [];
     loadAsset(int index) async {
       final myData = await rootBundle.loadString(
-          "assets/categories/${this.title}_words/challenge$index.csv");
+          "assets/categories/${widget.title}_words/challenge$index.csv");
       List<List<dynamic>> data = CsvToListConverter().convert(myData);
       wordList = convertListToWords(data);
     }
 
     return ListView.builder(
-      itemCount: this.itemCount,
+      itemCount: widget.itemCount,
       padding: EdgeInsets.only(top: 3.0),
       itemBuilder: (_, index) {
         List<Color> colors;
         Icon rateIcon;
         Icon stateIcon;
-        if (saveFile.playable(index)) {
+        print(index);
+        print(widget.saveFile.playable(index));
+        widget.saveFile.printSave();
+        if (widget.saveFile.playable(index)) {
           colors = [Colors.purple, Colors.deepOrange];
           rateIcon = Icon(
             Icons.star,
@@ -78,7 +86,7 @@ class CategoryView extends StatelessWidget {
               ),
               subtitle: Text('Put Small Description Here'),
               leading: RatingBarIndicator(
-                rating: saveFile.isColored(index).toDouble(),
+                rating: widget.saveFile.isColored(index).toDouble(),
                 direction: Axis.horizontal,
                 itemCount: 3,
                 itemPadding: EdgeInsets.symmetric(horizontal: 0),
@@ -88,20 +96,26 @@ class CategoryView extends StatelessWidget {
               trailing: stateIcon,
               onTap: () async {
                 Tuple3 audioPrefix = Tuple3<String, int, String>(
-                  'assets/categories/${this.title}_words/challenges_audio/',
+                  'assets/categories/${widget.title}_words/challenges_audio/',
                   index,
-                  this.title,
+                  widget.title,
                 );
                 await loadAsset(index);
-                if (saveFile.playable(index)) {
+                if (widget.saveFile.playable(index)) {
                   Navigator.push(
-                      context,
-                      CupertinoPageRoute(
-                          maintainState: true,
-                          builder: (BuildContext context) => ChallengePage(
-                              wordList,
-                              audioPrefix,
-                              '${this.title} Challenge ${index + 1}')));
+                          context,
+                          CupertinoPageRoute(
+                              maintainState: true,
+                              builder: (BuildContext context) => ChallengePage(
+                                  wordList,
+                                  audioPrefix,
+                                  '${widget.title} Challenge ${index + 1}')))
+                      .then((value) async {
+                    SaveFile saveTmp = await saveFileOfCategory(widget.title);
+                    setState(() {
+                      widget.saveFile = saveTmp;
+                    });
+                  });
                 }
               },
             ),

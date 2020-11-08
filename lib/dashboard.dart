@@ -31,7 +31,12 @@ class GridDashboardState extends State<GridDashboard> {
                                 title: data.title,
                                 itemCount: int.parse(data.event),
                                 saveFile: data.saveFile,
-                              )));
+                              ))).then((value) async {
+                    SaveFile saveTmp = await saveFileOfCategory(data.title);
+                    setState(() {
+                      data.saveFile = saveTmp;
+                    });
+                  });
                 },
                 child: Container(
                   decoration: BoxDecoration(
