@@ -3,7 +3,7 @@ import 'package:SpellingWizard/dashboard.dart';
 import 'package:splashscreen/splashscreen.dart';
 
 void main() =>
-    runApp(MaterialApp(theme: ThemeData(fontFamily: 'Raleway'), home: Home()));
+    runApp(MaterialApp(theme: ThemeData(fontFamily: 'WorkSans'), home: Home()));
 
 class Home extends StatefulWidget {
   @override

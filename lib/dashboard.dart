@@ -35,7 +35,12 @@ class GridDashboardState extends State<GridDashboard> {
                                   title: data.title,
                                   itemCount: int.parse(data.event),
                                   saveFile: data.saveFile,
-                                )));
+                                ))).then((value) async {
+                      SaveFile saveTmp = await saveFileOfCategory(data.title);
+                      setState(() {
+                        data.saveFile = saveTmp;
+                      });
+                    });
                   },
                   child: Ink(
                     decoration: BoxDecoration(
@@ -66,7 +71,7 @@ class GridDashboardState extends State<GridDashboard> {
                           data.title,
                           style: TextStyle(
                               fontSize: 18,
-                              fontFamily: 'Raleway',
+                              fontFamily: 'WorkSans',
                               fontWeight: FontWeight.bold,
                               color: Colors.white),
                         ),
@@ -77,7 +82,7 @@ class GridDashboardState extends State<GridDashboard> {
                           data.subtitle,
                           style: TextStyle(
                               fontSize: 12,
-                              fontFamily: 'Raleway',
+                              fontFamily: 'WorkSans',
                               fontWeight: FontWeight.w100,
                               color: Colors.white),
                         ),
@@ -88,7 +93,7 @@ class GridDashboardState extends State<GridDashboard> {
                           data.event,
                           style: TextStyle(
                               fontSize: 12,
-                              fontFamily: 'Raleway',
+                              fontFamily: 'WorkSans',
                               fontWeight: FontWeight.w100,
                               color: Colors.white),
                         ),
@@ -168,7 +173,7 @@ Column homePage(List<Items> items) {
               Text("Spelling Wizard",
                   style: TextStyle(
                       fontSize: 30,
-                      fontFamily: 'Raleway',
+                      fontFamily: 'WorkSans',
                       fontWeight: FontWeight.w900,
                       color: Colors.white)),
               SizedBox(
@@ -178,7 +183,7 @@ Column homePage(List<Items> items) {
                 "Challenges",
                 style: TextStyle(
                     fontSize: 15,
-                    fontFamily: 'Raleway',
+                    fontFamily: 'WorkSans',
                     fontWeight: FontWeight.w100,
                     color: Colors.white),
               ),

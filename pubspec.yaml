@@ -66,6 +66,12 @@ flutter:
           weight: 900
         - asset: fonts/Raleway-Regular.ttf
           weight: 100
+    - family: WorkSans
+      fonts:
+        - asset: fonts/WorkSans-Bold.otf
+          weight: 900
+        - asset: fonts/WorkSans-SemiBold.otf
+          weight: 100
   
   assets:
     - assets/verbs_category.png

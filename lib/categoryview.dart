@@ -11,7 +11,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 class CategoryView extends StatefulWidget {
   final String title;
   final int itemCount;
-  final SaveFile saveFile;
+  SaveFile saveFile;
   CategoryView({this.title, this.itemCount, this.saveFile});
   @override
   _CategoryViewState createState() => _CategoryViewState();
@@ -147,13 +147,19 @@ class _CategoryViewState extends State<CategoryView> {
                   await loadAsset(index);
                   if (widget.saveFile.playable(index)) {
                     Navigator.push(
-                        context,
-                        CupertinoPageRoute(
-                            maintainState: true,
-                            builder: (BuildContext context) => ChallengePage(
-                                wordList,
-                                audioPrefix,
-                                '${widget.title} Challenge ${index + 1}')));
+                            context,
+                            CupertinoPageRoute(
+                                maintainState: true,
+                                builder: (BuildContext context) => ChallengePage(
+                                    wordList,
+                                    audioPrefix,
+                                    '${widget.title} Challenge ${index + 1}')))
+                        .then((value) async {
+                      SaveFile saveTmp = await saveFileOfCategory(widget.title);
+                      setState(() {
+                        widget.saveFile = saveTmp;
+                      });
+                    });
                   }
                 },
               ),

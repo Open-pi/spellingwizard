@@ -15,11 +15,19 @@ class SaveFile {
         utf8.decoder.bind(this.file.openRead()).transform(LineSplitter());
     try {
       await for (var line in lines) {
+        print(lines);
         List<List<dynamic>> data = CsvToListConverter().convert(line);
         SavedChallenge challenge = convertListToSavedChallenge(data);
         this.save.add(challenge);
       }
     } catch (e) {}
+  }
+
+  printSave() {
+    print(this.save.length);
+    for (var i = 0; i <= this.save.length - 1; i++) {
+      print('${this.save[i].id}, ${this.save[i].stars}');
+    }
   }
 
   playable(int id) {
@@ -57,17 +65,20 @@ class SaveFile {
       stars = 3;
     }
     if (index > this.save.length - 1) {
+      print('adding to the list');
       this.save.add(SavedChallenge(id: 'challenge$index', stars: stars));
     } else {
+      print('updating the list');
       this.save[index].stars = stars;
     }
     // re-write the file
+    printSave();
     updateFile();
   }
 
   updateFile() {
     List<List<dynamic>> rows = List<List<dynamic>>();
-    for (int i = 0; i < this.save.length; i++) {
+    for (int i = 0; i <= this.save.length - 1; i++) {
       //row refer to each column of a row in csv file and rows refer to each row in a file
       List<dynamic> row = List();
       row.add(this.save[i].id);
