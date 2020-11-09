@@ -224,6 +224,7 @@ class _ChallengePageState extends State<ChallengePage> {
         enableAllUppercase: true,
         color: Colors.transparent,
         borderRadius: BorderRadius.circular(8.0),
+        height: this.screenHeight * 0.07,
         letterStyle: TextStyle(
             fontSize: 25, color: Colors.white, fontWeight: FontWeight.w600),
         controller: this.enableTextController
