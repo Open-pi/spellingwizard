@@ -27,7 +27,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.3
   csv: ^4.0.3
-  audioplayers: ^0.16.1
+  audioplayers: ^0.16.2
   tuple: ^1.0.3
   flutter_rating_bar: ^3.0.1+1
   step_progress_indicator: ^0.2.4+7
@@ -42,6 +42,7 @@ dependencies:
     git:
       url: https://github.com/KarimMohamed20/SplashScreenFlutterPackage
       ref: master
+  flutter_svg: ^0.19.1
 
 
 dev_dependencies:
@@ -93,6 +94,9 @@ flutter:
     - assets/wizard.png
     - assets/icon.png
     - assets/splash_icon.png
+    - assets/avatar/
+    - assets/categories/Verbs_words/challenges_audio/sound_0_0.mp3
+
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.

@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:built_in_keyboard/built_in_keyboard.dart';
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audio_cache.dart';
@@ -7,6 +8,7 @@ import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:SpellingWizard/save.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:flip_card/flip_card.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class ChallengePage extends StatefulWidget {
   final List<Word> wordList;
@@ -57,17 +59,22 @@ class _ChallengePageState extends State<ChallengePage> {
   GlobalKey<FlipCardState> cardKey = GlobalKey<FlipCardState>();
 
   // related to playing audio files.
-  AudioCache player;
+  AudioCache audioCache = AudioCache();
+  AudioPlayer advancedPlayer;
+  bool isNotPlaying = true;
+
+  // avatar
+  String avatar = 'assets/avatar/avatar_rest.svg';
 
   @override
   initState() {
     super.initState();
-    player = AudioCache(prefix: widget.prefix.item1);
+    audioCache = AudioCache(prefix: widget.prefix.item1);
   }
 
   @override
   void dispose() {
-    player = null;
+    audioCache = null;
     super.dispose();
   }
 
@@ -94,9 +101,7 @@ class _ChallengePageState extends State<ChallengePage> {
 
   List<Widget> body() {
     this.screenHeight = MediaQuery.of(context).size.height;
-    double height = this.screenHeight < 550
-        ? this.screenHeight * 0.00005
-        : this.screenHeight * 0.13;
+    double height = this.screenHeight < 550 ? 0 : this.screenHeight * 0.07;
     return [
       Container(
         padding: EdgeInsets.only(bottom: height),
@@ -180,11 +185,6 @@ class _ChallengePageState extends State<ChallengePage> {
                       ],
                     ),
                     _playButton(context),
-                    Text(
-                      '${widget.wordList[this.i].word.toLowerCase()}',
-                      style: headinSyle,
-                      textAlign: TextAlign.center,
-                    ),
                     infoDevider,
                     Text(
                       'Meaning: ${widget.wordList[this.i].meaning}',
@@ -344,6 +344,7 @@ class _ChallengePageState extends State<ChallengePage> {
         }
         this.attempt--;
         if (this.attempt < 1) {
+          avatar = 'assets/avatar/avatar_cheer.svg';
           this.enableTextController = false;
           this.textController.text = widget.wordList[this.i].word.toUpperCase();
           this.inputBackgroundColor = Colors.green[100];
@@ -355,6 +356,7 @@ class _ChallengePageState extends State<ChallengePage> {
         }
       }
       if (stillPages && move) {
+        avatar = 'assets/avatar/avatar_rest.svg';
         this.attempt = 3;
         this.hintText = 'Just try...';
         this.inputBackgroundColor = Colors.white;
@@ -389,6 +391,7 @@ class _ChallengePageState extends State<ChallengePage> {
           this.scoreMessage = this.scoreMessages[1];
           this.scoreColor = this.scoreColors[2];
         }
+        avatar = 'assets/avatar/avatar_cheer.svg';
         _resultPopup(context);
       }
     });
@@ -406,20 +409,33 @@ class _ChallengePageState extends State<ChallengePage> {
                   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   padding: EdgeInsets.all(1),
                   onPressed: () {
-                    player.play('sound_${widget.prefix.item2}_${this.i}.mp3',
-                        volume: 1);
+                    if (isNotPlaying) {
+                      setState(() {
+                        avatar = 'assets/avatar/avatar_talk.svg';
+                      });
+                      play('sound_${widget.prefix.item2}_${this.i}.mp3');
+                    }
                   },
-                  child: Icon(
-                    Icons.play_arrow,
-                    size: 40,
-                    color: Colors.amber,
-                  ),
+                  child: SvgPicture.asset(this.avatar,
+                      semanticsLabel: 'Acme Logo'),
                 ),
               ),
             ),
           ],
         ),
       );
+
+  play(String path) async {
+    isNotPlaying = false;
+    AudioPlayer player = await audioCache.play(path, volume: 1);
+
+    player.onPlayerCompletion.listen((event) {
+      setState(() {
+        avatar = 'assets/avatar/avatar_rest.svg';
+        isNotPlaying = true;
+      });
+    });
+  }
 
   _resultPopup(BuildContext context) => showDialog(
       context: context,
