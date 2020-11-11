@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:SpellingWizard/dashboard.dart';
+import 'package:flutter/services.dart';
 import 'package:splashscreen/splashscreen.dart';
 
 void main() =>
@@ -21,6 +22,11 @@ class HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    if (MediaQuery.of(context).size.width < 550) {
+      SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+      ]);
+    }
     return new SplashScreen(
       navigateAfterFuture: loadFromFuture(),
       image: new Image.asset('assets/splash_icon.png'),
