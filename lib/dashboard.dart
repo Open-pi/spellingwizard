@@ -25,81 +25,88 @@ class GridDashboardState extends State<GridDashboard> {
               elevation: 5,
               borderRadius: BorderRadius.circular(10),
               color: Colors.transparent,
-              child: InkWell(
-                  onTap: () async {
-                    Navigator.push(
-                        context,
-                        CupertinoPageRoute(
-                            maintainState: true,
-                            builder: (BuildContext context) => CategoryView(
-                                  title: data.title,
-                                  itemCount: int.parse(data.event),
-                                  saveFile: data.saveFile,
-                                ))).then((value) async {
-                      SaveFile saveTmp = await saveFileOfCategory(data.title);
-                      setState(() {
-                        data.saveFile = saveTmp;
-                      });
-                    });
-                  },
-                  child: Ink(
-                    decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            stops: [
-                              0.01,
-                              1
-                            ],
-                            colors: [
-                              Colors.deepPurpleAccent[700],
-                              Colors.purpleAccent[700]
-                            ]),
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Image.asset(
-                          data.img,
-                          width: 42,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                      onTap: () async {
+                        Navigator.push(
+                            context,
+                            CupertinoPageRoute(
+                                maintainState: true,
+                                builder: (BuildContext context) => CategoryView(
+                                      title: data.title,
+                                      itemCount: int.parse(data.event),
+                                      saveFile: data.saveFile,
+                                    ))).then((value) async {
+                          SaveFile saveTmp =
+                              await saveFileOfCategory(data.title);
+                          setState(() {
+                            data.saveFile = saveTmp;
+                          });
+                        });
+                      },
+                      child: Ink(
+                        decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                                stops: [
+                                  0.01,
+                                  1
+                                ],
+                                colors: [
+                                  Colors.deepPurpleAccent[700],
+                                  Colors.purpleAccent[700]
+                                ]),
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Image.asset(
+                              data.img,
+                              width: 42,
+                            ),
+                            SizedBox(
+                              height: 14,
+                            ),
+                            Text(
+                              data.title,
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  fontFamily: 'WorkSans',
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
+                            ),
+                            SizedBox(
+                              height: 8,
+                            ),
+                            Text(
+                              data.subtitle,
+                              style: TextStyle(
+                                  fontSize: 12,
+                                  fontFamily: 'WorkSans',
+                                  fontWeight: FontWeight.w100,
+                                  color: Colors.white),
+                            ),
+                            SizedBox(
+                              height: 14,
+                            ),
+                            Text(
+                              data.event,
+                              style: TextStyle(
+                                  fontSize: 12,
+                                  fontFamily: 'WorkSans',
+                                  fontWeight: FontWeight.w100,
+                                  color: Colors.white),
+                            ),
+                          ],
                         ),
-                        SizedBox(
-                          height: 14,
-                        ),
-                        Text(
-                          data.title,
-                          style: TextStyle(
-                              fontSize: 18,
-                              fontFamily: 'WorkSans',
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white),
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Text(
-                          data.subtitle,
-                          style: TextStyle(
-                              fontSize: 12,
-                              fontFamily: 'WorkSans',
-                              fontWeight: FontWeight.w100,
-                              color: Colors.white),
-                        ),
-                        SizedBox(
-                          height: 14,
-                        ),
-                        Text(
-                          data.event,
-                          style: TextStyle(
-                              fontSize: 12,
-                              fontFamily: 'WorkSans',
-                              fontWeight: FontWeight.w100,
-                              color: Colors.white),
-                        ),
-                      ],
-                    ),
-                  )),
+                      )),
+                ),
+              ),
             );
           }).toList()),
     );

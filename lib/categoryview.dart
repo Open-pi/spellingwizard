@@ -102,59 +102,66 @@ class _CategoryViewState extends State<CategoryView> {
           );
         }
         return Container(
+          color: Colors.transparent,
           margin: EdgeInsets.all(4),
           child: Material(
             elevation: 6,
             borderRadius: BorderRadius.circular(4.5),
             color: Colors.transparent,
-            child: Ink(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(4.5),
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomCenter,
-                  stops: [0.01, 1],
-                  colors: colors,
-                ),
-              ),
-              child: ListTile(
-                title: Text(
-                  'Challenge ${index + 1}',
-                  style: titleStyle,
-                ),
-                leading: RatingBarIndicator(
-                  rating: widget.saveFile.isColored(index).toDouble(),
-                  direction: Axis.horizontal,
-                  itemCount: 3,
-                  itemPadding: EdgeInsets.symmetric(horizontal: 0),
-                  itemBuilder: (context, _) => rateIcon,
-                  itemSize: 38,
-                ),
-                trailing: stateIcon,
-                onTap: () async {
-                  Tuple3 audioPrefix = Tuple3<String, int, String>(
-                    'assets/categories/${widget.title}_words/challenges_audio/',
-                    index,
-                    widget.title,
-                  );
-                  await loadAsset(index);
-                  if (widget.saveFile.playable(index)) {
-                    Navigator.push(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(4.5),
+              child: Material(
+                color: Colors.transparent,
+                child: Ink(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomCenter,
+                      stops: [0.01, 1],
+                      colors: colors,
+                    ),
+                  ),
+                  child: ListTile(
+                    title: Text(
+                      'Challenge ${index + 1}',
+                      style: titleStyle,
+                    ),
+                    leading: RatingBarIndicator(
+                      rating: widget.saveFile.isColored(index).toDouble(),
+                      direction: Axis.horizontal,
+                      itemCount: 3,
+                      itemPadding: EdgeInsets.symmetric(horizontal: 0),
+                      itemBuilder: (context, _) => rateIcon,
+                      itemSize: 38,
+                    ),
+                    trailing: stateIcon,
+                    onTap: () async {
+                      Tuple3 audioPrefix = Tuple3<String, int, String>(
+                        'assets/categories/${widget.title}_words/challenges_audio/',
+                        index,
+                        widget.title,
+                      );
+                      await loadAsset(index);
+                      if (widget.saveFile.playable(index)) {
+                        Navigator.push(
                             context,
                             CupertinoPageRoute(
                                 maintainState: true,
                                 builder: (BuildContext context) => ChallengePage(
                                     wordList,
                                     audioPrefix,
-                                    '${widget.title} Challenge ${index + 1}')))
-                        .then((value) async {
-                      SaveFile saveTmp = await saveFileOfCategory(widget.title);
-                      setState(() {
-                        widget.saveFile = saveTmp;
-                      });
-                    });
-                  }
-                },
+                                    '${widget.title} Challenge ${index + 1}'))).then(
+                            (value) async {
+                          SaveFile saveTmp =
+                              await saveFileOfCategory(widget.title);
+                          setState(() {
+                            widget.saveFile = saveTmp;
+                          });
+                        });
+                      }
+                    },
+                  ),
+                ),
               ),
             ),
           ),
