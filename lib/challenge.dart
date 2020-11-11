@@ -101,7 +101,13 @@ class _ChallengePageState extends State<ChallengePage> {
 
   List<Widget> body() {
     this.screenHeight = MediaQuery.of(context).size.height;
-    double height = this.screenHeight < 550 ? 0 : this.screenHeight * 0.07;
+    double height;
+    if (this.screenHeight < 550)
+      height = 0;
+    else if (this.screenHeight < 800)
+      height = this.screenHeight * 0.09;
+    else
+      height = this.screenHeight * 0.13;
     return [
       Container(
         padding: EdgeInsets.only(bottom: height),
@@ -397,31 +403,23 @@ class _ChallengePageState extends State<ChallengePage> {
     });
   }
 
-  _playButton(BuildContext context) => Container(
-        child: Stack(
-          children: <Widget>[
-            Container(
-              padding: const EdgeInsets.all(0),
-              margin: const EdgeInsets.only(
-                  top: 10, left: 10.0, right: 10.0, bottom: 10.0),
-              child: Center(
-                child: FlatButton(
-                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  padding: EdgeInsets.all(1),
-                  onPressed: () {
-                    if (isNotPlaying) {
-                      setState(() {
-                        avatar = 'assets/avatar/avatar_talk.svg';
-                      });
-                      play('sound_${widget.prefix.item2}_${this.i}.mp3');
-                    }
-                  },
-                  child: SvgPicture.asset(this.avatar,
-                      semanticsLabel: 'Acme Logo'),
-                ),
-              ),
-            ),
-          ],
+  _playButton(BuildContext context) => Center(
+        child: Container(
+          child: FlatButton(
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            padding: EdgeInsets.all(1),
+            onPressed: () {
+              if (isNotPlaying) {
+                setState(() {
+                  this.avatar = 'assets/avatar/avatar_talk.svg';
+                });
+                play('sound_${widget.prefix.item2}_${this.i}.mp3');
+              }
+            },
+            child: SvgPicture.asset(this.avatar, semanticsLabel: 'Acme Logo'),
+          ),
         ),
       );
 
@@ -431,7 +429,7 @@ class _ChallengePageState extends State<ChallengePage> {
 
     player.onPlayerCompletion.listen((event) {
       setState(() {
-        avatar = 'assets/avatar/avatar_rest.svg';
+        this.avatar = 'assets/avatar/avatar_rest.svg';
         isNotPlaying = true;
       });
     });
