@@ -111,127 +111,140 @@ class _ChallengePageState extends State<ChallengePage> {
     double height;
     if (this.screenHeight < 550)
       height = 0;
-    else if (this.screenHeight < 800)
-      height = this.screenHeight * 0.09;
+    else if (this.screenHeight < 650)
+      height = this.screenHeight * 0.03;
+    else if (this.screenHeight < 750)
+      height = this.screenHeight * 0.04;
+    else if (this.screenHeight < 850)
+      height = this.screenHeight * 0.05;
     else
-      height = this.screenHeight * 0.13;
+      height = this.screenHeight * 0.06;
     return [
-      Container(
-        padding: EdgeInsets.only(bottom: height),
-        decoration: BoxDecoration(
-          color: Colors.white,
+      Expanded(
+        child: ClipRRect(
           borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(60),
             bottomRight: Radius.circular(60),
           ),
-        ),
-        child: Column(
-          children: [
-            SizedBox(
-              height: 2,
-            ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(8.0, 5.0, 8.0, 0.0),
-              child: progressIndicator(
-                  step: this.i + 1, totalSteps: widget.wordList.length),
-            ),
-            Container(
-              margin: EdgeInsets.all(16.0),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5.0),
-                gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomCenter,
-                    stops: [
-                      0.001,
-                      1
-                    ],
-                    colors: [
-                      Colors.purpleAccent[700],
-                      Colors.deepPurpleAccent[700]
-                    ]),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(12),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(right: 2),
-                          padding: EdgeInsets.fromLTRB(5, 5, 5, 3),
-                          width: 25,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(9.0),
-                            color: Colors.lightGreen,
-                            border: Border.all(
-                              color: Colors.white,
+          child: Container(
+            color: Colors.white,
+            child: ListView(
+              children: [
+                Column(
+                  children: [
+                    SizedBox(
+                      height: 2,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(8.0, 5.0, 8.0, 0.0),
+                      child: progressIndicator(
+                          step: this.i + 1, totalSteps: widget.wordList.length),
+                    ),
+                    Container(
+                      margin: EdgeInsets.all(16.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5.0),
+                        gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomCenter,
+                            stops: [
+                              0.001,
+                              1
+                            ],
+                            colors: [
+                              Colors.purpleAccent[700],
+                              Colors.deepPurpleAccent[700]
+                            ]),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(12),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: <Widget>[
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.only(right: 2),
+                                  padding: EdgeInsets.fromLTRB(5, 5, 5, 3),
+                                  width: 25,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(9.0),
+                                    color: Colors.lightGreen,
+                                    border: Border.all(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  child: Text(
+                                    '$correctAnswers',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 10.5),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(left: 2),
+                                  padding: EdgeInsets.fromLTRB(5, 5, 5, 3),
+                                  width: 25,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(9.0),
+                                    color: Colors.red[400],
+                                    border: Border.all(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  child: Text(
+                                    '$incorrectAnswers',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 10.5),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
-                          child: Text(
-                            '$correctAnswers',
-                            style: TextStyle(
-                                fontWeight: FontWeight.w600, fontSize: 10.5),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(left: 2),
-                          padding: EdgeInsets.fromLTRB(5, 5, 5, 3),
-                          width: 25,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(9.0),
-                            color: Colors.red[400],
-                            border: Border.all(
-                              color: Colors.white,
+                            _playButton(context),
+                            infoDevider,
+                            Text(
+                              'Meaning: ${widget.wordList[this.i].meaning}',
+                              style: TextStyle(color: Colors.white),
+                              textAlign: TextAlign.center,
                             ),
-                          ),
-                          child: Text(
-                            '$incorrectAnswers',
-                            style: TextStyle(
-                                fontWeight: FontWeight.w600, fontSize: 10.5),
-                            textAlign: TextAlign.center,
-                          ),
+                            infoDevider,
+                            Text(
+                              'Usage: ${widget.wordList[this.i].usage}',
+                              style: TextStyle(color: Colors.white),
+                              textAlign: TextAlign.center,
+                            ),
+                            infoDevider,
+                            Text(
+                              'Phonetic: ${widget.wordList[this.i].phonetic}',
+                              style: TextStyle(color: Colors.white),
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
-                    _playButton(context),
-                    infoDevider,
                     Text(
-                      'Meaning: ${widget.wordList[this.i].meaning}',
-                      style: TextStyle(color: Colors.white),
-                      textAlign: TextAlign.center,
+                      'You Have ${this.attempt} attempt(s) left.',
+                      style: TextStyle(color: Colors.black),
                     ),
-                    infoDevider,
-                    Text(
-                      'Usage: ${widget.wordList[this.i].usage}',
-                      style: TextStyle(color: Colors.white),
-                      textAlign: TextAlign.center,
-                    ),
-                    infoDevider,
-                    Text(
-                      'Phonetic: ${widget.wordList[this.i].phonetic}',
-                      style: TextStyle(color: Colors.white),
-                      textAlign: TextAlign.center,
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(10.0, 9.3, 10.0, 0.0),
+                      child: _inputWordForm(),
                     ),
                   ],
                 ),
-              ),
+              ],
             ),
-            Text(
-              'You Have ${this.attempt} attempt(s) left.',
-              style: TextStyle(color: Colors.black),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(10.0, 9.3, 10.0, 0.0),
-              child: _inputWordForm(),
-            ),
-          ],
+          ),
         ),
       ),
-      Spacer(),
+      SizedBox(
+        height: height,
+      ),
       BuiltInKeyboard(
         layoutType: 'EN',
         enableAllUppercase: true,
@@ -244,7 +257,9 @@ class _ChallengePageState extends State<ChallengePage> {
             ? this.textController
             : TextEditingController(),
       ),
-      Spacer(),
+      SizedBox(
+        height: height,
+      )
     ];
   }
 
