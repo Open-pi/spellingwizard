@@ -554,6 +554,7 @@ class _ChallengePageState extends State<ChallengePage> {
                       this.answerList = [];
                       this.inputBackgroundColor = Colors.white;
                       this.avatar = this.avatarState[0];
+                      this.enableTextController = true;
                     });
                     Navigator.pop(context, true);
                   },
