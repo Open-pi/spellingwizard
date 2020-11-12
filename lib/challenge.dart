@@ -97,8 +97,10 @@ class _ChallengePageState extends State<ChallengePage> {
               stops: [0.01, 1],
               colors: [Colors.purpleAccent[700], Colors.deepPurpleAccent[700]]),
         ),
-        child: Column(
-          children: body(),
+        child: SafeArea(
+          child: Column(
+            children: body(),
+          ),
         ),
       ),
     );
@@ -129,7 +131,7 @@ class _ChallengePageState extends State<ChallengePage> {
               height: 2,
             ),
             Padding(
-              padding: EdgeInsets.fromLTRB(8.0, 25.0, 8.0, 0.0),
+              padding: EdgeInsets.fromLTRB(8.0, 5.0, 8.0, 0.0),
               child: progressIndicator(
                   step: this.i + 1, totalSteps: widget.wordList.length),
             ),

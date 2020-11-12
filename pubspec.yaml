@@ -34,6 +34,7 @@ dependencies:
   path_provider: ^1.6.18
   sleek_circular_slider : ^1.1.0
   flip_card: ^0.4.4
+  flutter_svg: ^0.19.1
   built_in_keyboard:
     git:
       url: https://github.com/Open-Segmentation-Systems/BuiltInKeyboard.git
@@ -42,7 +43,6 @@ dependencies:
     git:
       url: https://github.com/KarimMohamed20/SplashScreenFlutterPackage
       ref: master
-  flutter_svg: ^0.19.1
 
 
 dev_dependencies:
