@@ -64,6 +64,11 @@ class _ChallengePageState extends State<ChallengePage> {
   bool isNotPlaying = true;
 
   // avatar
+  final List<String> avatarState = [
+    'assets/avatar/avatar_rest.svg',
+    'assets/avatar/avatar_talk.svg',
+    'assets/avatar/avatar_cheer.svg'
+  ];
   String avatar = 'assets/avatar/avatar_rest.svg';
 
   @override
@@ -350,7 +355,7 @@ class _ChallengePageState extends State<ChallengePage> {
         }
         this.attempt--;
         if (this.attempt < 1) {
-          avatar = 'assets/avatar/avatar_cheer.svg';
+          this.avatar = this.avatarState[2];
           this.enableTextController = false;
           this.textController.text = widget.wordList[this.i].word.toUpperCase();
           this.inputBackgroundColor = Colors.green[100];
@@ -362,7 +367,7 @@ class _ChallengePageState extends State<ChallengePage> {
         }
       }
       if (stillPages && move) {
-        avatar = 'assets/avatar/avatar_rest.svg';
+        this.avatar = this.avatarState[0];
         this.attempt = 3;
         this.hintText = 'Just try...';
         this.inputBackgroundColor = Colors.white;
@@ -397,7 +402,7 @@ class _ChallengePageState extends State<ChallengePage> {
           this.scoreMessage = this.scoreMessages[1];
           this.scoreColor = this.scoreColors[2];
         }
-        avatar = 'assets/avatar/avatar_cheer.svg';
+        this.avatar = this.avatarState[2];
         _resultPopup(context);
       }
     });
@@ -413,7 +418,7 @@ class _ChallengePageState extends State<ChallengePage> {
             onPressed: () {
               if (isNotPlaying) {
                 setState(() {
-                  this.avatar = 'assets/avatar/avatar_talk.svg';
+                  this.avatar = this.avatarState[1];
                 });
                 play('sound_${widget.prefix.item2}_${this.i}.mp3');
               }
@@ -429,7 +434,7 @@ class _ChallengePageState extends State<ChallengePage> {
 
     player.onPlayerCompletion.listen((event) {
       setState(() {
-        this.avatar = 'assets/avatar/avatar_rest.svg';
+        this.avatar = this.avatarState[0];
         isNotPlaying = true;
       });
     });
@@ -547,6 +552,8 @@ class _ChallengePageState extends State<ChallengePage> {
                       this.scoreMessage = '';
                       this.scoreColor = [];
                       this.answerList = [];
+                      this.inputBackgroundColor = Colors.white;
+                      this.avatar = this.avatarState[0];
                     });
                     Navigator.pop(context, true);
                   },
