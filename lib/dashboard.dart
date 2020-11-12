@@ -63,14 +63,11 @@ class GridDashboardState extends State<GridDashboard> {
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(10)),
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: <Widget>[
                             Image.asset(
                               data.img,
                               width: 42,
-                            ),
-                            SizedBox(
-                              height: 14,
                             ),
                             Text(
                               data.title,
@@ -80,9 +77,6 @@ class GridDashboardState extends State<GridDashboard> {
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white),
                             ),
-                            SizedBox(
-                              height: 8,
-                            ),
                             Text(
                               data.subtitle,
                               style: TextStyle(
@@ -90,9 +84,6 @@ class GridDashboardState extends State<GridDashboard> {
                                   fontFamily: 'WorkSans',
                                   fontWeight: FontWeight.w100,
                                   color: Colors.white),
-                            ),
-                            SizedBox(
-                              height: 14,
                             ),
                             Text(
                               data.event,
