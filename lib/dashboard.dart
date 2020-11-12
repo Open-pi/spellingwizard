@@ -78,14 +78,6 @@ class GridDashboardState extends State<GridDashboard> {
                                   color: Colors.white),
                             ),
                             Text(
-                              data.subtitle,
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  fontFamily: 'WorkSans',
-                                  fontWeight: FontWeight.w100,
-                                  color: Colors.white),
-                            ),
-                            Text(
                               data.event,
                               style: TextStyle(
                                   fontSize: 12,
@@ -106,18 +98,16 @@ class GridDashboardState extends State<GridDashboard> {
 
 class Items {
   String title;
-  String subtitle;
   String event;
   String img;
   SaveFile saveFile;
 
-  Items({this.title, this.subtitle, this.event, this.img, this.saveFile});
+  Items({this.title, this.event, this.img, this.saveFile});
 }
 
 Future<List<Items>> categoryList() async {
   Items item1 = new Items(
     title: "Verbs",
-    subtitle: "Verbs are essential",
     event: "6",
     img: "assets/verbs_category.png",
     saveFile: await saveFileOfCategory("Verbs"),
@@ -125,28 +115,24 @@ Future<List<Items>> categoryList() async {
 
   Items item2 = new Items(
     title: "Family",
-    subtitle: "",
     event: "3",
     img: "assets/family_category.png",
     saveFile: await saveFileOfCategory("Family"),
   );
   Items item3 = new Items(
     title: "Tools",
-    subtitle: "",
     event: "6",
     img: "assets/tools_category.png",
     saveFile: await saveFileOfCategory("Tools"),
   );
   Items item4 = new Items(
     title: "Animals",
-    subtitle: "",
     event: "6",
     img: "assets/animals_category.png",
     saveFile: await saveFileOfCategory("Animals"),
   );
   Items item5 = new Items(
     title: "Abstract",
-    subtitle: "these are hard",
     event: "2",
     img: "assets/abstract_category.png",
     saveFile: await saveFileOfCategory("Abstract"),
