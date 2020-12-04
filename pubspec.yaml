@@ -95,7 +95,6 @@ flutter:
     - assets/icon.png
     - assets/splash_icon.png
     - assets/avatar/
-    - assets/categories/Verbs_words/challenges_audio/sound_0_0.mp3
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

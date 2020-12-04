@@ -17,7 +17,7 @@ class HomeState extends State<Home> {
     await new Future.delayed(const Duration(seconds: 2));
     return Future.value(new Scaffold(
       backgroundColor: Colors.deepPurpleAccent[700],
-      body: homePage(items),
+      body: HomePage(items),
     ));
   }
 

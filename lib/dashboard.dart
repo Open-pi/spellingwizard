@@ -141,44 +141,204 @@ Future<List<Items>> categoryList() async {
   return [item1, item2, item3, item4, item5];
 }
 
-Column homePage(List<Items> items) {
-  return Column(children: <Widget>[
-    SizedBox(
-      height: 80,
-    ),
-    Padding(
-      padding: EdgeInsets.only(left: 16, right: 16),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text("Spelling Wizard",
-                  style: TextStyle(
-                      fontSize: 30,
-                      fontFamily: 'WorkSans',
-                      fontWeight: FontWeight.w900,
-                      color: Colors.white)),
-              SizedBox(
-                height: 4,
-              ),
-              Text(
-                "Challenges",
-                style: TextStyle(
-                    fontSize: 15,
-                    fontFamily: 'WorkSans',
-                    fontWeight: FontWeight.w100,
-                    color: Colors.white),
-              ),
-            ],
-          )
-        ],
+class HomePage extends StatelessWidget {
+  final List<Items> items;
+  HomePage(this.items);
+  @override
+  Widget build(BuildContext context) {
+    return Column(children: <Widget>[
+      SizedBox(
+        height: 80,
       ),
-    ),
-    SizedBox(
-      height: 40,
-    ),
-    GridDashboard(items),
-  ]);
+      Padding(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text("Spelling Wizard",
+                    style: TextStyle(
+                        fontSize: 30,
+                        fontFamily: 'WorkSans',
+                        fontWeight: FontWeight.w900,
+                        color: Colors.white)),
+                SizedBox(
+                  height: 4,
+                ),
+                Text(
+                  "Challenges",
+                  style: TextStyle(
+                      fontSize: 15,
+                      fontFamily: 'WorkSans',
+                      fontWeight: FontWeight.w100,
+                      color: Colors.white),
+                ),
+              ],
+            ),
+            IconButton(
+              icon: Icon(
+                Icons.settings,
+                color: Colors.white,
+                size: 30,
+              ),
+              onPressed: () {
+                _bottomMenu(context);
+              },
+            )
+          ],
+        ),
+      ),
+      SizedBox(
+        height: 40,
+      ),
+      GridDashboard(items),
+    ]);
+  }
+}
+
+void _bottomMenu(context) {
+  showModalBottomSheet(
+      backgroundColor: Colors.transparent,
+      context: context,
+      builder: (BuildContext bc) {
+        return Container(
+            decoration: BoxDecoration(
+              color: Colors.deepPurpleAccent[700],
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(16), topRight: Radius.circular(16)),
+            ),
+            height: MediaQuery.of(context).size.height * 0.37,
+            child: Column(
+              children: [
+                Container(
+                  padding: EdgeInsets.fromLTRB(15, 15, 15, 15),
+                  child: Row(
+                    children: [
+                      Image.asset(
+                        "assets/wizard.png",
+                        width: 35,
+                      ),
+                      Padding(padding: EdgeInsets.only(right: 15)),
+                      Text(
+                        'Spelling Wizard',
+                        style: TextStyle(
+                          color: Colors.white70,
+                          fontWeight: FontWeight.normal,
+                          fontSize: 20,
+                          height: 1.2,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                FlatButton(
+                  padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+                  onPressed: () {},
+                  color: Colors.transparent,
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.payment,
+                        color: Colors.amber,
+                      ),
+                      Padding(padding: EdgeInsets.only(right: 25)),
+                      Text(
+                        'Upgrade',
+                        style: TextStyle(
+                          color: Colors.amber,
+                          fontWeight: FontWeight.normal,
+                          height: 1.2,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                FlatButton(
+                  padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+                  onPressed: () {},
+                  color: Colors.transparent,
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.trending_up,
+                        color: Colors.white,
+                      ),
+                      Padding(padding: EdgeInsets.only(right: 25)),
+                      Text(
+                        'Statistics',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.normal,
+                          height: 1.2,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                FlatButton(
+                  padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+                  onPressed: () {},
+                  color: Colors.transparent,
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.settings,
+                        color: Colors.white,
+                      ),
+                      Padding(padding: EdgeInsets.only(right: 25)),
+                      Text(
+                        'Settings',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.normal,
+                          height: 1.2,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Spacer(),
+                FlatButton(
+                  padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+                  onPressed: () {},
+                  color: Colors.transparent,
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.info_outline,
+                        color: Colors.white,
+                      ),
+                      Padding(padding: EdgeInsets.only(right: 25)),
+                      Text(
+                        'About',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.normal,
+                          height: 1.2,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            )
+            //ListView.builder(
+            //  physics: NeverScrollableScrollPhysics(),
+            //  itemBuilder: (_, index) => MenuList(choices_names[index],
+            //      choices_icons[index], choices_colors[index]),
+            //  itemCount: choices_names.length,
+            //),
+            );
+      });
 }
