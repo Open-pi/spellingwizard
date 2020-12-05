@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'about.dart';
 import 'categoryview.dart';
 import 'package:SpellingWizard/save.dart';
 
@@ -60,7 +61,6 @@ class GridDashboardState extends State<GridDashboard> {
                                   Colors.deepPurpleAccent[700],
                                   Colors.purpleAccent[700]
                                 ]),
-                            color: Colors.white,
                             borderRadius: BorderRadius.circular(10)),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -282,7 +282,10 @@ void _bottomMenu(context) {
                 _sheetOption(
                   title: 'About',
                   icon: Icons.info_outline,
-                  onpressed: () {},
+                  onpressed: () {
+                    Navigator.pop(context);
+                    Navigator.of(context).push(_createRoute('About'));
+                  },
                 ),
               ],
             ));
@@ -473,5 +476,29 @@ _feature(
         )
       ],
     ),
+  );
+}
+
+Route _createRoute(String page) {
+  return PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) {
+      if (page == 'About') {
+        return AboutPage();
+      } else if (page == 'Settings') {
+        //return Settings();
+      }
+    },
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      var begin = Offset(0.0, 1.0);
+      var end = Offset.zero;
+      var curve = Curves.ease;
+
+      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+      return SlideTransition(
+        position: animation.drive(tween),
+        child: child,
+      );
+    },
   );
 }
