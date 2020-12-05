@@ -26,6 +26,10 @@ class _AboutPageState extends State<AboutPage> {
   }
 
   List<Widget> body() {
+    double titlesize = MediaQuery.of(context).size.width;
+    print(titlesize);
+    if (titlesize > 390) titlesize *= 0.065;
+    if (titlesize > 300) titlesize *= 0.075;
     return [
       Container(
         padding: EdgeInsets.fromLTRB(15, 15, 15, 15),
@@ -41,7 +45,7 @@ class _AboutPageState extends State<AboutPage> {
               style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.normal,
-                fontSize: 27,
+                fontSize: titlesize,
                 height: 1.2,
               ),
             ),

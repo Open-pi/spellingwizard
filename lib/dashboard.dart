@@ -200,7 +200,13 @@ class HomePage extends StatelessWidget {
 }
 
 void _bottomMenu(context) {
-  double screenHeight = MediaQuery.of(context).size.height;
+  double sheetHeight = MediaQuery.of(context).size.height;
+  if (sheetHeight > 700)
+    sheetHeight *= 0.37;
+  else if (sheetHeight > 550)
+    sheetHeight *= 0.45;
+  else
+    sheetHeight *= 0.6;
   showModalBottomSheet(
       backgroundColor: Colors.transparent,
       context: context,
@@ -211,11 +217,11 @@ void _bottomMenu(context) {
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(16), topRight: Radius.circular(16)),
             ),
-            height: screenHeight * 0.37,
+            height: sheetHeight,
             child: Column(
               children: [
                 Container(
-                  padding: EdgeInsets.fromLTRB(15, 15, 15, 15),
+                  padding: EdgeInsets.fromLTRB(15, 15, 15, 0),
                   child: Row(
                     children: [
                       Image.asset(
@@ -241,7 +247,7 @@ void _bottomMenu(context) {
                   ),
                 ),
                 SizedBox(
-                  height: 15,
+                  height: sheetHeight * 0.09,
                 ),
                 _sheetOption(
                   title: 'Upgrade',
@@ -257,7 +263,7 @@ void _bottomMenu(context) {
                   },
                 ),
                 SizedBox(
-                  height: 5,
+                  height: sheetHeight * 0.04,
                 ),
                 _sheetOption(
                   title: 'Review Mistakes',
@@ -272,7 +278,7 @@ void _bottomMenu(context) {
                   },
                 ),
                 SizedBox(
-                  height: 5,
+                  height: sheetHeight * 0.04,
                 ),
                 _sheetOption(
                   title: 'Settings',
@@ -302,7 +308,7 @@ _sheetOption(
     IconData icon = Icons.verified,
     Color color = Colors.white}) {
   return FlatButton(
-    padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+    padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
     onPressed: onpressed,
     color: Colors.transparent,
     child: Row(
