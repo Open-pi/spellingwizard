@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AboutPage extends StatefulWidget {
   @override
@@ -66,7 +67,7 @@ class _AboutPageState extends State<AboutPage> {
       _aboutOption(
         title: 'Source code',
         icon: FlutterIcons.logo_github_ion,
-        onpressed: () {},
+        onpressed: _launchGitRepo,
       ),
       SizedBox(
         height: 7,
@@ -139,4 +140,13 @@ _aboutOption(
       ],
     ),
   );
+}
+
+_launchGitRepo() async {
+  const url = 'https://github.com/open-segmentation-systems/spellingwizard.git';
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
+  }
 }
