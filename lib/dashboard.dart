@@ -199,6 +199,7 @@ class HomePage extends StatelessWidget {
 }
 
 void _bottomMenu(context) {
+  double screenHeight = MediaQuery.of(context).size.height;
   showModalBottomSheet(
       backgroundColor: Colors.transparent,
       context: context,
@@ -209,7 +210,7 @@ void _bottomMenu(context) {
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(16), topRight: Radius.circular(16)),
             ),
-            height: MediaQuery.of(context).size.height * 0.37,
+            height: screenHeight * 0.37,
             child: Column(
               children: [
                 Container(
@@ -230,115 +231,247 @@ void _bottomMenu(context) {
                           height: 1.2,
                         ),
                       ),
+                      Padding(padding: EdgeInsets.only(right: 5)),
+                      Icon(
+                        Icons.verified,
+                        color: Colors.white70,
+                      )
                     ],
                   ),
                 ),
                 SizedBox(
                   height: 15,
                 ),
-                FlatButton(
-                  padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-                  onPressed: () {},
-                  color: Colors.transparent,
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.payment,
-                        color: Colors.amber,
-                      ),
-                      Padding(padding: EdgeInsets.only(right: 25)),
-                      Text(
-                        'Upgrade',
-                        style: TextStyle(
-                          color: Colors.amber,
-                          fontWeight: FontWeight.normal,
-                          height: 1.2,
-                        ),
-                      ),
-                    ],
-                  ),
+                _sheetOption(
+                  title: 'Upgrade',
+                  icon: Icons.vpn_key,
+                  color: Colors.amber,
+                  onpressed: () {
+                    Navigator.pop(context);
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return _upgradeDialog(context);
+                        });
+                  },
                 ),
                 SizedBox(
                   height: 5,
                 ),
-                FlatButton(
-                  padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-                  onPressed: () {},
-                  color: Colors.transparent,
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.trending_up,
-                        color: Colors.white,
-                      ),
-                      Padding(padding: EdgeInsets.only(right: 25)),
-                      Text(
-                        'Statistics',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.normal,
-                          height: 1.2,
-                        ),
-                      ),
-                    ],
-                  ),
+                _sheetOption(
+                  title: 'Review Mistakes',
+                  icon: Icons.receipt_long,
+                  onpressed: () {
+                    Navigator.pop(context);
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return _upgradeDialog(context);
+                        });
+                  },
                 ),
                 SizedBox(
                   height: 5,
                 ),
-                FlatButton(
-                  padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-                  onPressed: () {},
-                  color: Colors.transparent,
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.settings,
-                        color: Colors.white,
-                      ),
-                      Padding(padding: EdgeInsets.only(right: 25)),
-                      Text(
-                        'Settings',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.normal,
-                          height: 1.2,
-                        ),
-                      ),
-                    ],
-                  ),
+                _sheetOption(
+                  title: 'Settings',
+                  icon: Icons.settings,
+                  onpressed: () {},
                 ),
                 Spacer(),
-                FlatButton(
-                  padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-                  onPressed: () {},
-                  color: Colors.transparent,
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.info_outline,
-                        color: Colors.white,
-                      ),
-                      Padding(padding: EdgeInsets.only(right: 25)),
-                      Text(
-                        'About',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.normal,
-                          height: 1.2,
-                        ),
-                      ),
-                    ],
-                  ),
+                _sheetOption(
+                  title: 'About',
+                  icon: Icons.info_outline,
+                  onpressed: () {},
                 ),
               ],
-            )
-            //ListView.builder(
-            //  physics: NeverScrollableScrollPhysics(),
-            //  itemBuilder: (_, index) => MenuList(choices_names[index],
-            //      choices_icons[index], choices_colors[index]),
-            //  itemCount: choices_names.length,
-            //),
-            );
+            ));
       });
+}
+
+_sheetOption(
+    {@required void Function() onpressed,
+    String title = "",
+    IconData icon = Icons.verified,
+    Color color = Colors.white}) {
+  return FlatButton(
+    padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+    onPressed: onpressed,
+    color: Colors.transparent,
+    child: Row(
+      children: [
+        Icon(
+          icon,
+          color: color,
+        ),
+        Padding(padding: EdgeInsets.only(right: 25)),
+        Text(
+          title,
+          style: TextStyle(
+            color: color,
+            fontWeight: FontWeight.normal,
+            height: 1.2,
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+_upgradeDialog(BuildContext context) => Dialog(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      child: Container(
+        height: 395,
+        decoration: BoxDecoration(
+          shape: BoxShape.rectangle,
+          borderRadius: BorderRadius.all(Radius.circular(12)),
+          gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              stops: [0.001, 1],
+              colors: [Colors.purple, Colors.deepPurpleAccent[700]]),
+        ),
+        width: double.infinity,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(20, 20, 19, 0),
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Text('Spelling Wizard',
+                      style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          height: 1.25)),
+                  Padding(padding: EdgeInsets.only(right: 8)),
+                  Container(
+                    padding: EdgeInsets.fromLTRB(4, 0.2, 4, 0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: Colors.amber,
+                    ),
+                    child: Text('PRO',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        )),
+                  )
+                ],
+              ),
+              _customHoriSpacer(),
+              Text(
+                  "Upgrade to support open-source software, remove ads, and enjoy some awsome features!",
+                  style: TextStyle(
+                    fontSize: 11.5,
+                    color: Colors.white,
+                    fontWeight: FontWeight.normal,
+                  )),
+              _customHoriSpacer(size: 20),
+              _feature(
+                text1: "Change app theme",
+                icon: Icons.color_lens,
+              ),
+              _customHoriSpacer(),
+              _feature(
+                text1: "Remove Ads",
+                icon: Icons.eco,
+              ),
+              _customHoriSpacer(),
+              _feature(
+                text1: "Unlock all challenges",
+                icon: Icons.all_inclusive,
+              ),
+              _customHoriSpacer(),
+              _feature(
+                text1: "Review your mistakes",
+                icon: Icons.receipt_long,
+              ),
+              _customHoriSpacer(),
+              _feature(
+                text1: "One time payment",
+                text2: "All future features for free",
+                icon: Icons.favorite,
+                twoLines: true,
+              ),
+              Spacer(),
+              RaisedButton(
+                color: Colors.teal[300],
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.verified,
+                      color: Colors.white,
+                    ),
+                    Padding(padding: EdgeInsets.only(right: 12)),
+                    Text(
+                      'UPGRADE',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+                          height: 1.2),
+                    ),
+                  ],
+                ),
+                onPressed: () {},
+              ),
+              _customHoriSpacer(size: 20)
+            ],
+          ),
+        ),
+      ),
+    );
+
+_customHoriSpacer({double size = 12}) => SizedBox(height: size);
+
+_feature(
+    {String text1 = "",
+    String text2 = "",
+    IconData icon = Icons.favorite,
+    Color color = Colors.white,
+    bool twoLines = false}) {
+  return Padding(
+    padding: const EdgeInsets.only(right: 20, left: 20),
+    child: Row(
+      children: [
+        Icon(
+          icon,
+          color: color,
+          size: 20,
+        ),
+        Padding(padding: EdgeInsets.only(right: 10)),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              text1,
+              style: TextStyle(
+                fontSize: 11.5,
+                color: color,
+                fontWeight: FontWeight.normal,
+              ),
+            ),
+            if (twoLines)
+              Text(
+                text2,
+                style: TextStyle(
+                  fontSize: 11.5,
+                  color: color,
+                  fontWeight: FontWeight.normal,
+                ),
+              ),
+          ],
+        )
+      ],
+    ),
+  );
 }
