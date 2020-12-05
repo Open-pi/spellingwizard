@@ -1,3 +1,4 @@
+import 'package:SpellingWizard/settings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'about.dart';
@@ -276,7 +277,10 @@ void _bottomMenu(context) {
                 _sheetOption(
                   title: 'Settings',
                   icon: Icons.settings,
-                  onpressed: () {},
+                  onpressed: () {
+                    Navigator.pop(context);
+                    Navigator.of(context).push(_createRoute('Settings'));
+                  },
                 ),
                 Spacer(),
                 _sheetOption(
@@ -485,7 +489,7 @@ Route _createRoute(String page) {
       if (page == 'About') {
         return AboutPage();
       } else if (page == 'Settings') {
-        //return Settings();
+        return SettingsPage();
       }
     },
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
