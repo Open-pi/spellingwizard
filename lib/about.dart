@@ -87,7 +87,7 @@ class _AboutPageState extends State<AboutPage> {
       _aboutOption(
         title: 'Send feedback',
         icon: Icons.rate_review,
-        onpressed: () {},
+        onpressed: _sendEmailFeedback,
       ),
       SizedBox(
         height: 7,
@@ -148,6 +148,16 @@ _aboutOption(
 
 _launchGitRepo() async {
   const url = 'https://github.com/open-segmentation-systems/spellingwizard.git';
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
+  }
+}
+
+_sendEmailFeedback() async {
+  const url =
+      'mailto:open-segmentation-systems@protonmail.com?subject=S.W-Feedback%20&body=';
   if (await canLaunch(url)) {
     await launch(url);
   } else {
