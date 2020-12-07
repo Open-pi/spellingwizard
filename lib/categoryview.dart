@@ -8,6 +8,8 @@ import 'package:SpellingWizard/save.dart';
 import 'package:tuple/tuple.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
+import 'config.dart';
+
 class CategoryView extends StatefulWidget {
   final String title;
   final int itemCount;
@@ -30,10 +32,13 @@ class _CategoryViewState extends State<CategoryView> {
         title: Text(
           widget.title,
           style: TextStyle(
-              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 21),
+            color: appTheme.currentTheme.primaryTextColor,
+            fontWeight: FontWeight.bold,
+            fontSize: 21,
+          ),
         ),
         centerTitle: true,
-        backgroundColor: Colors.deepPurpleAccent[100],
+        backgroundColor: appTheme.currentTheme.secondaryColor,
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -41,10 +46,7 @@ class _CategoryViewState extends State<CategoryView> {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             stops: [0.01, 1],
-            colors: [
-              Colors.deepPurpleAccent[100],
-              Colors.deepPurpleAccent[700]
-            ],
+            colors: appTheme.currentTheme.gradientCategoryviewColors,
           ),
         ),
         child: _categListView(context),
@@ -70,35 +72,33 @@ class _CategoryViewState extends State<CategoryView> {
         Icon stateIcon;
         TextStyle titleStyle;
         if (widget.saveFile.playable(index)) {
-          colors = [Colors.deepPurpleAccent[700], Colors.purpleAccent[700]];
+          colors = appTheme.currentTheme.gradientChallengeCardColors;
           rateIcon = Icon(
             Icons.star,
             color: Colors.amber,
           );
           stateIcon = Icon(
             Icons.arrow_forward,
-            color: Colors.white,
+            color: appTheme.currentTheme.primaryIconColor,
           );
           titleStyle = TextStyle(
             fontWeight: FontWeight.w600,
-            color: Colors.white,
+            color: appTheme.currentTheme.primaryTextColor,
           );
         } else {
-          colors = [
-            darken(Colors.deepPurpleAccent[700]),
-            darken(Colors.purpleAccent[700])
-          ];
+          colors =
+              darkenColors(appTheme.currentTheme.gradientChallengeCardColors);
           rateIcon = Icon(
             Icons.star,
-            color: Colors.black38,
+            color: appTheme.currentTheme.darkClosedColor,
           );
           stateIcon = Icon(
             Icons.lock,
-            color: Colors.white38,
+            color: appTheme.currentTheme.darkClosedColor,
           );
           titleStyle = TextStyle(
             fontWeight: FontWeight.w600,
-            color: Colors.white38,
+            color: appTheme.currentTheme.darkClosedColor,
           );
         }
         return Container(
@@ -178,4 +178,8 @@ Color darken(Color color, [double amount = .29]) {
   final hslDark = hsl.withLightness((hsl.lightness - amount).clamp(0.0, 1.0));
 
   return hslDark.toColor();
+}
+
+List<Color> darkenColors(List<Color> colors) {
+  return [darken(colors[0]), darken(colors[1])];
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'config.dart';
+
 class SettingsPage extends StatefulWidget {
   @override
   _SettingsPageState createState() => _SettingsPageState();
@@ -15,10 +17,8 @@ class _SettingsPageState extends State<SettingsPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Settings"),
-        backgroundColor: Colors.deepPurpleAccent[700],
         elevation: 0,
       ),
-      backgroundColor: Colors.deepPurpleAccent[700],
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -49,7 +49,7 @@ class _SettingsPageState extends State<SettingsPage> {
           title: Text(
             "Fullscreen mode",
             style: TextStyle(
-              color: Colors.white,
+              color: appTheme.currentTheme.primaryTextColor,
               fontWeight: FontWeight.normal,
               height: 1.2,
             ),
@@ -72,16 +72,16 @@ class _SettingsPageState extends State<SettingsPage> {
           title: Text(
             "Dark theme",
             style: TextStyle(
-              color: Colors.white,
+              color: appTheme.currentTheme.primaryTextColor,
               fontWeight: FontWeight.normal,
               height: 1.2,
             ),
           ),
-          value: optionsValues['DT'],
-          onChanged: (newValue) {
-            setState(() {
-              optionsValues['DT'] = newValue;
-            });
+          value: appTheme.switchState,
+          onChanged: (value) {
+            value
+                ? appTheme.changeThemeTo('Dark')
+                : appTheme.changeThemeTo('Normal');
           },
         ),
       ),

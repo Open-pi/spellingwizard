@@ -1,3 +1,4 @@
+import 'package:SpellingWizard/config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -13,10 +14,8 @@ class _AboutPageState extends State<AboutPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text("About"),
-        backgroundColor: Colors.deepPurpleAccent[700],
         elevation: 0,
       ),
-      backgroundColor: Colors.deepPurpleAccent[700],
       body: SafeArea(
         child: Column(
           children: body(),
@@ -26,10 +25,6 @@ class _AboutPageState extends State<AboutPage> {
   }
 
   List<Widget> body() {
-    double titlesize = MediaQuery.of(context).size.width;
-    print(titlesize);
-    if (titlesize > 390) titlesize *= 0.065;
-    if (titlesize > 300) titlesize *= 0.075;
     return [
       Container(
         padding: EdgeInsets.fromLTRB(15, 15, 15, 15),
@@ -43,16 +38,16 @@ class _AboutPageState extends State<AboutPage> {
             Text(
               'Spelling Wizard',
               style: TextStyle(
-                color: Colors.white,
+                color: appTheme.currentTheme.primaryTextColor,
                 fontWeight: FontWeight.normal,
-                fontSize: titlesize,
+                fontSize: 27,
                 height: 1.2,
               ),
             ),
             Padding(padding: EdgeInsets.only(right: 5)),
             Icon(
               Icons.verified,
-              color: Colors.white,
+              color: appTheme.currentTheme.primaryIconColor,
             )
           ],
         ),
@@ -64,13 +59,14 @@ class _AboutPageState extends State<AboutPage> {
         title: 'Version',
         subTitle: '2.2.4',
         icon: Icons.info_outline,
-        color: Colors.white,
+        color: appTheme.currentTheme.primaryTextColor,
         enableSubTitle: true,
         onpressed: () {},
       ),
       _aboutOption(
         title: 'Source code',
         icon: FlutterIcons.logo_github_ion,
+        color: appTheme.currentTheme.primaryTextColor,
         onpressed: _launchGitRepo,
       ),
       SizedBox(
@@ -79,6 +75,7 @@ class _AboutPageState extends State<AboutPage> {
       _aboutOption(
         title: 'Open Source Licences',
         icon: Icons.menu_book,
+        color: appTheme.currentTheme.primaryTextColor,
         onpressed: () {},
       ),
       SizedBox(
@@ -87,6 +84,7 @@ class _AboutPageState extends State<AboutPage> {
       _aboutOption(
         title: 'Send feedback',
         icon: Icons.rate_review,
+        color: appTheme.currentTheme.primaryTextColor,
         onpressed: _sendEmailFeedback,
       ),
       SizedBox(
@@ -95,6 +93,7 @@ class _AboutPageState extends State<AboutPage> {
       _aboutOption(
         title: 'Rate this app',
         icon: Icons.star_rate,
+        color: appTheme.currentTheme.primaryTextColor,
         onpressed: () {},
       )
     ];
