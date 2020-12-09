@@ -3,8 +3,35 @@ import 'package:SpellingWizard/dashboard.dart';
 import 'package:flutter/services.dart';
 import 'package:splashscreen/splashscreen.dart';
 
-void main() =>
-    runApp(MaterialApp(theme: ThemeData(fontFamily: 'WorkSans'), home: Home()));
+import 'config.dart';
+
+void main() async {
+  runApp(App());
+}
+
+class App extends StatefulWidget {
+  @override
+  _AppState createState() => _AppState();
+}
+
+class _AppState extends State<App> {
+  @override
+  void initState() {
+    super.initState();
+    appTheme.addListener(() {
+      setState(() {});
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Spelling Wizard',
+      theme: appTheme.currentTheme.theme,
+      home: Home(),
+    );
+  }
+}
 
 class Home extends StatefulWidget {
   @override
@@ -16,7 +43,6 @@ class HomeState extends State<Home> {
     List<Items> items = await categoryList();
     await new Future.delayed(const Duration(seconds: 2));
     return Future.value(new Scaffold(
-      backgroundColor: Colors.deepPurpleAccent[700],
       body: HomePage(items),
     ));
   }

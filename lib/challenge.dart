@@ -3,6 +3,7 @@ import 'package:built_in_keyboard/built_in_keyboard.dart';
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audio_cache.dart';
 import 'package:tuple/tuple.dart';
+import 'config.dart';
 import 'word.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:SpellingWizard/save.dart';
@@ -22,7 +23,6 @@ class ChallengePage extends StatefulWidget {
 class _ChallengePageState extends State<ChallengePage> {
   // challenge variables
   double screenHeight;
-  Color accentColor = Colors.purple[500];
   int i = 0;
   int attempt = 3;
   final TextEditingController textController = new TextEditingController();
@@ -95,7 +95,7 @@ class _ChallengePageState extends State<ChallengePage> {
               begin: Alignment.topLeft,
               end: Alignment.bottomCenter,
               stops: [0.01, 1],
-              colors: [Colors.purpleAccent[700], Colors.deepPurpleAccent[700]]),
+              colors: appTheme.currentTheme.gradientKeyboardColors),
         ),
         child: SafeArea(
           child: Column(
@@ -127,7 +127,7 @@ class _ChallengePageState extends State<ChallengePage> {
             bottomRight: Radius.circular(60),
           ),
           child: Container(
-            color: Colors.white,
+            color: appTheme.currentTheme.challengeBackColor,
             child: ListView(
               children: [
                 Column(
@@ -147,14 +147,9 @@ class _ChallengePageState extends State<ChallengePage> {
                         gradient: LinearGradient(
                             begin: Alignment.topLeft,
                             end: Alignment.bottomCenter,
-                            stops: [
-                              0.001,
-                              1
-                            ],
-                            colors: [
-                              Colors.purpleAccent[700],
-                              Colors.deepPurpleAccent[700]
-                            ]),
+                            stops: [0.001, 1],
+                            colors: appTheme
+                                .currentTheme.gradientChallengeCardColors),
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(12),
@@ -172,7 +167,8 @@ class _ChallengePageState extends State<ChallengePage> {
                                     borderRadius: BorderRadius.circular(9.0),
                                     color: Colors.lightGreen,
                                     border: Border.all(
-                                      color: Colors.white,
+                                      color: appTheme
+                                          .currentTheme.challengeBackColor,
                                     ),
                                   ),
                                   child: Text(
@@ -191,7 +187,8 @@ class _ChallengePageState extends State<ChallengePage> {
                                     borderRadius: BorderRadius.circular(9.0),
                                     color: Colors.red[400],
                                     border: Border.all(
-                                      color: Colors.white,
+                                      color: appTheme
+                                          .currentTheme.challengeBackColor,
                                     ),
                                   ),
                                   child: Text(
@@ -208,19 +205,25 @@ class _ChallengePageState extends State<ChallengePage> {
                             infoDevider,
                             Text(
                               'Meaning: ${widget.wordList[this.i].meaning}',
-                              style: TextStyle(color: Colors.white),
+                              style: TextStyle(
+                                  color:
+                                      appTheme.currentTheme.primaryTextColor),
                               textAlign: TextAlign.center,
                             ),
                             infoDevider,
                             Text(
                               'Usage: ${widget.wordList[this.i].usage}',
-                              style: TextStyle(color: Colors.white),
+                              style: TextStyle(
+                                  color:
+                                      appTheme.currentTheme.primaryTextColor),
                               textAlign: TextAlign.center,
                             ),
                             infoDevider,
                             Text(
                               'Phonetic: ${widget.wordList[this.i].phonetic}',
-                              style: TextStyle(color: Colors.white),
+                              style: TextStyle(
+                                  color:
+                                      appTheme.currentTheme.primaryTextColor),
                               textAlign: TextAlign.center,
                             ),
                           ],
@@ -229,7 +232,8 @@ class _ChallengePageState extends State<ChallengePage> {
                     ),
                     Text(
                       'You Have ${this.attempt} attempt(s) left.',
-                      style: TextStyle(color: Colors.black),
+                      style: TextStyle(
+                          color: appTheme.currentTheme.specialTextColor),
                     ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(10.0, 9.3, 10.0, 0.0),
@@ -252,7 +256,9 @@ class _ChallengePageState extends State<ChallengePage> {
         borderRadius: BorderRadius.circular(8.0),
         height: this.screenHeight * 0.07,
         letterStyle: TextStyle(
-            fontSize: 25, color: Colors.white, fontWeight: FontWeight.w600),
+            fontSize: 25,
+            color: appTheme.currentTheme.primaryTextColor,
+            fontWeight: FontWeight.w600),
         controller: this.enableTextController
             ? this.textController
             : TextEditingController(),
@@ -274,7 +280,7 @@ class _ChallengePageState extends State<ChallengePage> {
             keyboardType: TextInputType.name,
             style: TextStyle(
               fontWeight: FontWeight.bold,
-              color: Colors.indigo[900],
+              color: appTheme.currentTheme.inputTextColor,
               fontSize: 22.0,
             ),
             decoration: InputDecoration(
@@ -283,16 +289,17 @@ class _ChallengePageState extends State<ChallengePage> {
               filled: true,
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(25.0),
-                borderSide:
-                    BorderSide(width: 3.0, color: Colors.deepPurpleAccent[700]),
+                borderSide: BorderSide(
+                    width: 3.0, color: appTheme.currentTheme.primaryColor),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(25.0),
-                borderSide:
-                    BorderSide(width: 3.0, color: Colors.deepPurpleAccent[700]),
+                borderSide: BorderSide(
+                    width: 3.0, color: appTheme.currentTheme.primaryColor),
               ),
               labelStyle: TextStyle(
-                  fontWeight: FontWeight.w900, color: this.accentColor),
+                  fontWeight: FontWeight.w900,
+                  color: appTheme.currentTheme.challengeAccentColor),
               hintText: '${this.hintText}',
               hintStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
               floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -323,7 +330,7 @@ class _ChallengePageState extends State<ChallengePage> {
                       style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w600,
-                          color: Colors.white)),
+                          color: appTheme.currentTheme.primaryTextColor)),
                   Text('${widget.wordList[this.i].word.toUpperCase()}',
                       style: TextStyle(
                           fontSize: 20,
@@ -350,7 +357,7 @@ class _ChallengePageState extends State<ChallengePage> {
                       style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w600,
-                          color: Colors.white)),
+                          color: appTheme.currentTheme.primaryTextColor)),
                   Text('${widget.wordList[this.i].word.toUpperCase()}',
                       style: TextStyle(
                           fontSize: 20,
@@ -480,7 +487,7 @@ class _ChallengePageState extends State<ChallengePage> {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomCenter,
                 stops: [0.01, 1],
-                colors: [Colors.purple, Colors.deepPurpleAccent[700]]),
+                colors: appTheme.currentTheme.gradientDialogColors),
             shape: BoxShape.rectangle,
             borderRadius: BorderRadius.all(Radius.circular(12))),
         child: Column(
@@ -512,7 +519,7 @@ class _ChallengePageState extends State<ChallengePage> {
               ),
               width: double.infinity,
               decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: appTheme.currentTheme.challengeBackColor,
                   shape: BoxShape.rectangle,
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(12),
@@ -525,7 +532,7 @@ class _ChallengePageState extends State<ChallengePage> {
               '${this.scoreTitle}',
               style: TextStyle(
                   fontSize: 20,
-                  color: Colors.white,
+                  color: appTheme.currentTheme.primaryTextColor,
                   fontWeight: FontWeight.bold),
             ),
             SizedBox(
@@ -535,7 +542,7 @@ class _ChallengePageState extends State<ChallengePage> {
               padding: const EdgeInsets.only(right: 16, left: 16),
               child: Text(
                 '${this.scoreMessage}',
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: appTheme.currentTheme.primaryTextColor),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -576,7 +583,7 @@ class _ChallengePageState extends State<ChallengePage> {
                     Navigator.pop(context, true);
                   },
                   child: Text('Retake'),
-                  color: Colors.white,
+                  color: appTheme.currentTheme.challengeBackColor,
                   textColor: Colors.deepPurpleAccent[700],
                 )
               ],
@@ -599,7 +606,7 @@ class _ChallengePageState extends State<ChallengePage> {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 stops: [0.001, 1],
-                colors: [Colors.purple, Colors.deepPurpleAccent[700]]),
+                colors: appTheme.currentTheme.gradientDialogColors),
           ),
           width: double.infinity,
           child: Padding(
@@ -610,7 +617,7 @@ class _ChallengePageState extends State<ChallengePage> {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 25,
-                      color: Colors.white,
+                      color: appTheme.currentTheme.primaryTextColor,
                       fontWeight: FontWeight.bold,
                     )),
                 SizedBox(
@@ -654,27 +661,8 @@ class _ChallengePageState extends State<ChallengePage> {
       );
 }
 
-final headinSyleT = TextStyle(
-  fontSize: 20,
-  fontWeight: FontWeight.bold,
-  color: Colors.black,
-);
-
-final headinSyleD = TextStyle(
-  fontSize: 20,
-  fontWeight: FontWeight.w600,
-  color: Colors.black,
-);
-
-final headinSyle = TextStyle(
-  fontSize: 28,
-  fontWeight: FontWeight.bold,
-  color: Colors.white,
-  height: 1.5,
-);
-
 final infoDevider = Divider(
-  color: Colors.white,
+  color: appTheme.currentTheme.challengeBackColor,
   thickness: 1.0,
 );
 
@@ -682,7 +670,7 @@ progressIndicator({int step, int totalSteps}) => StepProgressIndicator(
       roundedEdges: Radius.circular(10),
       totalSteps: totalSteps,
       currentStep: step,
-      selectedColor: Colors.deepPurpleAccent[700],
+      selectedColor: appTheme.currentTheme.primaryColor,
       unselectedColor: Colors.grey,
       size: 8,
       padding: 1,

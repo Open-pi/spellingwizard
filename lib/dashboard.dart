@@ -5,6 +5,8 @@ import 'about.dart';
 import 'categoryview.dart';
 import 'package:SpellingWizard/save.dart';
 
+import 'config.dart';
+
 class GridDashboard extends StatefulWidget {
   final List<Items> myList;
   GridDashboard(this.myList);
@@ -54,14 +56,9 @@ class GridDashboardState extends State<GridDashboard> {
                             gradient: LinearGradient(
                                 begin: Alignment.topLeft,
                                 end: Alignment.bottomRight,
-                                stops: [
-                                  0.01,
-                                  1
-                                ],
-                                colors: [
-                                  Colors.deepPurpleAccent[700],
-                                  Colors.purpleAccent[700]
-                                ]),
+                                stops: [0.01, 1],
+                                colors: appTheme
+                                    .currentTheme.gradientDashboardCardsColors),
                             borderRadius: BorderRadius.circular(10)),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -142,9 +139,15 @@ Future<List<Items>> categoryList() async {
   return [item1, item2, item3, item4, item5];
 }
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   final List<Items> items;
   HomePage(this.items);
+
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Column(children: <Widget>[
@@ -164,7 +167,7 @@ class HomePage extends StatelessWidget {
                         fontSize: 30,
                         fontFamily: 'WorkSans',
                         fontWeight: FontWeight.w900,
-                        color: Colors.white)),
+                        color: appTheme.currentTheme.primaryTextColor)),
                 SizedBox(
                   height: 4,
                 ),
@@ -174,14 +177,14 @@ class HomePage extends StatelessWidget {
                       fontSize: 15,
                       fontFamily: 'WorkSans',
                       fontWeight: FontWeight.w100,
-                      color: Colors.white),
+                      color: appTheme.currentTheme.primaryTextColor),
                 ),
               ],
             ),
             IconButton(
               icon: Icon(
                 Icons.settings,
-                color: Colors.white,
+                color: appTheme.currentTheme.primaryIconColor,
                 size: 30,
               ),
               onPressed: () {
@@ -194,111 +197,118 @@ class HomePage extends StatelessWidget {
       SizedBox(
         height: 40,
       ),
-      GridDashboard(items),
+      GridDashboard(widget.items),
     ]);
   }
 }
 
 void _bottomMenu(context) {
   double sheetHeight = MediaQuery.of(context).size.height;
-  if (sheetHeight > 700)
-    sheetHeight *= 0.37;
-  else if (sheetHeight > 550)
-    sheetHeight *= 0.45;
-  else
+  if (sheetHeight < 550)
     sheetHeight *= 0.6;
+  else if (sheetHeight < 650)
+    sheetHeight *= 0.52;
+  else if (sheetHeight < 750)
+    sheetHeight *= 0.46;
+  else if (sheetHeight < 850)
+    sheetHeight *= 0.41;
+  else
+    sheetHeight *= 0.37;
   showModalBottomSheet(
       backgroundColor: Colors.transparent,
       context: context,
       builder: (BuildContext bc) {
-        return Container(
-            decoration: BoxDecoration(
-              color: Colors.deepPurpleAccent[700],
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(16), topRight: Radius.circular(16)),
-            ),
-            height: sheetHeight,
-            child: Column(
-              children: [
-                Container(
-                  padding: EdgeInsets.fromLTRB(15, 15, 15, 0),
-                  child: Row(
-                    children: [
-                      Image.asset(
-                        "assets/wizard.png",
-                        width: 35,
-                      ),
-                      Padding(padding: EdgeInsets.only(right: 15)),
-                      Text(
-                        'Spelling Wizard',
-                        style: TextStyle(
-                          color: Colors.white70,
-                          fontWeight: FontWeight.normal,
-                          fontSize: 20,
-                          height: 1.2,
+        return SafeArea(
+          child: Container(
+              decoration: BoxDecoration(
+                color: appTheme.currentTheme.bottomMenuSheetColor,
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(16),
+                    topRight: Radius.circular(16)),
+              ),
+              height: sheetHeight,
+              child: Column(
+                children: [
+                  Container(
+                    padding: EdgeInsets.fromLTRB(15, 15, 15, 0),
+                    child: Row(
+                      children: [
+                        Image.asset(
+                          "assets/wizard.png",
+                          width: 35,
                         ),
-                      ),
-                      Padding(padding: EdgeInsets.only(right: 5)),
-                      Icon(
-                        Icons.verified,
-                        color: Colors.white70,
-                      )
-                    ],
+                        Padding(padding: EdgeInsets.only(right: 15)),
+                        Text(
+                          'Spelling Wizard',
+                          style: TextStyle(
+                            color: appTheme.currentTheme.secondaryTextColor,
+                            fontWeight: FontWeight.normal,
+                            fontSize: 20,
+                            height: 1.2,
+                          ),
+                        ),
+                        Padding(padding: EdgeInsets.only(right: 5)),
+                        Icon(
+                          Icons.verified,
+                          color: appTheme.currentTheme.secondaryTextColor,
+                        )
+                      ],
+                    ),
                   ),
-                ),
-                SizedBox(
-                  height: sheetHeight * 0.09,
-                ),
-                _sheetOption(
-                  title: 'Upgrade',
-                  icon: Icons.vpn_key,
-                  color: Colors.amber,
-                  onpressed: () {
-                    Navigator.pop(context);
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return _upgradeDialog(context);
-                        });
-                  },
-                ),
-                SizedBox(
-                  height: sheetHeight * 0.04,
-                ),
-                _sheetOption(
-                  title: 'Review Mistakes',
-                  icon: Icons.receipt_long,
-                  onpressed: () {
-                    Navigator.pop(context);
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return _upgradeDialog(context);
-                        });
-                  },
-                ),
-                SizedBox(
-                  height: sheetHeight * 0.04,
-                ),
-                _sheetOption(
-                  title: 'Settings',
-                  icon: Icons.settings,
-                  onpressed: () {
-                    Navigator.pop(context);
-                    Navigator.of(context).push(_createRoute('Settings'));
-                  },
-                ),
-                Spacer(),
-                _sheetOption(
-                  title: 'About',
-                  icon: Icons.info_outline,
-                  onpressed: () {
-                    Navigator.pop(context);
-                    Navigator.of(context).push(_createRoute('About'));
-                  },
-                ),
-              ],
-            ));
+                  SizedBox(
+                    height: sheetHeight * 0.09,
+                  ),
+                  _sheetOption(
+                    title: 'Upgrade',
+                    icon: Icons.vpn_key,
+                    color: Colors.amber,
+                    onpressed: () {
+                      Navigator.pop(context);
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return _upgradeDialog(context);
+                          });
+                    },
+                  ),
+                  SizedBox(
+                    height: sheetHeight * 0.04,
+                  ),
+                  _sheetOption(
+                    title: 'Review Mistakes',
+                    icon: Icons.receipt_long,
+                    onpressed: () {
+                      Navigator.pop(context);
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return _upgradeDialog(context);
+                          });
+                    },
+                  ),
+                  SizedBox(
+                    height: sheetHeight * 0.04,
+                  ),
+                  _sheetOption(
+                    title: 'Settings',
+                    icon: Icons.settings,
+                    onpressed: () {
+                      Navigator.pop(context);
+                      Navigator.of(context).push(_createRoute('Settings'));
+                    },
+                  ),
+                  Spacer(),
+                  _sheetOption(
+                    title: 'About',
+                    icon: Icons.info_outline,
+                    onpressed: () {
+                      Navigator.pop(context);
+                      Navigator.of(context).push(_createRoute('About'));
+                    },
+                  ),
+                ],
+              )),
+        );
       });
 }
 
@@ -343,7 +353,7 @@ _upgradeDialog(BuildContext context) => Dialog(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               stops: [0.001, 1],
-              colors: [Colors.purple, Colors.deepPurpleAccent[700]]),
+              colors: appTheme.currentTheme.gradientDialogColors),
         ),
         width: double.infinity,
         child: Padding(
@@ -355,7 +365,7 @@ _upgradeDialog(BuildContext context) => Dialog(
                   Text('Spelling Wizard',
                       style: TextStyle(
                           fontSize: 18,
-                          color: Colors.white,
+                          color: appTheme.currentTheme.primaryTextColor,
                           fontWeight: FontWeight.bold,
                           height: 1.25)),
                   Padding(padding: EdgeInsets.only(right: 8)),
@@ -369,7 +379,7 @@ _upgradeDialog(BuildContext context) => Dialog(
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 14,
-                          color: Colors.white,
+                          color: appTheme.currentTheme.primaryTextColor,
                           fontWeight: FontWeight.bold,
                         )),
                   )
@@ -380,28 +390,32 @@ _upgradeDialog(BuildContext context) => Dialog(
                   "Upgrade to support open-source software, remove ads, and enjoy some awsome features!",
                   style: TextStyle(
                     fontSize: 11.5,
-                    color: Colors.white,
+                    color: appTheme.currentTheme.primaryTextColor,
                     fontWeight: FontWeight.normal,
                   )),
               _customHoriSpacer(size: 20),
               _feature(
                 text1: "Change app theme",
                 icon: Icons.color_lens,
+                color: appTheme.currentTheme.primaryTextColor,
               ),
               _customHoriSpacer(),
               _feature(
                 text1: "Remove Ads",
                 icon: Icons.eco,
+                color: appTheme.currentTheme.primaryTextColor,
               ),
               _customHoriSpacer(),
               _feature(
                 text1: "Unlock all challenges",
                 icon: Icons.all_inclusive,
+                color: appTheme.currentTheme.primaryTextColor,
               ),
               _customHoriSpacer(),
               _feature(
                 text1: "Review your mistakes",
                 icon: Icons.receipt_long,
+                color: appTheme.currentTheme.primaryTextColor,
               ),
               _customHoriSpacer(),
               _feature(
@@ -409,6 +423,7 @@ _upgradeDialog(BuildContext context) => Dialog(
                 text2: "All future features for free",
                 icon: Icons.favorite,
                 twoLines: true,
+                color: appTheme.currentTheme.primaryTextColor,
               ),
               Spacer(),
               RaisedButton(
@@ -422,7 +437,7 @@ _upgradeDialog(BuildContext context) => Dialog(
                   children: [
                     Icon(
                       Icons.verified,
-                      color: Colors.white,
+                      color: appTheme.currentTheme.primaryIconColor,
                     ),
                     Padding(padding: EdgeInsets.only(right: 12)),
                     Text(
