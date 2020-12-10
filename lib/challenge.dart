@@ -74,7 +74,7 @@ class _ChallengePageState extends State<ChallengePage> {
   @override
   initState() {
     super.initState();
-    audioCache = AudioCache(prefix: widget.prefix.item1);
+    audioCache = AudioCache(prefix: 'assets/audio/');
   }
 
   @override
@@ -444,7 +444,7 @@ class _ChallengePageState extends State<ChallengePage> {
                 setState(() {
                   this.avatar = this.avatarState[1];
                 });
-                play('sound_${widget.prefix.item2}_${this.i}.mp3');
+                play('${widget.wordList[this.i].word}.mp3');
               }
             },
             child: SvgPicture.asset(this.avatar, semanticsLabel: 'Acme Logo'),
