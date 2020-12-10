@@ -107,40 +107,45 @@ _aboutOption(
     IconData icon = Icons.verified,
     Color color = Colors.white,
     bool enableSubTitle = false}) {
-  return FlatButton(
-    padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-    onPressed: onpressed,
+  return Material(
     color: Colors.transparent,
-    child: Row(
-      children: [
-        Icon(
-          icon,
-          color: color,
-        ),
-        Padding(padding: EdgeInsets.only(right: 25)),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+    child: InkWell(
+      splashFactory: InkRipple.splashFactory,
+      onTap: onpressed,
+      child: Padding(
+        padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+        child: Row(
           children: [
-            Text(
-              title,
-              style: TextStyle(
-                color: color,
-                fontWeight: FontWeight.normal,
-                height: 1.2,
-              ),
+            Icon(
+              icon,
+              color: color,
             ),
-            if (enableSubTitle)
-              Text(
-                subTitle,
-                style: TextStyle(
-                  color: Colors.white70,
-                  fontWeight: FontWeight.normal,
-                  height: 1.2,
+            Padding(padding: EdgeInsets.only(right: 25)),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: TextStyle(
+                    color: color,
+                    fontWeight: FontWeight.normal,
+                    height: 1.2,
+                  ),
                 ),
-              ),
+                if (enableSubTitle)
+                  Text(
+                    subTitle,
+                    style: TextStyle(
+                      color: Colors.white70,
+                      fontWeight: FontWeight.normal,
+                      height: 1.2,
+                    ),
+                  ),
+              ],
+            ),
           ],
         ),
-      ],
+      ),
     ),
   );
 }

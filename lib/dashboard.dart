@@ -317,26 +317,31 @@ _sheetOption(
     String title = "",
     IconData icon = Icons.verified,
     Color color = Colors.white}) {
-  return FlatButton(
-    padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-    onPressed: onpressed,
+  return Material(
     color: Colors.transparent,
-    child: Row(
-      children: [
-        Icon(
-          icon,
-          color: color,
+    child: InkWell(
+      splashFactory: InkRipple.splashFactory,
+      onTap: onpressed,
+      child: Padding(
+        padding: EdgeInsets.fromLTRB(20, 12.5, 20, 12.5),
+        child: Row(
+          children: [
+            Icon(
+              icon,
+              color: color,
+            ),
+            Padding(padding: EdgeInsets.only(right: 25)),
+            Text(
+              title,
+              style: TextStyle(
+                color: color,
+                fontWeight: FontWeight.normal,
+                height: 1.2,
+              ),
+            ),
+          ],
         ),
-        Padding(padding: EdgeInsets.only(right: 25)),
-        Text(
-          title,
-          style: TextStyle(
-            color: color,
-            fontWeight: FontWeight.normal,
-            height: 1.2,
-          ),
-        ),
-      ],
+      ),
     ),
   );
 }
