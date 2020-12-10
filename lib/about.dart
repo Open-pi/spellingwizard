@@ -101,8 +101,11 @@ class _AboutPageState extends State<AboutPage> {
       ),
       _aboutOption(
         title: 'Credits',
+        subTitle:
+            "Developpers:\n Youssef Toukebri (Maistrox9),\n Drissi Mohieddine (zeddo123)\nVoice Actors:\n Mr X",
         icon: Icons.people,
         onpressed: () {},
+        enableSubTitle: true,
       )
     ];
   }
