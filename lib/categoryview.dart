@@ -72,7 +72,7 @@ class _CategoryViewState extends State<CategoryView> {
         Icon stateIcon;
         TextStyle titleStyle;
         if (widget.saveFile.playable(index)) {
-          colors = appTheme.currentTheme.gradientChallengeCardColors;
+          colors = appTheme.currentTheme.gradientCategoryviewCardColors;
           rateIcon = Icon(
             Icons.star,
             color: Colors.amber,
@@ -86,8 +86,8 @@ class _CategoryViewState extends State<CategoryView> {
             color: appTheme.currentTheme.primaryTextColor,
           );
         } else {
-          colors =
-              darkenColors(appTheme.currentTheme.gradientChallengeCardColors);
+          colors = darkenColors(
+              appTheme.currentTheme.gradientCategoryviewCardColors);
           rateIcon = Icon(
             Icons.star,
             color: appTheme.currentTheme.darkClosedColor,

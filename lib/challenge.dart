@@ -558,7 +558,7 @@ class _ChallengePageState extends State<ChallengePage> {
                     Navigator.pop(context);
                   },
                   child: Text('Quit'),
-                  textColor: Colors.white,
+                  textColor: appTheme.currentTheme.primaryTextColor,
                 ),
                 SizedBox(
                   width: 8,
@@ -584,7 +584,7 @@ class _ChallengePageState extends State<ChallengePage> {
                   },
                   child: Text('Retake'),
                   color: appTheme.currentTheme.challengeBackColor,
-                  textColor: Colors.deepPurpleAccent[700],
+                  textColor: appTheme.currentTheme.primaryColor,
                 )
               ],
             )
