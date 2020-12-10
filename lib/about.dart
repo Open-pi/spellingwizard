@@ -57,7 +57,7 @@ class _AboutPageState extends State<AboutPage> {
       ),
       _aboutOption(
         title: 'Version',
-        subTitle: '2.2.4',
+        subTitle: '1.0.0',
         icon: Icons.info_outline,
         color: appTheme.currentTheme.primaryTextColor,
         enableSubTitle: true,
@@ -94,6 +94,14 @@ class _AboutPageState extends State<AboutPage> {
         title: 'Rate this app',
         icon: Icons.star_rate,
         color: appTheme.currentTheme.primaryTextColor,
+        onpressed: () {},
+      ),
+      SizedBox(
+        height: 7,
+      ),
+      _aboutOption(
+        title: 'Credits',
+        icon: Icons.people,
         onpressed: () {},
       )
     ];
