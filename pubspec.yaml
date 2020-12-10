@@ -86,19 +86,15 @@ flutter:
     - assets/abstract_category.png
     - assets/Mycsvfile1.csv
     - assets/categories/Verbs_words/
-    - assets/categories/Verbs_words/challenges_audio/
     - assets/categories/Tools_words/
-    - assets/categories/Tools_words/challenges_audio/
     - assets/categories/Animals_words/
-    - assets/categories/Animals_words/challenges_audio/
     - assets/categories/Abstract_words/
-    - assets/categories/Abstract_words/challenges_audio/
     - assets/categories/Family_words/
-    - assets/categories/Family_words/challenges_audio/
     - assets/wizard.png
     - assets/icon.png
     - assets/splash_icon.png
     - assets/avatar/
+    - assets/audio/
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
