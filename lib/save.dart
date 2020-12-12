@@ -69,7 +69,9 @@ class SaveFile {
       this.save.add(SavedChallenge(id: 'challenge$index', stars: stars));
     } else {
       print('updating the list');
-      this.save[index].stars = stars;
+			if (stars >= this.save[index].stars){
+      	this.save[index].stars = stars;
+			}
     }
     // re-write the file
     printSave();
