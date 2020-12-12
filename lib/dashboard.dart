@@ -2,6 +2,7 @@ import 'package:SpellingWizard/reviewMistakes.dart';
 import 'package:SpellingWizard/settings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'about.dart';
 import 'categoryview.dart';
 import 'package:SpellingWizard/save.dart';
@@ -259,16 +260,29 @@ void _bottomMenu(context) {
                   SizedBox(
                     height: sheetHeight * 0.09,
                   ),
+                  //_sheetOption(
+                  //  title: 'Upgrade',
+                  //  icon: FlutterIcons.crown_fou,
+                  //  color: Colors.amber,
+                  //  onpressed: () {
+                  //    Navigator.pop(context);
+                  //    showDialog(
+                  //        context: context,
+                  //        builder: (BuildContext context) {
+                  //          return _upgradeDialog(context);
+                  //        });
+                  //  },
+                  //),
                   _sheetOption(
-                    title: 'Upgrade',
-                    icon: Icons.vpn_key,
+                    title: 'Support the developer',
+                    icon: Icons.favorite,
                     color: Colors.amber,
                     onpressed: () {
                       Navigator.pop(context);
                       showDialog(
                           context: context,
                           builder: (BuildContext context) {
-                            return _upgradeDialog(context);
+                            return _donateDialog(context);
                           });
                     },
                   ),
@@ -365,26 +379,36 @@ _upgradeDialog(BuildContext context) => Dialog(
             children: [
               Row(
                 children: [
-                  Text('Spelling Wizard',
-                      style: TextStyle(
-                          fontSize: 18,
-                          color: appTheme.currentTheme.primaryTextColor,
-                          fontWeight: FontWeight.bold,
-                          height: 1.25)),
-                  Padding(padding: EdgeInsets.only(right: 8)),
-                  Container(
-                    padding: EdgeInsets.fromLTRB(4, 0.2, 4, 0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color: Colors.amber,
+                  Flexible(
+                    child: Padding(
+                      padding: const EdgeInsets.all(0),
+                      child: Text('Spelling Wizard',
+                          style: TextStyle(
+                              fontSize: 18,
+                              color: appTheme.currentTheme.primaryTextColor,
+                              fontWeight: FontWeight.bold,
+                              height: 1.25)),
                     ),
-                    child: Text('PRO',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: appTheme.currentTheme.primaryTextColor,
-                          fontWeight: FontWeight.bold,
-                        )),
+                  ),
+                  Padding(padding: EdgeInsets.only(right: 8)),
+                  Flexible(
+                    child: Padding(
+                      padding: const EdgeInsets.all(0),
+                      child: Container(
+                        padding: EdgeInsets.fromLTRB(4, 0.2, 4, 0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          color: Colors.amber,
+                        ),
+                        child: Text('PRO',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: appTheme.currentTheme.primaryTextColor,
+                              fontWeight: FontWeight.bold,
+                            )),
+                      ),
+                    ),
                   )
                 ],
               ),
@@ -461,6 +485,133 @@ _upgradeDialog(BuildContext context) => Dialog(
         ),
       ),
     );
+
+_donateDialog(BuildContext context) => Dialog(
+    backgroundColor: Colors.transparent,
+    elevation: 0,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+    ),
+    child: Container(
+        height: 180,
+        decoration: BoxDecoration(
+          shape: BoxShape.rectangle,
+          borderRadius: BorderRadius.all(Radius.circular(12)),
+          gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              stops: [0.001, 1],
+              colors: appTheme.currentTheme.gradientDialogColors),
+        ),
+        width: double.infinity,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Flexible(
+                    child: Padding(
+                      padding: const EdgeInsets.all(0),
+                      child: Text('Spelling Wizard',
+                          style: TextStyle(
+                              fontSize: 18,
+                              color: appTheme.currentTheme.primaryTextColor,
+                              fontWeight: FontWeight.bold,
+                              height: 1.25)),
+                    ),
+                  ),
+                  Padding(padding: EdgeInsets.only(right: 8)),
+                  Flexible(
+                    child: Padding(
+                      padding: const EdgeInsets.all(0),
+                      child: Container(
+                        padding: EdgeInsets.fromLTRB(4, 0.2, 4, 0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          color: Colors.amber,
+                        ),
+                        child: Text('PRO',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: appTheme.currentTheme.primaryTextColor,
+                              fontWeight: FontWeight.bold,
+                            )),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              _customHoriSpacer(),
+              Text("Donate to support open-source and ad-free software!",
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: appTheme.currentTheme.primaryTextColor,
+                    fontWeight: FontWeight.normal,
+                  )),
+              Spacer(),
+              Wrap(
+                children: [
+                  RaisedButton(
+                    color: Colors.teal[300],
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.credit_card,
+                          color: appTheme.currentTheme.primaryIconColor,
+                        ),
+                        Padding(padding: EdgeInsets.only(right: 10)),
+                        Text(
+                          'DONATE',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 16,
+                              height: 1.2),
+                        ),
+                      ],
+                    ),
+                    onPressed: () {},
+                  ),
+                  Padding(padding: EdgeInsets.only(right: 18.0)),
+                  RaisedButton(
+                    color: Colors.teal[300],
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          FlutterIcons.bitcoin_faw5d,
+                          color: appTheme.currentTheme.primaryIconColor,
+                        ),
+                        Padding(padding: EdgeInsets.only(right: 10)),
+                        Text(
+                          'DONATE',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 16,
+                              height: 1.2),
+                        ),
+                      ],
+                    ),
+                    onPressed: () {},
+                  ),
+                ],
+              ),
+              _customHoriSpacer(size: 20)
+            ],
+          ),
+        )));
 
 _customHoriSpacer({double size = 12}) => SizedBox(height: size);
 
