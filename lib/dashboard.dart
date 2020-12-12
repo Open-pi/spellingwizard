@@ -379,36 +379,26 @@ _upgradeDialog(BuildContext context) => Dialog(
             children: [
               Row(
                 children: [
-                  Flexible(
-                    child: Padding(
-                      padding: const EdgeInsets.all(0),
-                      child: Text('Spelling Wizard',
-                          style: TextStyle(
-                              fontSize: 18,
-                              color: appTheme.currentTheme.primaryTextColor,
-                              fontWeight: FontWeight.bold,
-                              height: 1.25)),
-                    ),
-                  ),
+                  Text('Spelling Wizard',
+                      style: TextStyle(
+                          fontSize: 18,
+                          color: appTheme.currentTheme.primaryTextColor,
+                          fontWeight: FontWeight.bold,
+                          height: 1.25)),
                   Padding(padding: EdgeInsets.only(right: 8)),
-                  Flexible(
-                    child: Padding(
-                      padding: const EdgeInsets.all(0),
-                      child: Container(
-                        padding: EdgeInsets.fromLTRB(4, 0.2, 4, 0),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          color: Colors.amber,
-                        ),
-                        child: Text('PRO',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: appTheme.currentTheme.primaryTextColor,
-                              fontWeight: FontWeight.bold,
-                            )),
-                      ),
+                  Container(
+                    padding: EdgeInsets.fromLTRB(4, 0.2, 4, 0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: Colors.amber,
                     ),
+                    child: Text('PRO',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: appTheme.currentTheme.primaryTextColor,
+                          fontWeight: FontWeight.bold,
+                        )),
                   )
                 ],
               ),
@@ -510,36 +500,26 @@ _donateDialog(BuildContext context) => Dialog(
             children: [
               Row(
                 children: [
-                  Flexible(
-                    child: Padding(
-                      padding: const EdgeInsets.all(0),
-                      child: Text('Spelling Wizard',
-                          style: TextStyle(
-                              fontSize: 18,
-                              color: appTheme.currentTheme.primaryTextColor,
-                              fontWeight: FontWeight.bold,
-                              height: 1.25)),
-                    ),
-                  ),
+                  Text('Spelling Wizard',
+                      style: TextStyle(
+                          fontSize: 18,
+                          color: appTheme.currentTheme.primaryTextColor,
+                          fontWeight: FontWeight.bold,
+                          height: 1.25)),
                   Padding(padding: EdgeInsets.only(right: 8)),
-                  Flexible(
-                    child: Padding(
-                      padding: const EdgeInsets.all(0),
-                      child: Container(
-                        padding: EdgeInsets.fromLTRB(4, 0.2, 4, 0),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          color: Colors.amber,
-                        ),
-                        child: Text('PRO',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: appTheme.currentTheme.primaryTextColor,
-                              fontWeight: FontWeight.bold,
-                            )),
-                      ),
+                  Container(
+                    padding: EdgeInsets.fromLTRB(4, 0.2, 4, 0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: Colors.amber,
                     ),
+                    child: Text('PRO',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: appTheme.currentTheme.primaryTextColor,
+                          fontWeight: FontWeight.bold,
+                        )),
                   ),
                 ],
               ),
@@ -551,7 +531,8 @@ _donateDialog(BuildContext context) => Dialog(
                     fontWeight: FontWeight.normal,
                   )),
               Spacer(),
-              Wrap(
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   RaisedButton(
                     color: Colors.teal[300],
@@ -579,7 +560,6 @@ _donateDialog(BuildContext context) => Dialog(
                     ),
                     onPressed: () {},
                   ),
-                  Padding(padding: EdgeInsets.only(right: 18.0)),
                   RaisedButton(
                     color: Colors.teal[300],
                     shape: RoundedRectangleBorder(
