@@ -1,4 +1,5 @@
 import 'package:SpellingWizard/config.dart';
+import 'package:SpellingWizard/openSourceLicences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -76,7 +77,9 @@ class _AboutPageState extends State<AboutPage> {
         title: 'Open Source Licences',
         icon: Icons.menu_book,
         color: appTheme.currentTheme.primaryTextColor,
-        onpressed: () {},
+        onpressed: () {
+          Navigator.of(context).push(_createRoute('Licences'));
+        },
       ),
       SizedBox(
         height: 7,
@@ -178,4 +181,26 @@ _sendEmailFeedback() async {
   } else {
     throw 'Could not launch $url';
   }
+}
+
+Route _createRoute(String page) {
+  return PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) {
+      if (page == 'Licences') {
+        return OpenSourceLicencesPage();
+      }
+    },
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      var begin = Offset(0.0, 1.0);
+      var end = Offset.zero;
+      var curve = Curves.ease;
+
+      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+      return SlideTransition(
+        position: animation.drive(tween),
+        child: child,
+      );
+    },
+  );
 }
