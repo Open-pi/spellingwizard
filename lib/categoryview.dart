@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:csv/csv.dart';
@@ -56,11 +58,26 @@ class _CategoryViewState extends State<CategoryView> {
 
   ListView _categListView(BuildContext context) {
     List<Word> wordList = [];
+    List<String> mistakesList = [];
     loadAsset(int index) async {
       final myData = await rootBundle.loadString(
           "assets/categories/${widget.title}_words/challenge$index.csv");
       List<List<dynamic>> data = CsvToListConverter().convert(myData);
       wordList = convertListToWords(data);
+    }
+
+    loadMistakes() async {
+      final path = await savePath();
+      if (File('$path/mistakes.csv').existsSync()) {
+        final file = File('$path/mistakes.csv');
+        final myData = file.readAsStringSync();
+        List<List<dynamic>> data =
+            CsvToListConverter(eol: "\r\n", fieldDelimiter: ",")
+                .convert(myData);
+        mistakesList = getWordsListStrOnly(data);
+      } else {
+        new File('$path/mistakes.csv');
+      }
     }
 
     return ListView.builder(
@@ -142,16 +159,18 @@ class _CategoryViewState extends State<CategoryView> {
                         widget.title,
                       );
                       await loadAsset(index);
+                      await loadMistakes();
                       if (widget.saveFile.playable(index)) {
                         Navigator.push(
                             context,
                             CupertinoPageRoute(
                                 maintainState: true,
-                                builder: (BuildContext context) => ChallengePage(
-                                    wordList,
-                                    audioPrefix,
-                                    '${widget.title} Challenge ${index + 1}'))).then(
-                            (value) async {
+                                builder: (BuildContext context) =>
+                                    ChallengePage(
+                                      wordList,
+                                      mistakesList,
+                                      audioPrefix,
+                                    ))).then((value) async {
                           SaveFile saveTmp =
                               await saveFileOfCategory(widget.title);
                           setState(() {

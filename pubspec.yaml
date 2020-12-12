@@ -37,8 +37,8 @@ dependencies:
   flutter_svg: ^0.19.1
   flutter_icons: ^1.1.0
   url_launcher: ^5.7.10
-  hive: ^1.4.4+1
   flutter_colorpicker: ^0.3.4
+  shimmer: ^1.1.2
   built_in_keyboard:
     git:
       url: https://github.com/Open-Segmentation-Systems/BuiltInKeyboard.git
@@ -84,7 +84,6 @@ flutter:
     - assets/animals_category.png
     - assets/family_category.png
     - assets/abstract_category.png
-    - assets/Mycsvfile1.csv
     - assets/categories/Verbs_words/
     - assets/categories/Tools_words/
     - assets/categories/Animals_words/

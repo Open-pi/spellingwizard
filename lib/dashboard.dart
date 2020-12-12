@@ -1,3 +1,4 @@
+import 'package:SpellingWizard/reviewMistakes.dart';
 import 'package:SpellingWizard/settings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -277,13 +278,10 @@ void _bottomMenu(context) {
                   _sheetOption(
                     title: 'Review Mistakes',
                     icon: Icons.receipt_long,
-                    onpressed: () {
+                    onpressed: () async {
                       Navigator.pop(context);
-                      showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return _upgradeDialog(context);
-                          });
+                      Navigator.of(context)
+                          .push(_createRoute('ReviewMistakes'));
                     },
                   ),
                   SizedBox(
@@ -516,6 +514,8 @@ Route _createRoute(String page) {
         return AboutPage();
       } else if (page == 'Settings') {
         return SettingsPage();
+      } else if (page == 'ReviewMistakes') {
+        return ReviewMistakesPage();
       }
     },
     transitionsBuilder: (context, animation, secondaryAnimation, child) {

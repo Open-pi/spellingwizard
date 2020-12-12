@@ -120,3 +120,9 @@ Future<SaveFile> saveFileOfCategory(String title) async {
   await saveFile.readFromFile();
   return saveFile;
 }
+
+Future<File> loadMistakesFile() async {
+  final path = await savePath();
+  final file = File('$path/mistakes.csv');
+  return file;
+}

@@ -23,3 +23,11 @@ List<Word> convertListToWords(List<List<dynamic>> listwordList) {
   }
   return wordList;
 }
+
+List<String> getWordsListStrOnly(List<List<dynamic>> listwordList) {
+  List<String> wordList = [];
+  for (int i = 0; i < listwordList.length; i++) {
+    wordList.add(listwordList[i][0]);
+  }
+  return wordList;
+}

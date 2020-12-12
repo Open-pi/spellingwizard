@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:audioplayers/audioplayers.dart';
 import 'package:built_in_keyboard/built_in_keyboard.dart';
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audio_cache.dart';
+import 'package:flutter/services.dart';
 import 'package:tuple/tuple.dart';
 import 'config.dart';
 import 'word.dart';
@@ -13,9 +16,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class ChallengePage extends StatefulWidget {
   final List<Word> wordList;
+  final List<String> mistakesList;
   final Tuple3 prefix;
-  final String title;
-  ChallengePage(this.wordList, this.prefix, this.title);
+  final bool isPractice;
+  ChallengePage(this.wordList, this.mistakesList, this.prefix,
+      {this.isPractice = false});
   @override
   _ChallengePageState createState() => _ChallengePageState();
 }
@@ -71,6 +76,29 @@ class _ChallengePageState extends State<ChallengePage> {
   ];
   String avatar = 'assets/avatar/avatar_rest.svg';
 
+  Future<bool> _onWillPop() async {
+    return (await showDialog(
+          context: context,
+          builder: (context) => new AlertDialog(
+            title: new Text('Are you sure?'),
+            content: new Text('Do you want to exit the challenge'),
+            actions: <Widget>[
+              new FlatButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: new Text('No'),
+              ),
+              new FlatButton(
+                onPressed: () {
+                  Navigator.of(context).pop(true);
+                },
+                child: new Text('Yes'),
+              ),
+            ],
+          ),
+        )) ??
+        false;
+  }
+
   @override
   initState() {
     super.initState();
@@ -85,21 +113,24 @@ class _ChallengePageState extends State<ChallengePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomPadding: true,
-      backgroundColor: Colors.transparent,
-      body: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5.0),
-          gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomCenter,
-              stops: [0.01, 1],
-              colors: appTheme.currentTheme.gradientKeyboardColors),
-        ),
-        child: SafeArea(
-          child: Column(
-            children: body(),
+    return new WillPopScope(
+      onWillPop: _onWillPop,
+      child: Scaffold(
+        resizeToAvoidBottomPadding: true,
+        backgroundColor: Colors.transparent,
+        body: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5.0),
+            gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomCenter,
+                stops: [0.01, 1],
+                colors: appTheme.currentTheme.gradientKeyboardColors),
+          ),
+          child: SafeArea(
+            child: Column(
+              children: body(),
+            ),
           ),
         ),
       ),
@@ -316,6 +347,7 @@ class _ChallengePageState extends State<ChallengePage> {
 
   _inputFieldUpdate(String userWord) async {
     final SaveFile saveFile = await saveFileOfCategory(widget.prefix.item3);
+    File mistakesFile = await loadMistakesFile();
     setState(() {
       bool move = false;
       bool endOfGame = false;
@@ -339,6 +371,16 @@ class _ChallengePageState extends State<ChallengePage> {
                 ],
               ));
           this.correctAnswers++;
+          if (widget.isPractice) {
+            mistakesFile.writeAsStringSync('');
+            List<Word> newMistakesList = widget.wordList;
+            newMistakesList.remove(widget.wordList[this.i]);
+            for (int j = 0; j < widget.wordList.length; j++) {
+              mistakesFile.writeAsStringSync(
+                  "${newMistakesList[j].word},${newMistakesList[j].meaning},${newMistakesList[j].usage},${newMistakesList[j].phonetic}\r\n",
+                  mode: FileMode.append);
+            }
+          }
         }
         if (lastPage) {
           // If we reached the last word
@@ -376,6 +418,12 @@ class _ChallengePageState extends State<ChallengePage> {
                 ],
               ));
           this.incorrectAnswers++;
+          if (!widget.isPractice &&
+              !widget.mistakesList.contains(widget.wordList[this.i].word)) {
+            mistakesFile.writeAsStringSync(
+                "${widget.wordList[this.i].word},${widget.wordList[this.i].meaning},${widget.wordList[this.i].usage},${widget.wordList[this.i].phonetic}\r\n",
+                mode: FileMode.append);
+          }
         }
         this.attempt--;
         if (this.attempt < 1) {
