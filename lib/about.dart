@@ -1,4 +1,5 @@
 import 'package:SpellingWizard/config.dart';
+import 'package:SpellingWizard/credits.dart';
 import 'package:SpellingWizard/openSourceLicences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -104,11 +105,10 @@ class _AboutPageState extends State<AboutPage> {
       ),
       _aboutOption(
         title: 'Credits',
-        subTitle:
-            "Developers:\n Youssef Toukebri (Maistrox9),\n Drissi Mohieddine (zeddo123)\nVoice Actors:\n Mr X",
         icon: Icons.people,
-        onpressed: () {},
-        enableSubTitle: true,
+        onpressed: () {
+          Navigator.of(context).push(_createRoute('Credits'));
+        },
       )
     ];
   }
@@ -188,6 +188,8 @@ Route _createRoute(String page) {
     pageBuilder: (context, animation, secondaryAnimation) {
       if (page == 'Licences') {
         return OpenSourceLicencesPage();
+      } else if (page == 'Credits') {
+        return CreditsPage();
       }
     },
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
