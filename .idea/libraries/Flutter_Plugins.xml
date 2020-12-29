@@ -1,0 +1,18 @@
+<component name="libraryTable">
+  <library name="Flutter Plugins" type="FlutterPluginsLibraryType">
+    <CLASSES>
+      <root url="file://$USER_HOME$/Utils/flutter/.pub-cache/hosted/pub.dartlang.org/url_launcher-5.7.10" />
+      <root url="file://$USER_HOME$/Utils/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider-1.6.24" />
+      <root url="file://$USER_HOME$/Utils/flutter/.pub-cache/hosted/pub.dartlang.org/audioplayers-0.16.2" />
+      <root url="file://$USER_HOME$/Utils/flutter/.pub-cache/hosted/pub.dartlang.org/url_launcher_web-0.1.5+1" />
+      <root url="file://$USER_HOME$/Utils/flutter/.pub-cache/hosted/pub.dartlang.org/url_launcher_linux-0.0.1+4" />
+      <root url="file://$USER_HOME$/Utils/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_macos-0.0.4+4" />
+      <root url="file://$USER_HOME$/Utils/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_windows-0.0.4+1" />
+      <root url="file://$USER_HOME$/Utils/flutter/.pub-cache/hosted/pub.dartlang.org/url_launcher_macos-0.0.1+9" />
+      <root url="file://$USER_HOME$/Utils/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_linux-0.0.1+2" />
+      <root url="file://$USER_HOME$/Utils/flutter/.pub-cache/hosted/pub.dartlang.org/url_launcher_windows-0.0.1+3" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
