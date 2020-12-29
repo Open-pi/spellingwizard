@@ -7,6 +7,7 @@ import 'about.dart';
 import 'categoryview.dart';
 import 'package:SpellingWizard/save.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 import 'config.dart';
 
@@ -210,8 +211,6 @@ class _HomePageState extends State<HomePage> {
 }
 
 void _bottomMenu(context) {
-  print(MediaQuery.of(context).size.height);
-  final double heightFactor = 0.5;
   showModalBottomSheet<dynamic>(
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
@@ -226,57 +225,60 @@ void _bottomMenu(context) {
             child: Wrap(
               children: [
                 Container(
-                  padding: EdgeInsets.fromLTRB(15, 15, 15, 15),
-                  child: Row(
-                    children: [
-                      Image.asset(
-                        "assets/wizard.png",
-                        width: 35,
-                      ),
-                      Padding(padding: EdgeInsets.only(right: 15)),
-                      Text(
-                        'Spelling Wizard',
-                        style: TextStyle(
-                          color: appTheme.currentTheme.secondaryTextColor,
-                          fontWeight: FontWeight.normal,
-                          fontSize: 20,
-                          height: 1.2,
+                  padding: EdgeInsets.only(top: 4),
+                  child: ListTile(
+                    leading: Image.asset(
+                      "assets/wizard.png",
+                      width: 35,
+                    ),
+                    title: Row(
+                      children: [
+                        Flexible(
+                          child: AutoSizeText(
+                            'Spelling Wizard',
+                            style: TextStyle(
+                              color: appTheme.currentTheme.secondaryTextColor,
+                              fontSize: 20,
+                            ),
+                            minFontSize: 10,
+                            maxLines: 1,
+                          ),
                         ),
-                      ),
-                      Padding(padding: EdgeInsets.only(right: 5)),
-                      Icon(
-                        Icons.verified,
-                        color: appTheme.currentTheme.secondaryTextColor,
-                      )
-                    ],
+                        Padding(padding: EdgeInsets.only(right: 5)),
+                        Icon(
+                          Icons.verified,
+                          color: appTheme.currentTheme.secondaryTextColor,
+                        )
+                      ],
+                    ),
                   ),
                 ),
+                SizedBox(
+                  height: 65,
+                ),
                 //_sheetOption(
-                //  title: 'Upgrade',
-                //  icon: FlutterIcons.crown_fou,
+                //  title: 'Support the developer',
+                //  icon: Icons.favorite,
                 //  color: Colors.amber,
                 //  onpressed: () {
                 //    Navigator.pop(context);
                 //    showDialog(
                 //        context: context,
                 //        builder: (BuildContext context) {
-                //          return _upgradeDialog(context);
+                //          return _donateDialog(context);
                 //        });
                 //  },
                 //),
-                SizedBox(
-                  height: 65,
-                ),
                 _sheetOption(
-                  title: 'Support the developer',
-                  icon: Icons.favorite,
+                  title: 'Upgrade',
+                  icon: FlutterIcons.crown_fou,
                   color: Colors.amber,
                   onpressed: () {
                     Navigator.pop(context);
                     showDialog(
                         context: context,
                         builder: (BuildContext context) {
-                          return _donateDialog(context);
+                          return _upgradeDialog(context);
                         });
                   },
                 ),
@@ -337,12 +339,14 @@ _sheetOption(
               color: color,
             ),
             Padding(padding: EdgeInsets.only(right: 25)),
-            Text(
-              title,
-              style: TextStyle(
-                color: color,
-                fontWeight: FontWeight.normal,
-                height: 1.2,
+            Flexible(
+              child: AutoSizeText(
+                title,
+                style: TextStyle(
+                  color: color,
+                  fontWeight: FontWeight.normal,
+                  height: 1.2,
+                ),
               ),
             ),
           ],
@@ -355,8 +359,10 @@ _sheetOption(
 _upgradeDialog(BuildContext context) => Dialog(
       backgroundColor: Colors.transparent,
       elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+      ),
       child: Container(
-        height: 395,
         decoration: BoxDecoration(
           shape: BoxShape.rectangle,
           borderRadius: BorderRadius.all(Radius.circular(12)),
@@ -369,16 +375,19 @@ _upgradeDialog(BuildContext context) => Dialog(
         width: double.infinity,
         child: Padding(
           padding: const EdgeInsets.fromLTRB(20, 20, 19, 0),
-          child: Column(
+          child: Wrap(
+            alignment: WrapAlignment.center,
             children: [
               Row(
                 children: [
-                  Text('Spelling Wizard',
-                      style: TextStyle(
-                          fontSize: 18,
-                          color: appTheme.currentTheme.primaryTextColor,
-                          fontWeight: FontWeight.bold,
-                          height: 1.25)),
+                  Flexible(
+                    child: AutoSizeText('Spelling Wizard',
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: appTheme.currentTheme.primaryTextColor,
+                            fontWeight: FontWeight.bold,
+                            height: 1.25)),
+                  ),
                   Padding(padding: EdgeInsets.only(right: 8)),
                   Container(
                     padding: EdgeInsets.fromLTRB(4, 0.2, 4, 0),
@@ -386,49 +395,51 @@ _upgradeDialog(BuildContext context) => Dialog(
                       borderRadius: BorderRadius.circular(5),
                       color: Colors.amber,
                     ),
-                    child: Text('PRO',
+                    child: AutoSizeText('PRO',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 14,
                           color: appTheme.currentTheme.primaryTextColor,
                           fontWeight: FontWeight.bold,
                         )),
-                  )
+                  ),
                 ],
               ),
-              _customHoriSpacer(),
-              Text(
-                  "Upgrade to support open-source software, remove ads, and enjoy some awsome features!",
-                  style: TextStyle(
-                    fontSize: 11.5,
-                    color: appTheme.currentTheme.primaryTextColor,
-                    fontWeight: FontWeight.normal,
-                  )),
-              _customHoriSpacer(size: 20),
+              _customHoriSpacer(size: 35),
+              Flexible(
+                child: AutoSizeText(
+                    "Upgrade to support open-source software, remove ads, and enjoy some awsome features!",
+                    style: TextStyle(
+                      fontSize: 11.5,
+                      color: appTheme.currentTheme.primaryTextColor,
+                      fontWeight: FontWeight.normal,
+                    )),
+              ),
+              _customHoriSpacer(size: 55),
               _feature(
                 text1: "Change app theme",
                 icon: Icons.color_lens,
                 color: appTheme.currentTheme.primaryTextColor,
               ),
-              _customHoriSpacer(),
+              _customHoriSpacer(size: 35),
               _feature(
                 text1: "Remove Ads",
                 icon: Icons.eco,
                 color: appTheme.currentTheme.primaryTextColor,
               ),
-              _customHoriSpacer(),
+              _customHoriSpacer(size: 35),
               _feature(
                 text1: "Unlock all challenges",
                 icon: Icons.all_inclusive,
                 color: appTheme.currentTheme.primaryTextColor,
               ),
-              _customHoriSpacer(),
+              _customHoriSpacer(size: 35),
               _feature(
                 text1: "Review your mistakes",
                 icon: Icons.receipt_long,
                 color: appTheme.currentTheme.primaryTextColor,
               ),
-              _customHoriSpacer(),
+              _customHoriSpacer(size: 35),
               _feature(
                 text1: "One time payment",
                 text2: "All future features for free",
@@ -436,7 +447,7 @@ _upgradeDialog(BuildContext context) => Dialog(
                 twoLines: true,
                 color: appTheme.currentTheme.primaryTextColor,
               ),
-              Spacer(),
+              _customHoriSpacer(size: 55),
               RaisedButton(
                 color: Colors.teal[300],
                 shape: RoundedRectangleBorder(
@@ -463,7 +474,7 @@ _upgradeDialog(BuildContext context) => Dialog(
                 ),
                 onPressed: () {},
               ),
-              _customHoriSpacer(size: 20)
+              _customHoriSpacer(size: 60)
             ],
           ),
         ),
@@ -477,7 +488,6 @@ _donateDialog(BuildContext context) => Dialog(
       borderRadius: BorderRadius.all(Radius.circular(10.0)),
     ),
     child: Container(
-        height: 180,
         decoration: BoxDecoration(
           shape: BoxShape.rectangle,
           borderRadius: BorderRadius.all(Radius.circular(12)),
@@ -490,16 +500,19 @@ _donateDialog(BuildContext context) => Dialog(
         width: double.infinity,
         child: Padding(
           padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-          child: Column(
+          child: Wrap(
+            alignment: WrapAlignment.center,
             children: [
               Row(
                 children: [
-                  Text('Spelling Wizard',
-                      style: TextStyle(
-                          fontSize: 18,
-                          color: appTheme.currentTheme.primaryTextColor,
-                          fontWeight: FontWeight.bold,
-                          height: 1.25)),
+                  Flexible(
+                    child: AutoSizeText('Spelling Wizard',
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: appTheme.currentTheme.primaryTextColor,
+                            fontWeight: FontWeight.bold,
+                            height: 1.25)),
+                  ),
                   Padding(padding: EdgeInsets.only(right: 8)),
                   Container(
                     padding: EdgeInsets.fromLTRB(4, 0.2, 4, 0),
@@ -507,7 +520,7 @@ _donateDialog(BuildContext context) => Dialog(
                       borderRadius: BorderRadius.circular(5),
                       color: Colors.amber,
                     ),
-                    child: Text('PRO',
+                    child: AutoSizeText('PRO',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 14,
@@ -517,16 +530,20 @@ _donateDialog(BuildContext context) => Dialog(
                   ),
                 ],
               ),
-              _customHoriSpacer(),
-              Text("Donate to support open-source and ad-free software!",
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: appTheme.currentTheme.primaryTextColor,
-                    fontWeight: FontWeight.normal,
-                  )),
-              Spacer(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              _customHoriSpacer(size: 35),
+              Flexible(
+                child: AutoSizeText(
+                    "Donate to support open-source and ad-free software!",
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: appTheme.currentTheme.primaryTextColor,
+                      fontWeight: FontWeight.normal,
+                    )),
+              ),
+              _customHoriSpacer(size: 45),
+              Wrap(
+                alignment: WrapAlignment.center,
+                spacing: 15,
                 children: [
                   RaisedButton(
                     color: Colors.teal[300],
@@ -542,13 +559,15 @@ _donateDialog(BuildContext context) => Dialog(
                           color: appTheme.currentTheme.primaryIconColor,
                         ),
                         Padding(padding: EdgeInsets.only(right: 10)),
-                        Text(
-                          'DONATE',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 16,
-                              height: 1.2),
+                        Flexible(
+                          child: AutoSizeText(
+                            'DONATE',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 16,
+                                height: 1.2),
+                          ),
                         ),
                       ],
                     ),
@@ -568,13 +587,15 @@ _donateDialog(BuildContext context) => Dialog(
                           color: appTheme.currentTheme.primaryIconColor,
                         ),
                         Padding(padding: EdgeInsets.only(right: 10)),
-                        Text(
-                          'DONATE',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 16,
-                              height: 1.2),
+                        Flexible(
+                          child: AutoSizeText(
+                            'DONATE',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 16,
+                                height: 1.2),
+                          ),
                         ),
                       ],
                     ),
@@ -582,12 +603,12 @@ _donateDialog(BuildContext context) => Dialog(
                   ),
                 ],
               ),
-              _customHoriSpacer(size: 20)
+              _customHoriSpacer(size: 60),
             ],
           ),
         )));
 
-_customHoriSpacer({double size = 12}) => SizedBox(height: size);
+_customHoriSpacer({double size = 30}) => SizedBox(height: size);
 
 _feature(
     {String text1 = "",
@@ -596,7 +617,7 @@ _feature(
     Color color = Colors.white,
     bool twoLines = false}) {
   return Padding(
-    padding: const EdgeInsets.only(right: 20, left: 20),
+    padding: const EdgeInsets.only(right: 12, left: 12),
     child: Row(
       children: [
         Icon(
@@ -605,27 +626,29 @@ _feature(
           size: 20,
         ),
         Padding(padding: EdgeInsets.only(right: 10)),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              text1,
-              style: TextStyle(
-                fontSize: 11.5,
-                color: color,
-                fontWeight: FontWeight.normal,
-              ),
-            ),
-            if (twoLines)
-              Text(
-                text2,
+        Flexible(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              AutoSizeText(
+                text1,
                 style: TextStyle(
                   fontSize: 11.5,
                   color: color,
                   fontWeight: FontWeight.normal,
                 ),
               ),
-          ],
+              if (twoLines)
+                AutoSizeText(
+                  text2,
+                  style: TextStyle(
+                    fontSize: 11.5,
+                    color: color,
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
+            ],
+          ),
         )
       ],
     ),

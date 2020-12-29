@@ -4,6 +4,7 @@ import 'package:SpellingWizard/openSourceLicences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 class AboutPage extends StatefulWidget {
   @override
@@ -15,11 +16,11 @@ class _AboutPageState extends State<AboutPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("About"),
+        title: AutoSizeText("About"),
         elevation: 0,
       ),
       body: SafeArea(
-        child: Column(
+        child: ListView(
           children: body(),
         ),
       ),
@@ -28,30 +29,33 @@ class _AboutPageState extends State<AboutPage> {
 
   List<Widget> body() {
     return [
-      Container(
-        padding: EdgeInsets.fromLTRB(15, 15, 15, 15),
-        child: Row(
-          children: [
-            Image.asset(
-              "assets/wizard.png",
-              width: 44,
-            ),
-            Padding(padding: EdgeInsets.only(right: 16)),
-            Text(
-              'Spelling Wizard',
-              style: TextStyle(
-                color: appTheme.currentTheme.primaryTextColor,
-                fontWeight: FontWeight.normal,
-                fontSize: 27,
-                height: 1.2,
+      SizedBox(
+        height: 40,
+        child: ListTile(
+          leading: Image.asset(
+            "assets/wizard.png",
+            width: 44,
+          ),
+          title: Row(
+            children: [
+              Flexible(
+                child: AutoSizeText(
+                  'Spelling Wizard',
+                  style: TextStyle(
+                    color: appTheme.currentTheme.primaryTextColor,
+                    fontSize: 27,
+                  ),
+                  minFontSize: 10,
+                  maxLines: 1,
+                ),
               ),
-            ),
-            Padding(padding: EdgeInsets.only(right: 5)),
-            Icon(
-              Icons.verified,
-              color: appTheme.currentTheme.primaryIconColor,
-            )
-          ],
+              Padding(padding: EdgeInsets.only(right: 5)),
+              Icon(
+                Icons.verified,
+                color: appTheme.currentTheme.primaryIconColor,
+              )
+            ],
+          ),
         ),
       ),
       SizedBox(
@@ -135,27 +139,29 @@ _aboutOption(
               color: color,
             ),
             Padding(padding: EdgeInsets.only(right: 25)),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: TextStyle(
-                    color: color,
-                    fontWeight: FontWeight.normal,
-                    height: 1.2,
-                  ),
-                ),
-                if (enableSubTitle)
-                  Text(
-                    subTitle,
+            Flexible(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  AutoSizeText(
+                    title,
                     style: TextStyle(
-                      color: Colors.white70,
+                      color: color,
                       fontWeight: FontWeight.normal,
-                      height: 1.2,
+                      fontSize: 15.5,
                     ),
                   ),
-              ],
+                  if (enableSubTitle)
+                    AutoSizeText(
+                      subTitle,
+                      style: TextStyle(
+                        color: Colors.white70,
+                        fontWeight: FontWeight.normal,
+                        fontSize: 15.5,
+                      ),
+                    ),
+                ],
+              ),
             ),
           ],
         ),

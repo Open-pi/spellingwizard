@@ -21,8 +21,7 @@ class _SettingsPageState extends State<SettingsPage> {
         elevation: 0,
       ),
       body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: ListView(
           children: body(),
         ),
       ),
