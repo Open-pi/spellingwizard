@@ -406,16 +406,14 @@ _upgradeDialog(BuildContext context) => Dialog(
                 ],
               ),
               _customHoriSpacer(size: 35),
-              Flexible(
-                child: AutoSizeText(
-                    "Upgrade to support open-source software, remove ads, and enjoy some awsome features!",
-                    style: TextStyle(
-                      fontSize: 11.5,
-                      color: appTheme.currentTheme.primaryTextColor,
-                      fontWeight: FontWeight.normal,
-                    )),
-              ),
-              _customHoriSpacer(size: 55),
+              AutoSizeText(
+                  "Upgrade to support open-source software, remove ads, and enjoy some awsome features!",
+                  style: TextStyle(
+                    fontSize: 11.5,
+                    color: appTheme.currentTheme.primaryTextColor,
+                    fontWeight: FontWeight.normal,
+                  )),
+              _customHoriSpacer(size: 70),
               _feature(
                 text1: "Change app theme",
                 icon: Icons.color_lens,
