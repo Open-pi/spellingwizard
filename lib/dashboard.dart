@@ -6,6 +6,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'about.dart';
 import 'categoryview.dart';
 import 'package:SpellingWizard/save.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import 'config.dart';
 
@@ -65,10 +66,8 @@ class GridDashboardState extends State<GridDashboard> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: <Widget>[
-                            Image.asset(
-                              data.img,
-                              width: 42,
-                            ),
+                            SvgPicture.asset(data.img,
+                                semanticsLabel: 'Acme Logo'),
                             Text(
                               data.title,
                               style: TextStyle(
@@ -109,32 +108,32 @@ Future<List<Items>> categoryList() async {
   Items item1 = new Items(
     title: "Verbs",
     event: "6",
-    img: "assets/verbs_category.png",
+    img: "assets/verbs_category.svg",
     saveFile: await saveFileOfCategory("Verbs"),
   );
 
   Items item2 = new Items(
     title: "Family",
     event: "3",
-    img: "assets/family_category.png",
+    img: "assets/family_category.svg",
     saveFile: await saveFileOfCategory("Family"),
   );
   Items item3 = new Items(
     title: "Tools",
     event: "6",
-    img: "assets/tools_category.png",
+    img: "assets/tools_category.svg",
     saveFile: await saveFileOfCategory("Tools"),
   );
   Items item4 = new Items(
     title: "Animals",
     event: "6",
-    img: "assets/animals_category.png",
+    img: "assets/animals_category.svg",
     saveFile: await saveFileOfCategory("Animals"),
   );
   Items item5 = new Items(
     title: "Abstract",
     event: "2",
-    img: "assets/abstract_category.png",
+    img: "assets/abstract_category.svg",
     saveFile: await saveFileOfCategory("Abstract"),
   );
 

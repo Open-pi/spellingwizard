@@ -79,11 +79,7 @@ flutter:
           weight: 100
   
   assets:
-    - assets/verbs_category.png
-    - assets/tools_category.png
-    - assets/animals_category.png
-    - assets/family_category.png
-    - assets/abstract_category.png
+    - assets/
     - assets/categories/Verbs_words/
     - assets/categories/Tools_words/
     - assets/categories/Animals_words/
