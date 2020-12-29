@@ -136,8 +136,14 @@ Future<List<Items>> categoryList() async {
     img: "assets/abstract_category.svg",
     saveFile: await saveFileOfCategory("Abstract"),
   );
+  Items item6 = new Items(
+    title: "Household",
+    event: "4",
+    img: "assets/household_category.svg",
+    saveFile: await saveFileOfCategory("Abstract"),
+  );
 
-  return [item1, item2, item3, item4, item5];
+  return [item1, item2, item3, item4, item5, item6];
 }
 
 class HomePage extends StatefulWidget {
