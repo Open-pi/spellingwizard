@@ -210,122 +210,111 @@ class _HomePageState extends State<HomePage> {
 }
 
 void _bottomMenu(context) {
-  double sheetHeight = MediaQuery.of(context).size.height;
-  if (sheetHeight < 550)
-    sheetHeight *= 0.6;
-  else if (sheetHeight < 650)
-    sheetHeight *= 0.52;
-  else if (sheetHeight < 750)
-    sheetHeight *= 0.46;
-  else if (sheetHeight < 850)
-    sheetHeight *= 0.41;
-  else
-    sheetHeight *= 0.37;
-  showModalBottomSheet(
+  print(MediaQuery.of(context).size.height);
+  final double heightFactor = 0.5;
+  showModalBottomSheet<dynamic>(
+      isScrollControlled: true,
       backgroundColor: Colors.transparent,
       context: context,
       builder: (BuildContext bc) {
-        return SafeArea(
-          child: Container(
-              decoration: BoxDecoration(
-                color: appTheme.currentTheme.bottomMenuSheetColor,
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(16),
-                    topRight: Radius.circular(16)),
-              ),
-              height: sheetHeight,
-              child: Column(
-                children: [
-                  Container(
-                    padding: EdgeInsets.fromLTRB(15, 15, 15, 0),
-                    child: Row(
-                      children: [
-                        Image.asset(
-                          "assets/wizard.png",
-                          width: 35,
-                        ),
-                        Padding(padding: EdgeInsets.only(right: 15)),
-                        Text(
-                          'Spelling Wizard',
-                          style: TextStyle(
-                            color: appTheme.currentTheme.secondaryTextColor,
-                            fontWeight: FontWeight.normal,
-                            fontSize: 20,
-                            height: 1.2,
-                          ),
-                        ),
-                        Padding(padding: EdgeInsets.only(right: 5)),
-                        Icon(
-                          Icons.verified,
+        return Container(
+            decoration: BoxDecoration(
+              color: appTheme.currentTheme.bottomMenuSheetColor,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(16), topRight: Radius.circular(16)),
+            ),
+            child: Wrap(
+              children: [
+                Container(
+                  padding: EdgeInsets.fromLTRB(15, 15, 15, 15),
+                  child: Row(
+                    children: [
+                      Image.asset(
+                        "assets/wizard.png",
+                        width: 35,
+                      ),
+                      Padding(padding: EdgeInsets.only(right: 15)),
+                      Text(
+                        'Spelling Wizard',
+                        style: TextStyle(
                           color: appTheme.currentTheme.secondaryTextColor,
-                        )
-                      ],
-                    ),
+                          fontWeight: FontWeight.normal,
+                          fontSize: 20,
+                          height: 1.2,
+                        ),
+                      ),
+                      Padding(padding: EdgeInsets.only(right: 5)),
+                      Icon(
+                        Icons.verified,
+                        color: appTheme.currentTheme.secondaryTextColor,
+                      )
+                    ],
                   ),
-                  SizedBox(
-                    height: sheetHeight * 0.09,
-                  ),
-                  //_sheetOption(
-                  //  title: 'Upgrade',
-                  //  icon: FlutterIcons.crown_fou,
-                  //  color: Colors.amber,
-                  //  onpressed: () {
-                  //    Navigator.pop(context);
-                  //    showDialog(
-                  //        context: context,
-                  //        builder: (BuildContext context) {
-                  //          return _upgradeDialog(context);
-                  //        });
-                  //  },
-                  //),
-                  _sheetOption(
-                    title: 'Support the developer',
-                    icon: Icons.favorite,
-                    color: Colors.amber,
-                    onpressed: () {
-                      Navigator.pop(context);
-                      showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return _donateDialog(context);
-                          });
-                    },
-                  ),
-                  SizedBox(
-                    height: sheetHeight * 0.04,
-                  ),
-                  _sheetOption(
-                    title: 'Review Mistakes',
-                    icon: Icons.receipt_long,
-                    onpressed: () async {
-                      Navigator.pop(context);
-                      Navigator.of(context)
-                          .push(_createRoute('ReviewMistakes'));
-                    },
-                  ),
-                  SizedBox(
-                    height: sheetHeight * 0.04,
-                  ),
-                  _sheetOption(
-                    title: 'Settings',
-                    icon: Icons.settings,
-                    onpressed: () {
-                      Navigator.pop(context);
-                      Navigator.of(context).push(_createRoute('Settings'));
-                    },
-                  ),
-                  Spacer(),
-                  _sheetOption(
-                    title: 'About',
-                    icon: Icons.info_outline,
-                    onpressed: () {
-                      Navigator.pop(context);
-                      Navigator.of(context).push(_createRoute('About'));
-                    },
-                  ),
-                ],
-              )),
-        );
+                ),
+                //_sheetOption(
+                //  title: 'Upgrade',
+                //  icon: FlutterIcons.crown_fou,
+                //  color: Colors.amber,
+                //  onpressed: () {
+                //    Navigator.pop(context);
+                //    showDialog(
+                //        context: context,
+                //        builder: (BuildContext context) {
+                //          return _upgradeDialog(context);
+                //        });
+                //  },
+                //),
+                SizedBox(
+                  height: 65,
+                ),
+                _sheetOption(
+                  title: 'Support the developer',
+                  icon: Icons.favorite,
+                  color: Colors.amber,
+                  onpressed: () {
+                    Navigator.pop(context);
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return _donateDialog(context);
+                        });
+                  },
+                ),
+                SizedBox(
+                  height: 55,
+                ),
+                _sheetOption(
+                  title: 'Review Mistakes',
+                  icon: Icons.receipt_long,
+                  onpressed: () async {
+                    Navigator.pop(context);
+                    Navigator.of(context).push(_createRoute('ReviewMistakes'));
+                  },
+                ),
+                SizedBox(
+                  height: 50,
+                ),
+                _sheetOption(
+                  title: 'Settings',
+                  icon: Icons.settings,
+                  onpressed: () {
+                    Navigator.pop(context);
+                    Navigator.of(context).push(_createRoute('Settings'));
+                  },
+                ),
+                SizedBox(
+                  height: 50,
+                ),
+                _sheetOption(
+                  title: 'About',
+                  icon: Icons.info_outline,
+                  onpressed: () {
+                    Navigator.pop(context);
+                    Navigator.of(context).push(_createRoute('About'));
+                  },
+                ),
+              ],
+            ));
       });
 }
 
