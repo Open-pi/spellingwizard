@@ -136,7 +136,7 @@ Future<List<Items>> categoryList() async {
   );
   Items item6 = new Items(
     title: "Household",
-    event: "3",
+    event: "4",
     img: "assets/household_category.svg",
     saveFile: await saveFileOfCategory("Household"),
   );
@@ -268,15 +268,15 @@ void _bottomMenu(context) {
                   height: 15,
                 ),
                 _sheetOption(
-                  title: 'Support the developer',
-                  icon: Icons.favorite,
+                  title: 'Upgrade',
+                  icon: FlutterIcons.crown_fou,
                   color: Colors.amber,
                   onpressed: () {
                     Navigator.pop(context);
                     showDialog(
                         context: context,
                         builder: (BuildContext context) {
-                          return _donateDialog(context);
+                          return _upgradeDialog(context);
                         });
                   },
                 ),
@@ -336,9 +336,7 @@ _sheetOption(
               icon,
               color: color,
             ),
-            SizedBox(
-              width: 25,
-            ),
+            Padding(padding: EdgeInsets.only(right: 25)),
             Flexible(
               child: AutoSizeText(
                 title,
@@ -357,13 +355,13 @@ _sheetOption(
   );
 }
 
-_donateDialog(BuildContext context) => Dialog(
-    backgroundColor: Colors.transparent,
-    elevation: 0,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.all(Radius.circular(10.0)),
-    ),
-    child: Container(
+_upgradeDialog(BuildContext context) => Dialog(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+      ),
+      child: Container(
         decoration: BoxDecoration(
           shape: BoxShape.rectangle,
           borderRadius: BorderRadius.all(Radius.circular(12)),
@@ -372,8 +370,9 @@ _donateDialog(BuildContext context) => Dialog(
               end: Alignment.bottomRight,
               colors: appTheme.currentTheme.gradientDialogColors),
         ),
+        width: double.infinity,
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+          padding: const EdgeInsets.fromLTRB(20, 20, 19, 20),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -409,84 +408,127 @@ _donateDialog(BuildContext context) => Dialog(
               ),
               _customHoriSpacer(size: 12),
               AutoSizeText(
-                  "Donate to support open-source and ad-free software!",
+                  "Upgrade to support open-source software, remove ads, and enjoy some awsome features!",
                   style: TextStyle(
-                    fontSize: 13,
+                    fontSize: 11.5,
                     color: appTheme.currentTheme.primaryTextColor,
                     fontWeight: FontWeight.normal,
                   )),
               _customHoriSpacer(size: 13),
-              Wrap(
-                alignment: WrapAlignment.center,
-                spacing: 15,
-                children: [
-                  RaisedButton(
-                    color: Colors.teal[300],
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
+              _feature(
+                text1: "Change app theme",
+                icon: Icons.color_lens,
+                color: appTheme.currentTheme.primaryTextColor,
+              ),
+              _customHoriSpacer(size: 11),
+              _feature(
+                text1: "Remove Ads",
+                icon: Icons.eco,
+                color: appTheme.currentTheme.primaryTextColor,
+              ),
+              _customHoriSpacer(size: 11),
+              _feature(
+                text1: "Review your mistakes",
+                icon: Icons.receipt_long,
+                color: appTheme.currentTheme.primaryTextColor,
+              ),
+              _customHoriSpacer(size: 11),
+              _feature(
+                text1: "Practice your mistakes",
+                icon: FlutterIcons.form_ant,
+                color: appTheme.currentTheme.primaryTextColor,
+              ),
+              _customHoriSpacer(size: 11),
+              _feature(
+                text1: "One time payment",
+                text2: "All future features for free",
+                icon: Icons.favorite,
+                twoLines: true,
+                color: appTheme.currentTheme.primaryTextColor,
+              ),
+              _customHoriSpacer(size: 13),
+              RaisedButton(
+                color: Colors.teal[300],
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.verified,
+                      color: appTheme.currentTheme.primaryIconColor,
                     ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.credit_card,
-                          color: appTheme.currentTheme.primaryIconColor,
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Flexible(
-                          child: AutoSizeText(
-                            'DONATE',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 16,
-                                height: 1.2),
-                          ),
-                        ),
-                      ],
+                    Padding(padding: EdgeInsets.only(right: 12)),
+                    Text(
+                      'UPGRADE',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+                          height: 1.2),
                     ),
-                    onPressed: _donationUrl,
-                  ),
-                  RaisedButton(
-                    color: Colors.teal[300],
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          FlutterIcons.bitcoin_faw5d,
-                          color: appTheme.currentTheme.primaryIconColor,
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Flexible(
-                          child: AutoSizeText(
-                            'DONATE',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 16,
-                                height: 1.2),
-                          ),
-                        ),
-                      ],
-                    ),
-                    onPressed: _donationUrl,
-                  ),
-                ],
+                  ],
+                ),
+                onPressed: () {},
               ),
             ],
           ),
-        )));
+        ),
+      ),
+    );
 
 _customHoriSpacer({double size = 30}) => SizedBox(height: size);
+
+_feature(
+    {String text1 = "",
+    String text2 = "",
+    IconData icon = Icons.favorite,
+    Color color = Colors.white,
+    bool twoLines = false}) {
+  return Padding(
+    padding: const EdgeInsets.only(right: 12, left: 12),
+    child: Row(
+      children: [
+        Icon(
+          icon,
+          color: color,
+          size: 20,
+        ),
+        SizedBox(
+          width: 10,
+        ),
+        Flexible(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              AutoSizeText(
+                text1,
+                style: TextStyle(
+                  fontSize: 11.5,
+                  color: color,
+                  fontWeight: FontWeight.normal,
+                ),
+                maxLines: 1,
+              ),
+              if (twoLines)
+                AutoSizeText(
+                  text2,
+                  style: TextStyle(
+                    fontSize: 11.5,
+                    color: color,
+                    fontWeight: FontWeight.normal,
+                  ),
+                  maxLines: 1,
+                ),
+            ],
+          ),
+        )
+      ],
+    ),
+  );
+}
 
 Route _createRoute(String page) {
   return PageRouteBuilder(
