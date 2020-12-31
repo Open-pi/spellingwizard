@@ -40,7 +40,7 @@ class _AboutPageState extends State<AboutPage> {
             children: [
               Flexible(
                 child: AutoSizeText(
-                  'Spelling Wizard',
+                  'Spelling Wizards',
                   style: TextStyle(
                     color: appTheme.currentTheme.primaryTextColor,
                     fontSize: 27,

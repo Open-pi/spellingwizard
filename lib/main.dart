@@ -26,7 +26,7 @@ class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Spelling Wizard',
+      title: 'Spelling Wizards',
       theme: appTheme.currentTheme.theme,
       home: Home(),
     );

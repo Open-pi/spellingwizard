@@ -21,78 +21,75 @@ class GridDashboard extends StatefulWidget {
 class GridDashboardState extends State<GridDashboard> {
   @override
   Widget build(BuildContext context) {
-    return Flexible(
-      child: GridView.count(
-          childAspectRatio: 1.0,
-          padding: EdgeInsets.only(left: 16, right: 16),
-          crossAxisCount: 2,
-          crossAxisSpacing: 18,
-          mainAxisSpacing: 18,
-          children: widget.myList.map((data) {
-            return Material(
-              elevation: 5,
+    return GridView.count(
+        childAspectRatio: 1.0,
+        padding: EdgeInsets.only(left: 16, right: 16),
+        crossAxisCount: 2,
+        crossAxisSpacing: 18,
+        mainAxisSpacing: 18,
+        children: widget.myList.map((data) {
+          return Material(
+            elevation: 5,
+            borderRadius: BorderRadius.circular(10),
+            color: Colors.transparent,
+            child: ClipRRect(
               borderRadius: BorderRadius.circular(10),
-              color: Colors.transparent,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                      onTap: () async {
-                        Navigator.push(
-                            context,
-                            CupertinoPageRoute(
-                                maintainState: true,
-                                builder: (BuildContext context) => CategoryView(
-                                      title: data.title,
-                                      itemCount: int.parse(data.event),
-                                      saveFile: data.saveFile,
-                                    ))).then((value) async {
-                          SaveFile saveTmp =
-                              await saveFileOfCategory(data.title);
-                          setState(() {
-                            data.saveFile = saveTmp;
-                          });
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                    onTap: () async {
+                      Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                              maintainState: true,
+                              builder: (BuildContext context) => CategoryView(
+                                    title: data.title,
+                                    itemCount: int.parse(data.event),
+                                    saveFile: data.saveFile,
+                                  ))).then((value) async {
+                        SaveFile saveTmp = await saveFileOfCategory(data.title);
+                        setState(() {
+                          data.saveFile = saveTmp;
                         });
-                      },
-                      child: Ink(
-                        decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                                stops: [0.01, 1],
-                                colors: appTheme
-                                    .currentTheme.gradientDashboardCardsColors),
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: <Widget>[
-                            SvgPicture.asset(data.img,
-                                semanticsLabel: 'Acme Logo'),
-                            Text(
-                              data.title,
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  fontFamily: 'WorkSans',
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                            ),
-                            Text(
-                              data.event,
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  fontFamily: 'WorkSans',
-                                  fontWeight: FontWeight.w100,
-                                  color: Colors.white),
-                            ),
-                          ],
-                        ),
-                      )),
-                ),
+                      });
+                    },
+                    child: Ink(
+                      decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              stops: [0.01, 1],
+                              colors: appTheme
+                                  .currentTheme.gradientDashboardCardsColors),
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          SvgPicture.asset(data.img,
+                              semanticsLabel: 'Acme Logo'),
+                          Text(
+                            data.title,
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontFamily: 'WorkSans',
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                          ),
+                          Text(
+                            data.event,
+                            style: TextStyle(
+                                fontSize: 12,
+                                fontFamily: 'WorkSans',
+                                fontWeight: FontWeight.w100,
+                                color: Colors.white),
+                          ),
+                        ],
+                      ),
+                    )),
               ),
-            );
-          }).toList()),
-    );
+            ),
+          );
+        }).toList());
   }
 }
 
@@ -156,56 +153,64 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final double heightFactor = 0.225;
   @override
   Widget build(BuildContext context) {
-    return Column(children: <Widget>[
-      SizedBox(
-        height: 80,
-      ),
-      Padding(
-        padding: EdgeInsets.only(left: 16, right: 16),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text("Spelling Wizard",
-                    style: TextStyle(
-                        fontSize: 30,
-                        fontFamily: 'WorkSans',
-                        fontWeight: FontWeight.w900,
-                        color: appTheme.currentTheme.primaryTextColor)),
-                SizedBox(
-                  height: 4,
+    return Stack(fit: StackFit.expand, children: <Widget>[
+      FractionallySizedBox(
+        alignment: Alignment.topCenter,
+        heightFactor: heightFactor,
+        child: Padding(
+          padding: EdgeInsets.only(left: 16, right: 16),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Flexible(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    AutoSizeText(
+                      "Spelling Wizards",
+                      style: TextStyle(
+                          fontSize: 30,
+                          fontFamily: 'WorkSans',
+                          fontWeight: FontWeight.w900,
+                          color: appTheme.currentTheme.primaryTextColor),
+                      maxLines: 1,
+                    ),
+                    SizedBox(
+                      height: 4,
+                    ),
+                    Text(
+                      "Challenges",
+                      style: TextStyle(
+                          fontSize: 15,
+                          fontFamily: 'WorkSans',
+                          fontWeight: FontWeight.w100,
+                          color: appTheme.currentTheme.primaryTextColor),
+                    ),
+                  ],
                 ),
-                Text(
-                  "Challenges",
-                  style: TextStyle(
-                      fontSize: 15,
-                      fontFamily: 'WorkSans',
-                      fontWeight: FontWeight.w100,
-                      color: appTheme.currentTheme.primaryTextColor),
-                ),
-              ],
-            ),
-            IconButton(
-              icon: Icon(
-                Icons.settings,
-                color: appTheme.currentTheme.primaryIconColor,
-                size: 30,
               ),
-              onPressed: () {
-                _bottomMenu(context);
-              },
-            )
-          ],
+              IconButton(
+                icon: Icon(
+                  Icons.settings,
+                  color: appTheme.currentTheme.primaryIconColor,
+                  size: 30,
+                ),
+                onPressed: () {
+                  _bottomMenu(context);
+                },
+              )
+            ],
+          ),
         ),
       ),
-      SizedBox(
-        height: 40,
-      ),
-      GridDashboard(widget.items),
+      FractionallySizedBox(
+          alignment: Alignment.bottomCenter,
+          heightFactor: 1 - heightFactor,
+          child: GridDashboard(widget.items)),
     ]);
   }
 }
@@ -235,7 +240,7 @@ void _bottomMenu(context) {
                       children: [
                         Flexible(
                           child: AutoSizeText(
-                            'Spelling Wizard',
+                            'Spelling Wizards',
                             style: TextStyle(
                               color: appTheme.currentTheme.secondaryTextColor,
                               fontSize: 20,
@@ -254,7 +259,7 @@ void _bottomMenu(context) {
                   ),
                 ),
                 SizedBox(
-                  height: 65,
+                  height: 70,
                 ),
                 //_sheetOption(
                 //  title: 'Support the developer',
@@ -283,7 +288,7 @@ void _bottomMenu(context) {
                   },
                 ),
                 SizedBox(
-                  height: 55,
+                  height: 60,
                 ),
                 _sheetOption(
                   title: 'Review Mistakes',
@@ -294,7 +299,7 @@ void _bottomMenu(context) {
                   },
                 ),
                 SizedBox(
-                  height: 50,
+                  height: 60,
                 ),
                 _sheetOption(
                   title: 'Settings',
@@ -305,7 +310,7 @@ void _bottomMenu(context) {
                   },
                 ),
                 SizedBox(
-                  height: 50,
+                  height: 55,
                 ),
                 _sheetOption(
                   title: 'About',
@@ -345,6 +350,7 @@ _sheetOption(
                 style: TextStyle(
                   color: color,
                   fontWeight: FontWeight.normal,
+                  fontSize: 14,
                   height: 1.2,
                 ),
               ),
@@ -381,7 +387,7 @@ _upgradeDialog(BuildContext context) => Dialog(
               Row(
                 children: [
                   Flexible(
-                    child: AutoSizeText('Spelling Wizard',
+                    child: AutoSizeText('Spelling Wizards',
                         style: TextStyle(
                             fontSize: 20,
                             color: appTheme.currentTheme.primaryTextColor,
@@ -504,7 +510,7 @@ _donateDialog(BuildContext context) => Dialog(
               Row(
                 children: [
                   Flexible(
-                    child: AutoSizeText('Spelling Wizard',
+                    child: AutoSizeText('Spelling Wizards',
                         style: TextStyle(
                             fontSize: 20,
                             color: appTheme.currentTheme.primaryTextColor,
