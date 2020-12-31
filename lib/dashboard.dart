@@ -261,29 +261,16 @@ void _bottomMenu(context) {
                 SizedBox(
                   height: 70,
                 ),
-                //_sheetOption(
-                //  title: 'Support the developer',
-                //  icon: Icons.favorite,
-                //  color: Colors.amber,
-                //  onpressed: () {
-                //    Navigator.pop(context);
-                //    showDialog(
-                //        context: context,
-                //        builder: (BuildContext context) {
-                //          return _donateDialog(context);
-                //        });
-                //  },
-                //),
                 _sheetOption(
-                  title: 'Upgrade',
-                  icon: FlutterIcons.crown_fou,
+                  title: 'Support the developer',
+                  icon: Icons.favorite,
                   color: Colors.amber,
                   onpressed: () {
                     Navigator.pop(context);
                     showDialog(
                         context: context,
                         builder: (BuildContext context) {
-                          return _upgradeDialog(context);
+                          return _donateDialog(context);
                         });
                   },
                 ),
@@ -362,129 +349,6 @@ _sheetOption(
   );
 }
 
-_upgradeDialog(BuildContext context) => Dialog(
-      backgroundColor: Colors.transparent,
-      elevation: 0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-      ),
-      child: Container(
-        decoration: BoxDecoration(
-          shape: BoxShape.rectangle,
-          borderRadius: BorderRadius.all(Radius.circular(12)),
-          gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              stops: [0.001, 1],
-              colors: appTheme.currentTheme.gradientDialogColors),
-        ),
-        width: double.infinity,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(20, 20, 19, 0),
-          child: Wrap(
-            alignment: WrapAlignment.center,
-            children: [
-              Row(
-                children: [
-                  Flexible(
-                    child: AutoSizeText('Spelling Wizards',
-                        style: TextStyle(
-                            fontSize: 20,
-                            color: appTheme.currentTheme.primaryTextColor,
-                            fontWeight: FontWeight.bold,
-                            height: 1.25)),
-                  ),
-                  Padding(padding: EdgeInsets.only(right: 8)),
-                  Container(
-                    padding: EdgeInsets.fromLTRB(4, 0.2, 4, 0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color: Colors.amber,
-                    ),
-                    child: AutoSizeText('PRO',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: appTheme.currentTheme.primaryTextColor,
-                          fontWeight: FontWeight.bold,
-                        )),
-                  ),
-                ],
-              ),
-              _customHoriSpacer(size: 35),
-              AutoSizeText(
-                  "Upgrade to support open-source software, remove ads, and enjoy some awsome features!",
-                  style: TextStyle(
-                    fontSize: 11.5,
-                    color: appTheme.currentTheme.primaryTextColor,
-                    fontWeight: FontWeight.normal,
-                  )),
-              _customHoriSpacer(size: 70),
-              _feature(
-                text1: "Change app theme",
-                icon: Icons.color_lens,
-                color: appTheme.currentTheme.primaryTextColor,
-              ),
-              _customHoriSpacer(size: 35),
-              _feature(
-                text1: "Remove Ads",
-                icon: Icons.eco,
-                color: appTheme.currentTheme.primaryTextColor,
-              ),
-              _customHoriSpacer(size: 35),
-              _feature(
-                text1: "Unlock all challenges",
-                icon: Icons.all_inclusive,
-                color: appTheme.currentTheme.primaryTextColor,
-              ),
-              _customHoriSpacer(size: 35),
-              _feature(
-                text1: "Review your mistakes",
-                icon: Icons.receipt_long,
-                color: appTheme.currentTheme.primaryTextColor,
-              ),
-              _customHoriSpacer(size: 35),
-              _feature(
-                text1: "One time payment",
-                text2: "All future features for free",
-                icon: Icons.favorite,
-                twoLines: true,
-                color: appTheme.currentTheme.primaryTextColor,
-              ),
-              _customHoriSpacer(size: 55),
-              RaisedButton(
-                color: Colors.teal[300],
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.verified,
-                      color: appTheme.currentTheme.primaryIconColor,
-                    ),
-                    Padding(padding: EdgeInsets.only(right: 12)),
-                    Text(
-                      'UPGRADE',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16,
-                          height: 1.2),
-                    ),
-                  ],
-                ),
-                onPressed: () {},
-              ),
-              _customHoriSpacer(size: 60)
-            ],
-          ),
-        ),
-      ),
-    );
-
 _donateDialog(BuildContext context) => Dialog(
     backgroundColor: Colors.transparent,
     elevation: 0,
@@ -510,12 +374,15 @@ _donateDialog(BuildContext context) => Dialog(
               Row(
                 children: [
                   Flexible(
-                    child: AutoSizeText('Spelling Wizards',
-                        style: TextStyle(
-                            fontSize: 20,
-                            color: appTheme.currentTheme.primaryTextColor,
-                            fontWeight: FontWeight.bold,
-                            height: 1.25)),
+                    child: AutoSizeText(
+                      'Spelling Wizards',
+                      style: TextStyle(
+                          fontSize: 20,
+                          color: appTheme.currentTheme.primaryTextColor,
+                          fontWeight: FontWeight.bold,
+                          height: 1.25),
+                      maxLines: 1,
+                    ),
                   ),
                   Padding(padding: EdgeInsets.only(right: 8)),
                   Container(
@@ -535,15 +402,13 @@ _donateDialog(BuildContext context) => Dialog(
                 ],
               ),
               _customHoriSpacer(size: 35),
-              Flexible(
-                child: AutoSizeText(
-                    "Donate to support open-source and ad-free software!",
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: appTheme.currentTheme.primaryTextColor,
-                      fontWeight: FontWeight.normal,
-                    )),
-              ),
+              AutoSizeText(
+                  "Donate to support open-source and ad-free software!",
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: appTheme.currentTheme.primaryTextColor,
+                    fontWeight: FontWeight.normal,
+                  )),
               _customHoriSpacer(size: 45),
               Wrap(
                 alignment: WrapAlignment.center,
