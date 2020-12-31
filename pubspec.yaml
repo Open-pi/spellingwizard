@@ -39,6 +39,7 @@ dependencies:
   url_launcher: ^5.7.10
   flutter_colorpicker: ^0.3.4
   auto_size_text: ^2.1.0
+  firebase_admob: ^0.10.3
   shimmer: ^1.1.2
   built_in_keyboard:
     git:

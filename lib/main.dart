@@ -1,14 +1,20 @@
 import 'dart:io';
 
 import 'package:SpellingWizard/save.dart';
+import 'package:SpellingWizard/admob.dart';
 import 'package:flutter/material.dart';
 import 'package:SpellingWizard/dashboard.dart';
 import 'package:flutter/services.dart';
 import 'package:splashscreen/splashscreen.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_admob/firebase_admob.dart';
 
 import 'config.dart';
 
-void main() async {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  FirebaseAdMob.instance.initialize(appId: AdManager.appId);
   runApp(App());
 }
 

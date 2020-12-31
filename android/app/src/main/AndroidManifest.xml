@@ -9,6 +9,9 @@
         android:name="io.flutter.app.FlutterApplication"
         android:label="Spelling Wizard"
         android:icon="@mipmap/ic_launcher">
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-6511520637337939~1250925774"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

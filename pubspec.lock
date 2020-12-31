@@ -114,7 +114,7 @@ packages:
       name: csv
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.0.3"
+    version: "4.1.0"
   cupertino_icons:
     dependency: "direct main"
     description:
@@ -143,6 +143,34 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "5.2.1"
+  firebase_admob:
+    dependency: "direct main"
+    description:
+      name: firebase_admob
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.10.3"
+  firebase_core:
+    dependency: transitive
+    description:
+      name: firebase_core
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.5.3"
+  firebase_core_platform_interface:
+    dependency: transitive
+    description:
+      name: firebase_core_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.1.0"
+  firebase_core_web:
+    dependency: transitive
+    description:
+      name: firebase_core_web
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.1+1"
   flip_card:
     dependency: "direct main"
     description:
@@ -189,7 +217,7 @@ packages:
       name: flutter_rating_bar
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.1+1"
+    version: "3.2.0+1"
   flutter_svg:
     dependency: "direct main"
     description:
@@ -227,7 +255,7 @@ packages:
       name: image
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.18"
+    version: "2.1.19"
   intl:
     dependency: transitive
     description:
@@ -241,7 +269,7 @@ packages:
       name: js
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.6.3-nullsafety.3"
+    version: "0.6.2"
   matcher:
     dependency: transitive
     description:
@@ -297,21 +325,21 @@ packages:
       name: path_provider_macos
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.0.4+4"
+    version: "0.0.4+6"
   path_provider_platform_interface:
     dependency: transitive
     description:
       name: path_provider_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.3"
+    version: "1.0.4"
   path_provider_windows:
     dependency: transitive
     description:
       name: path_provider_windows
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.0.4+1"
+    version: "0.0.4+3"
   pedantic:
     dependency: transitive
     description:
@@ -353,7 +381,7 @@ packages:
       name: quiver
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.3"
+    version: "2.1.5"
   rxdart:
     dependency: transitive
     description:
@@ -379,7 +407,7 @@ packages:
       name: sleek_circular_slider
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.0"
+    version: "1.2.0+web"
   source_span:
     dependency: transitive
     description:
@@ -392,10 +420,10 @@ packages:
     description:
       path: "."
       ref: master
-      resolved-ref: "54abdbcdba7c757969d4301cdd45a54b77e27e15"
+      resolved-ref: bc8ff1e20fe11a8899d7c31411589c4e1c599fdf
       url: "https://github.com/KarimMohamed20/SplashScreenFlutterPackage"
     source: git
-    version: "1.3.0"
+    version: "1.3.4"
   stack_trace:
     dependency: transitive
     description:
@@ -409,7 +437,7 @@ packages:
       name: step_progress_indicator
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.4+7"
+    version: "0.2.5+8"
   stream_channel:
     dependency: transitive
     description:
@@ -514,14 +542,14 @@ packages:
       name: win32
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.7.3"
+    version: "1.7.4"
   xdg_directories:
     dependency: transitive
     description:
       name: xdg_directories
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.1.0"
+    version: "0.1.2"
   xml:
     dependency: transitive
     description:

@@ -9,6 +9,8 @@ import 'package:SpellingWizard/word.dart';
 import 'package:SpellingWizard/save.dart';
 import 'package:tuple/tuple.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:SpellingWizard/admob.dart';
+import 'package:firebase_admob/firebase_admob.dart';
 
 import 'config.dart';
 
@@ -25,6 +27,69 @@ class _CategoryViewState extends State<CategoryView> {
   int fileLen;
   List<Word> wordList = [];
   List<List<Word>> fileWordList = [];
+
+  //ads
+  MobileAdTargetingInfo _targetingInfo = AdManager.targetingInfo;
+  BannerAd _bannerAd;
+  InterstitialAd _interstitialAd;
+
+  BannerAd bannerAd() {
+    return BannerAd(
+      adUnitId: BannerAd.testAdUnitId,
+      size: AdSize.smartBanner,
+      targetingInfo: _targetingInfo,
+      listener: (MobileAdEvent event) async {
+        print("BannerAd event is $event");
+        if (event == MobileAdEvent.loaded) {
+          if (mounted) {
+            showBannerAd();
+          }
+        }
+      },
+    );
+  }
+
+  InterstitialAd interstitialAd() {
+    return InterstitialAd(
+      adUnitId: InterstitialAd.testAdUnitId,
+      targetingInfo: _targetingInfo,
+      listener: (MobileAdEvent event) {
+        print("InterstitialAd event is $event");
+      },
+    );
+  }
+
+  @override
+  initState() {
+    super.initState();
+    _bannerAd = bannerAd()..load();
+  }
+
+  @override
+  void dispose() async {
+    super.dispose();
+    try {
+      await _bannerAd?.dispose();
+      _bannerAd = null;
+    } catch (ex) {}
+  }
+
+  showBannerAd() {
+    _bannerAd.show(
+      anchorOffset: 0.0,
+      horizontalCenterOffset: 0.0,
+      anchorType: AnchorType.bottom,
+    );
+  }
+
+  showInterstitialAd() {
+    _interstitialAd.show(
+      anchorType: AnchorType.bottom,
+      anchorOffset: 0.0,
+      horizontalCenterOffset: 0.0,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -152,6 +217,11 @@ class _CategoryViewState extends State<CategoryView> {
                     ),
                     trailing: stateIcon,
                     onTap: () async {
+                      try {
+                        await _bannerAd?.dispose();
+                        _bannerAd = null;
+                      } catch (ex) {}
+                      _interstitialAd = interstitialAd()..load();
                       Tuple3 audioPrefix = Tuple3<String, int, String>(
                         'assets/categories/${widget.title}_words/challenges_audio/',
                         index,
@@ -161,15 +231,23 @@ class _CategoryViewState extends State<CategoryView> {
                       await loadMistakes();
                       if (widget.saveFile.playable(index)) {
                         Navigator.push(
-                            context,
-                            CupertinoPageRoute(
-                                maintainState: true,
-                                builder: (BuildContext context) =>
-                                    ChallengePage(
-                                      wordList,
-                                      mistakesList,
-                                      audioPrefix,
-                                    ))).then((value) async {
+                          context,
+                          CupertinoPageRoute(
+                            maintainState: true,
+                            builder: (BuildContext context) => ChallengePage(
+                              wordList,
+                              mistakesList,
+                              audioPrefix,
+                            ),
+                          ),
+                        ).then((value) async {
+                          if (await _interstitialAd.isLoaded()) {
+                            showInterstitialAd();
+                          } else {
+                            _interstitialAd..load();
+                            showInterstitialAd();
+                          }
+                          _bannerAd ??= bannerAd()..load();
                           SaveFile saveTmp =
                               await saveFileOfCategory(widget.title);
                           setState(() {

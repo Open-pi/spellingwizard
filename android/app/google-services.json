@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "885131549032",
+    "project_id": "spelling-wizards",
+    "storage_bucket": "spelling-wizards.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:885131549032:android:8ef4895c6a0de970475edd",
+        "android_client_info": {
+          "package_name": "com.example.SpellingWizards"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "885131549032-609fsl4hc1qafhidet404qh3j727ej3g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBp3xD2bnqTGMCh3kepo4nUs_ZgEKd5soU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "885131549032-609fsl4hc1qafhidet404qh3j727ej3g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
