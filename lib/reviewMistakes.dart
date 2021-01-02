@@ -1,9 +1,9 @@
 import 'dart:io';
 
-import 'package:SpellingWizard/challenge.dart';
-import 'package:SpellingWizard/config.dart';
-import 'package:SpellingWizard/save.dart';
-import 'package:SpellingWizard/word.dart';
+import 'package:SpellingWizards/challenge.dart';
+import 'package:SpellingWizards/config.dart';
+import 'package:SpellingWizards/save.dart';
+import 'package:SpellingWizards/word.dart';
 import 'package:csv/csv.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

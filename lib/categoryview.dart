@@ -4,9 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:csv/csv.dart';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:SpellingWizard/challenge.dart';
-import 'package:SpellingWizard/word.dart';
-import 'package:SpellingWizard/save.dart';
+import 'package:SpellingWizards/challenge.dart';
+import 'package:SpellingWizards/word.dart';
+import 'package:SpellingWizards/save.dart';
 import 'package:tuple/tuple.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 

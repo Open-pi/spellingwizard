@@ -1,6 +1,6 @@
-import 'package:SpellingWizard/config.dart';
-import 'package:SpellingWizard/credits.dart';
-import 'package:SpellingWizard/openSourceLicences.dart';
+import 'package:SpellingWizards/config.dart';
+import 'package:SpellingWizards/credits.dart';
+import 'package:SpellingWizards/openSourceLicences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:url_launcher/url_launcher.dart';

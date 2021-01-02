@@ -9,7 +9,7 @@ import 'package:tuple/tuple.dart';
 import 'config.dart';
 import 'word.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
-import 'package:SpellingWizard/save.dart';
+import 'package:SpellingWizards/save.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter_svg/flutter_svg.dart';

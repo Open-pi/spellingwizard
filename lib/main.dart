@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:SpellingWizard/dashboard.dart';
+import 'package:SpellingWizards/dashboard.dart';
 import 'package:flutter/services.dart';
 import 'package:splashscreen/splashscreen.dart';
 

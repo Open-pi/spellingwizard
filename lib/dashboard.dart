@@ -1,11 +1,11 @@
-import 'package:SpellingWizard/reviewMistakes.dart';
-import 'package:SpellingWizard/settings.dart';
+import 'package:SpellingWizards/reviewMistakes.dart';
+import 'package:SpellingWizards/settings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'about.dart';
 import 'categoryview.dart';
-import 'package:SpellingWizard/save.dart';
+import 'package:SpellingWizards/save.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
