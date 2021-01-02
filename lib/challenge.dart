@@ -20,8 +20,12 @@ class ChallengePage extends StatefulWidget {
   final List<String> mistakesList;
   final Tuple3 prefix;
   final bool isPractice;
+  final bool isTerminationMode;
+  final int numofRepetitions;
   ChallengePage(this.wordList, this.mistakesList, this.prefix,
-      {this.isPractice = false});
+      {this.isPractice = false,
+      this.isTerminationMode = false,
+      this.numofRepetitions = 1});
   @override
   _ChallengePageState createState() => _ChallengePageState();
 }
@@ -32,6 +36,16 @@ class _ChallengePageState extends State<ChallengePage> {
   int i = 0;
   int attempt = 3;
   final TextEditingController textController = new TextEditingController();
+  bool restartOrEndofgame = false;
+  List<Word> challengeWordList = [];
+  List<Word> newMistakesList = [];
+  bool answerFeedback = true;
+
+  // practice variables
+  List<Word> practiceWordsList = [];
+  List<int> practiceTimesList = [];
+  List<int> newPracticeTimesList = [];
+  int numberOfWords = 1;
 
   // input field vriable
   Color inputBackgroundColor = Colors.white;
@@ -104,10 +118,14 @@ class _ChallengePageState extends State<ChallengePage> {
   initState() {
     super.initState();
     audioCache = AudioCache(prefix: 'assets/audio/');
+    challengeWordList = List.from(widget.wordList);
+    newMistakesList = List.from(widget.wordList);
+    if (widget.isPractice && widget.isTerminationMode)
+      practiceTimesList = List.filled(widget.wordList.length, 0);
   }
 
   @override
-  void dispose() {
+  void dispose() async {
     audioCache = null;
     super.dispose();
   }
@@ -160,7 +178,8 @@ class _ChallengePageState extends State<ChallengePage> {
                     Padding(
                       padding: EdgeInsets.fromLTRB(8.0, 5.0, 8.0, 0.0),
                       child: progressIndicator(
-                          step: this.i + 1, totalSteps: widget.wordList.length),
+                          step: this.i + 1,
+                          totalSteps: this.challengeWordList.length),
                     ),
                     Container(
                       margin: EdgeInsets.all(16.0),
@@ -184,7 +203,7 @@ class _ChallengePageState extends State<ChallengePage> {
                                 Container(
                                   margin: EdgeInsets.only(right: 2),
                                   padding: EdgeInsets.fromLTRB(5, 5, 5, 3),
-                                  width: 25,
+                                  width: correctAnswers < 20 ? 25 : 30,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(9.0),
                                     color: Colors.lightGreen,
@@ -193,18 +212,19 @@ class _ChallengePageState extends State<ChallengePage> {
                                           .currentTheme.challengeBackColor,
                                     ),
                                   ),
-                                  child: Text(
+                                  child: AutoSizeText(
                                     '$correctAnswers',
                                     style: TextStyle(
                                         fontWeight: FontWeight.w600,
                                         fontSize: 10.5),
                                     textAlign: TextAlign.center,
+                                    maxLines: 1,
                                   ),
                                 ),
                                 Container(
                                   margin: EdgeInsets.only(left: 2),
                                   padding: EdgeInsets.fromLTRB(5, 5, 5, 3),
-                                  width: 25,
+                                  width: incorrectAnswers < 20 ? 25 : 30,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(9.0),
                                     color: Colors.red[400],
@@ -213,12 +233,13 @@ class _ChallengePageState extends State<ChallengePage> {
                                           .currentTheme.challengeBackColor,
                                     ),
                                   ),
-                                  child: Text(
+                                  child: AutoSizeText(
                                     '$incorrectAnswers',
                                     style: TextStyle(
                                         fontWeight: FontWeight.w600,
                                         fontSize: 10.5),
                                     textAlign: TextAlign.center,
+                                    maxLines: 1,
                                   ),
                                 ),
                               ],
@@ -226,7 +247,7 @@ class _ChallengePageState extends State<ChallengePage> {
                             _playButton(context),
                             infoDevider,
                             Text(
-                              'Meaning: ${widget.wordList[this.i].meaning}',
+                              'Meaning: ${this.challengeWordList[this.i].meaning}',
                               style: TextStyle(
                                   color:
                                       appTheme.currentTheme.primaryTextColor),
@@ -234,7 +255,7 @@ class _ChallengePageState extends State<ChallengePage> {
                             ),
                             infoDevider,
                             Text(
-                              'Usage: ${widget.wordList[this.i].usage}',
+                              'Usage: ${this.challengeWordList[this.i].usage}',
                               style: TextStyle(
                                   color:
                                       appTheme.currentTheme.primaryTextColor),
@@ -242,7 +263,7 @@ class _ChallengePageState extends State<ChallengePage> {
                             ),
                             infoDevider,
                             Text(
-                              'Phonetic: ${widget.wordList[this.i].phonetic}',
+                              'Phonetic: ${this.challengeWordList[this.i].phonetic}',
                               style: TextStyle(
                                   color:
                                       appTheme.currentTheme.primaryTextColor),
@@ -349,97 +370,148 @@ class _ChallengePageState extends State<ChallengePage> {
     setState(() {
       bool move = false;
       bool endOfGame = false;
-      bool stillPages = this.i < widget.wordList.length - 1;
-      bool lastPage = this.i == widget.wordList.length - 1;
-      if (widget.wordList[this.i].word.toUpperCase() == userWord) {
-        move = true;
-        if (this.attempt == 3) {
-          this.answerList.add(Row(
-                children: [
-                  Text('${this.i + 1} - ',
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
-                          color: appTheme.currentTheme.primaryTextColor)),
-                  Text('${widget.wordList[this.i].word.toUpperCase()}',
-                      style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.greenAccent[700],
-                          fontWeight: FontWeight.w600)),
-                ],
-              ));
+      bool stillPages = this.i < this.challengeWordList.length - 1;
+      bool lastPage = this.i == this.challengeWordList.length - 1;
+      bool isCorrectAnswer =
+          this.challengeWordList[this.i].word.toUpperCase() == userWord;
+      if (isCorrectAnswer) {
+        if (this.attempt == 3 && this.answerFeedback) {
+          this.restartOrEndofgame = true;
+          if (!this.answerList.contains(this.challengeWordList[this.i].word)) {
+            this.answerList.add(Row(
+                  children: [
+                    Text('${this.i + 1} - ',
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                            color: appTheme.currentTheme.primaryTextColor)),
+                    Text('${this.challengeWordList[this.i].word.toUpperCase()}',
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.greenAccent[700],
+                            fontWeight: FontWeight.w600)),
+                  ],
+                ));
+          }
           this.correctAnswers++;
+          // if practice
           if (widget.isPractice) {
-            mistakesFile.writeAsStringSync('');
-            List<Word> newMistakesList = widget.wordList;
-            newMistakesList.remove(widget.wordList[this.i]);
-            for (int j = 0; j < widget.wordList.length; j++) {
-              mistakesFile.writeAsStringSync(
-                  "${newMistakesList[j].word},${newMistakesList[j].meaning},${newMistakesList[j].usage},${newMistakesList[j].phonetic}\r\n",
-                  mode: FileMode.append);
+            this.practiceTimesList[i]++;
+            if (this.practiceTimesList[i] == widget.numofRepetitions) {
+              mistakesFile.writeAsStringSync('');
+              this.newMistakesList.remove(this.challengeWordList[this.i]);
+              for (int j = 0; j < this.newMistakesList.length; j++) {
+                mistakesFile.writeAsStringSync(
+                    "${this.newMistakesList[j].word},${this.newMistakesList[j].meaning},${this.newMistakesList[j].usage},${this.newMistakesList[j].phonetic}\r\n",
+                    mode: FileMode.append);
+              }
             }
           }
         }
-        if (lastPage) {
-          // If we reached the last word
-          this.attempt = 0;
-          endOfGame = true;
+        if (this.answerFeedback) {
+          this.answerFeedback = false;
+          this.avatar = this.avatarState[2];
+          this.enableTextController = false;
+          this.textController.text =
+              this.challengeWordList[this.i].word.toUpperCase();
+          this.inputBackgroundColor = Colors.green[100];
+          this.restartOrEndofgame = true;
         } else {
-          this.attempt = 3;
+          move = true;
+          this.answerFeedback = true;
         }
+        if (this.restartOrEndofgame) {
+          this.restartOrEndofgame = false;
+          if (lastPage &&
+              (this.attempt < 1 || (isCorrectAnswer && this.attempt == 3))) {
+            // If we reached the last word or the answer is correct from the first try
+            if (widget.isPractice && widget.isTerminationMode) {
+              this.practiceWordsList = [];
+              this.newPracticeTimesList = [];
+              for (int k = 0; k < this.practiceTimesList.length; k++) {
+                if (this.practiceTimesList[k] < widget.numofRepetitions) {
+                  this.practiceWordsList.add(this.challengeWordList[k]);
+                  this.newPracticeTimesList.add(this.practiceTimesList[k]);
+                }
+              }
+              if (this.practiceWordsList.length > 0) {
+                endOfGame = false;
+                this.challengeWordList = List.from(this.practiceWordsList);
+                this.practiceTimesList = List.from(newPracticeTimesList);
+                this.i = 0;
+                this.textController.text = '';
+                this.attempt = 3;
+                this.inputBackgroundColor = Colors.white;
+                this.avatar = this.avatarState[0];
+                this.enableTextController = true;
+              } else {
+                this.attempt = 0;
+                endOfGame = true;
+              }
+            } else {
+              this.attempt = 0;
+              endOfGame = true;
+            }
+          }
+        }
+        // here
       } else {
         if (this.attempt == 3) {
           this.inputBackgroundColor = Colors.red[100];
           this.hintText = 'Keep trying...';
-          this.answerList.add(Row(
-                children: [
-                  Flexible(
-                    child: AutoSizeText(
-                      '${this.i + 1} - ',
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
-                          color: appTheme.currentTheme.primaryTextColor),
-                      maxLines: 1,
+          if (!this.answerList.contains(this.challengeWordList[this.i].word)) {
+            this.answerList.add(Row(
+                  children: [
+                    Flexible(
+                      child: AutoSizeText(
+                        '${this.i + 1} - ',
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                            color: appTheme.currentTheme.primaryTextColor),
+                        maxLines: 1,
+                      ),
                     ),
-                  ),
-                  Flexible(
-                    child: AutoSizeText(
-                      '${widget.wordList[this.i].word.toUpperCase()}',
-                      style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.greenAccent[700],
-                          fontWeight: FontWeight.w600),
-                      maxLines: 1,
+                    Flexible(
+                      child: AutoSizeText(
+                        '${this.challengeWordList[this.i].word.toUpperCase()}',
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.greenAccent[700],
+                            fontWeight: FontWeight.w600),
+                        maxLines: 1,
+                      ),
                     ),
-                  ),
-                  Flexible(
-                    child: AutoSizeText(
-                      ' not ',
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.amber),
-                      maxLines: 1,
+                    Flexible(
+                      child: AutoSizeText(
+                        ' not ',
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.amber),
+                        maxLines: 1,
+                      ),
                     ),
-                  ),
-                  Flexible(
-                    child: AutoSizeText(
-                      '$userWord',
-                      style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.redAccent[700],
-                          fontWeight: FontWeight.w600),
-                      maxLines: 1,
+                    Flexible(
+                      child: AutoSizeText(
+                        '$userWord',
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.redAccent[700],
+                            fontWeight: FontWeight.w600),
+                        maxLines: 1,
+                      ),
                     ),
-                  ),
-                ],
-              ));
+                  ],
+                ));
+          }
+
           this.incorrectAnswers++;
           if (!widget.isPractice &&
-              !widget.mistakesList.contains(widget.wordList[this.i].word)) {
+              !widget.mistakesList
+                  .contains(this.challengeWordList[this.i].word)) {
             mistakesFile.writeAsStringSync(
-                "${widget.wordList[this.i].word},${widget.wordList[this.i].meaning},${widget.wordList[this.i].usage},${widget.wordList[this.i].phonetic}\r\n",
+                "${this.challengeWordList[this.i].word},${this.challengeWordList[this.i].meaning},${this.challengeWordList[this.i].usage},${this.challengeWordList[this.i].phonetic}\r\n",
                 mode: FileMode.append);
           }
         }
@@ -447,16 +519,16 @@ class _ChallengePageState extends State<ChallengePage> {
         if (this.attempt < 1) {
           this.avatar = this.avatarState[2];
           this.enableTextController = false;
-          this.textController.text = widget.wordList[this.i].word.toUpperCase();
+          this.textController.text =
+              this.challengeWordList[this.i].word.toUpperCase();
           this.inputBackgroundColor = Colors.green[100];
-          if (lastPage) {
-            // If we reached the last word
-            this.attempt = 0;
-            endOfGame = true;
-          }
+          this.answerFeedback = false;
+          this.restartOrEndofgame = true;
         }
       }
+
       if (stillPages && move) {
+        this.numberOfWords++;
         this.avatar = this.avatarState[0];
         this.attempt = 3;
         this.hintText = 'Just try...';
@@ -467,10 +539,15 @@ class _ChallengePageState extends State<ChallengePage> {
       }
       if (endOfGame) {
         // the save the results in the save files.
-
-        saveFile.saveChallenge(
-            widget.prefix.item2, this.correctAnswers, widget.wordList.length);
-        this.score = (this.correctAnswers / widget.wordList.length) * 100;
+        if (!widget.isPractice) {
+          this.score =
+              (this.correctAnswers / this.challengeWordList.length) * 100;
+          saveFile.saveChallenge(
+              widget.prefix.item2, this.correctAnswers, widget.wordList.length);
+        } else {
+          this.numberOfWords++;
+          this.score = (this.correctAnswers / this.numberOfWords) * 100;
+        }
         if (this.score == 100) {
           this.scoreTitle = this.scoreTitles[0];
           this.scoreMessage = this.scoreMessages[0];
@@ -510,7 +587,7 @@ class _ChallengePageState extends State<ChallengePage> {
                 setState(() {
                   this.avatar = this.avatarState[1];
                 });
-                play('${widget.wordList[this.i].word}.mp3');
+                play('${this.challengeWordList[this.i].word}.mp3');
               }
             },
             child: SvgPicture.asset(this.avatar, semanticsLabel: 'Acme Logo'),
@@ -531,6 +608,7 @@ class _ChallengePageState extends State<ChallengePage> {
   }
 
   _resultPopup(BuildContext context) => showDialog(
+      barrierDismissible: false,
       context: context,
       builder: (context) {
         return FlipCard(
@@ -559,14 +637,14 @@ class _ChallengePageState extends State<ChallengePage> {
               stops: [0.01, 1],
               colors: appTheme.currentTheme.gradientDialogColors),
         ),
-        width: double.infinity,
-        child: Wrap(
-          alignment: WrapAlignment.center,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             Container(
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(15, 15, 15, 0),
                 child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     circularSlider(
                       invalue: this.score,
@@ -588,7 +666,6 @@ class _ChallengePageState extends State<ChallengePage> {
                   ],
                 ),
               ),
-              width: double.infinity,
               decoration: BoxDecoration(
                   color: appTheme.currentTheme.challengeBackColor,
                   shape: BoxShape.rectangle,
@@ -597,9 +674,10 @@ class _ChallengePageState extends State<ChallengePage> {
                       topRight: Radius.circular(12))),
             ),
             SizedBox(
-              height: 250,
+              height: 10,
             ),
             Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
                   '${this.scoreTitle}',
@@ -609,7 +687,7 @@ class _ChallengePageState extends State<ChallengePage> {
                       fontWeight: FontWeight.bold),
                 ),
                 SizedBox(
-                  height: 8,
+                  height: 10,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(right: 16, left: 16),
@@ -619,6 +697,9 @@ class _ChallengePageState extends State<ChallengePage> {
                         color: appTheme.currentTheme.primaryTextColor),
                     textAlign: TextAlign.center,
                   ),
+                ),
+                SizedBox(
+                  height: 10,
                 ),
                 Row(
                   mainAxisSize: MainAxisSize.min,
@@ -662,7 +743,7 @@ class _ChallengePageState extends State<ChallengePage> {
               ],
             ),
             SizedBox(
-              height: 113,
+              height: 10,
             ),
           ],
         ),
@@ -689,8 +770,8 @@ class _ChallengePageState extends State<ChallengePage> {
           width: double.infinity,
           child: Padding(
             padding: const EdgeInsets.fromLTRB(15, 20, 15, 0),
-            child: Wrap(
-              alignment: WrapAlignment.center,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 AutoSizeText(
                   'Answers',
@@ -710,7 +791,8 @@ class _ChallengePageState extends State<ChallengePage> {
                   child: Scrollbar(
                     thickness: 1,
                     child: SingleChildScrollView(
-                      child: Wrap(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
                         children: this
                             .answerList
                             .map((row) => Column(
@@ -767,7 +849,7 @@ answersCount({int correct, int incorrect}) {
             Icons.check,
             color: Colors.green,
           ),
-          Text('$correct Correct')
+          AutoSizeText('$correct Correct')
         ],
       ),
       Row(
@@ -776,7 +858,7 @@ answersCount({int correct, int incorrect}) {
             Icons.close,
             color: Colors.red,
           ),
-          Text('$incorrect Incorrect')
+          AutoSizeText('$incorrect Incorrect')
         ],
       ),
     ],
