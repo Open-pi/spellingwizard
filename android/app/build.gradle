@@ -40,9 +40,9 @@ android {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.opensegmentationsystems.spellingwizards"
         minSdkVersion 21
-        targetSdkVersion 28
-        versionCode flutterVersionCode.toInteger()
-        versionName flutterVersionName
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
     }
 
     buildTypes {
