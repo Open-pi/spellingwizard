@@ -138,7 +138,7 @@ Future<List<Items>> categoryList() async {
     title: "Household",
     event: "3",
     img: "assets/household_category.svg",
-    saveFile: await saveFileOfCategory("Abstract"),
+    saveFile: await saveFileOfCategory("Household"),
   );
 
   return [item1, item2, item3, item4, item5, item6];
@@ -167,6 +167,7 @@ class _HomePageState extends State<HomePage> {
             children: <Widget>[
               Flexible(
                 child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -183,7 +184,7 @@ class _HomePageState extends State<HomePage> {
                       height: 4,
                     ),
                     Text(
-                      "Challenges",
+                      "Categories",
                       style: TextStyle(
                           fontSize: 15,
                           fontFamily: 'WorkSans',
@@ -227,39 +228,44 @@ void _bottomMenu(context) {
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(16), topRight: Radius.circular(16)),
             ),
-            child: Wrap(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Container(
-                  padding: EdgeInsets.only(top: 4),
-                  child: ListTile(
-                    leading: Image.asset(
+                SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: [
+                    SizedBox(
+                      width: 14.5,
+                    ),
+                    Image.asset(
                       "assets/wizard.png",
-                      width: 35,
+                      width: 36,
                     ),
-                    title: Row(
-                      children: [
-                        Flexible(
-                          child: AutoSizeText(
-                            'Spelling Wizards',
-                            style: TextStyle(
-                              color: appTheme.currentTheme.secondaryTextColor,
-                              fontSize: 20,
-                            ),
-                            minFontSize: 10,
-                            maxLines: 1,
-                          ),
-                        ),
-                        Padding(padding: EdgeInsets.only(right: 5)),
-                        Icon(
-                          Icons.verified,
+                    SizedBox(
+                      width: 14,
+                    ),
+                    Flexible(
+                      child: AutoSizeText(
+                        'Spelling Wizards',
+                        style: TextStyle(
                           color: appTheme.currentTheme.secondaryTextColor,
-                        )
-                      ],
+                          fontSize: 20,
+                        ),
+                        minFontSize: 10,
+                        maxLines: 1,
+                      ),
                     ),
-                  ),
+                    Padding(padding: EdgeInsets.only(right: 5)),
+                    Icon(
+                      Icons.verified,
+                      color: appTheme.currentTheme.secondaryTextColor,
+                    ),
+                  ],
                 ),
                 SizedBox(
-                  height: 70,
+                  height: 15,
                 ),
                 _sheetOption(
                   title: 'Support the developer',
@@ -275,7 +281,7 @@ void _bottomMenu(context) {
                   },
                 ),
                 SizedBox(
-                  height: 60,
+                  height: 10,
                 ),
                 _sheetOption(
                   title: 'Review Mistakes',
@@ -286,7 +292,7 @@ void _bottomMenu(context) {
                   },
                 ),
                 SizedBox(
-                  height: 60,
+                  height: 10,
                 ),
                 _sheetOption(
                   title: 'Settings',
@@ -297,7 +303,7 @@ void _bottomMenu(context) {
                   },
                 ),
                 SizedBox(
-                  height: 55,
+                  height: 5,
                 ),
                 _sheetOption(
                   title: 'About',
@@ -330,7 +336,9 @@ _sheetOption(
               icon,
               color: color,
             ),
-            Padding(padding: EdgeInsets.only(right: 25)),
+            SizedBox(
+              width: 25,
+            ),
             Flexible(
               child: AutoSizeText(
                 title,
@@ -365,11 +373,10 @@ _donateDialog(BuildContext context) => Dialog(
               stops: [0.001, 1],
               colors: appTheme.currentTheme.gradientDialogColors),
         ),
-        width: double.infinity,
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-          child: Wrap(
-            alignment: WrapAlignment.center,
+          padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
               Row(
                 children: [
@@ -401,7 +408,7 @@ _donateDialog(BuildContext context) => Dialog(
                   ),
                 ],
               ),
-              _customHoriSpacer(size: 35),
+              _customHoriSpacer(size: 12),
               AutoSizeText(
                   "Donate to support open-source and ad-free software!",
                   style: TextStyle(
@@ -409,7 +416,7 @@ _donateDialog(BuildContext context) => Dialog(
                     color: appTheme.currentTheme.primaryTextColor,
                     fontWeight: FontWeight.normal,
                   )),
-              _customHoriSpacer(size: 45),
+              _customHoriSpacer(size: 13),
               Wrap(
                 alignment: WrapAlignment.center,
                 spacing: 15,
@@ -427,7 +434,9 @@ _donateDialog(BuildContext context) => Dialog(
                           Icons.credit_card,
                           color: appTheme.currentTheme.primaryIconColor,
                         ),
-                        Padding(padding: EdgeInsets.only(right: 10)),
+                        SizedBox(
+                          width: 10,
+                        ),
                         Flexible(
                           child: AutoSizeText(
                             'DONATE',
@@ -455,7 +464,9 @@ _donateDialog(BuildContext context) => Dialog(
                           FlutterIcons.bitcoin_faw5d,
                           color: appTheme.currentTheme.primaryIconColor,
                         ),
-                        Padding(padding: EdgeInsets.only(right: 10)),
+                        SizedBox(
+                          width: 10,
+                        ),
                         Flexible(
                           child: AutoSizeText(
                             'DONATE',
@@ -472,57 +483,11 @@ _donateDialog(BuildContext context) => Dialog(
                   ),
                 ],
               ),
-              _customHoriSpacer(size: 60),
             ],
           ),
         )));
 
 _customHoriSpacer({double size = 30}) => SizedBox(height: size);
-
-_feature(
-    {String text1 = "",
-    String text2 = "",
-    IconData icon = Icons.favorite,
-    Color color = Colors.white,
-    bool twoLines = false}) {
-  return Padding(
-    padding: const EdgeInsets.only(right: 12, left: 12),
-    child: Row(
-      children: [
-        Icon(
-          icon,
-          color: color,
-          size: 20,
-        ),
-        Padding(padding: EdgeInsets.only(right: 10)),
-        Flexible(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              AutoSizeText(
-                text1,
-                style: TextStyle(
-                  fontSize: 11.5,
-                  color: color,
-                  fontWeight: FontWeight.normal,
-                ),
-              ),
-              if (twoLines)
-                AutoSizeText(
-                  text2,
-                  style: TextStyle(
-                    fontSize: 11.5,
-                    color: color,
-                    fontWeight: FontWeight.normal,
-                  ),
-                ),
-            ],
-          ),
-        )
-      ],
-    ),
-  );
-}
 
 Route _createRoute(String page) {
   return PageRouteBuilder(
