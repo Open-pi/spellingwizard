@@ -4,9 +4,17 @@ import 'package:firebase_admob/firebase_admob.dart';
 class AdManager {
   static MobileAdTargetingInfo get targetingInfo {
     return MobileAdTargetingInfo(
-      keywords: <String>['flutterio', 'beautiful apps'],
+      keywords: <String>[
+        'Education',
+        'Dictionary',
+        'Spelling',
+        'Entertainment',
+        'Language education',
+        'Pronunciation'
+      ],
       contentUrl: 'https://flutter.io',
       childDirected: false,
+      nonPersonalizedAds: true,
       testDevices: <String>[], // Android emulators are considered test devices
     );
   }
@@ -49,51 +57,5 @@ class AdManager {
     } else {
       throw new UnsupportedError("Unsupported platform");
     }
-  }
-}
-
-class CustomAdmob {
-  MobileAdTargetingInfo targetingInfo = MobileAdTargetingInfo(
-    keywords: <String>['flutterio', 'beautiful apps'],
-    contentUrl: 'https://flutter.io',
-    childDirected: false,
-    testDevices: <String>[], // Android emulators are considered test devices
-  );
-  RewardedVideoAd videoAd;
-
-  BannerAd bannerAd() {
-    return BannerAd(
-      adUnitId: BannerAd.testAdUnitId,
-      size: AdSize.smartBanner,
-      targetingInfo: targetingInfo,
-      listener: (MobileAdEvent event) {
-        print("BannerAd event is $event");
-      },
-    );
-  }
-
-  InterstitialAd interstitialAd() {
-    return InterstitialAd(
-      adUnitId: InterstitialAd.testAdUnitId,
-      targetingInfo: targetingInfo,
-      listener: (MobileAdEvent event) {
-        print("InterstitialAd event is $event");
-      },
-    );
-  }
-
-  void initRewardedVideoAd() {
-    videoAd = RewardedVideoAd.instance;
-  }
-
-  Future<void> loadRewardedVideoAd() async {
-    await videoAd.load(
-      adUnitId: RewardedVideoAd.testAdUnitId,
-      targetingInfo: targetingInfo,
-    );
-  }
-
-  void showRewardedVideoAd() {
-    videoAd.show();
   }
 }
