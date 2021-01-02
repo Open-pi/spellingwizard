@@ -94,6 +94,7 @@ flutter:
     - assets/categories/Animals_words/
     - assets/categories/Abstract_words/
     - assets/categories/Family_words/
+    - assets/categories/Household_words/
     - assets/wizard.png
     - assets/icon.png
     - assets/splash_icon.png

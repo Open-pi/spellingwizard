@@ -136,7 +136,7 @@ Future<List<Items>> categoryList() async {
   );
   Items item6 = new Items(
     title: "Household",
-    event: "4",
+    event: "3",
     img: "assets/household_category.svg",
     saveFile: await saveFileOfCategory("Abstract"),
   );
