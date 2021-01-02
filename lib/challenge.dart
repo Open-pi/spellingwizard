@@ -542,8 +542,7 @@ class _ChallengePageState extends State<ChallengePage> {
         if (!widget.isPractice) {
           this.score =
               (this.correctAnswers / this.challengeWordList.length) * 100;
-          saveFile.saveChallenge(
-              widget.prefix.item2, this.correctAnswers, widget.wordList.length);
+          saveFile.saveChallenge(widget.prefix.item2, this.score);
         } else {
           this.numberOfWords++;
           this.score = (this.correctAnswers / this.numberOfWords) * 100;

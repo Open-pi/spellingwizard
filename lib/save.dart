@@ -37,7 +37,7 @@ class SaveFile {
     if (id - 1 > this.save.length - 1) {
       return false;
     } else {
-      if (this.save[id - 1].stars >= 1) {
+      if (this.save[id - 1].stars >= 2) {
         return true;
       }
     }
@@ -52,16 +52,16 @@ class SaveFile {
     return this.save[id].stars;
   }
 
-  saveChallenge(int index, int rightAnswers, int numberOfWords) {
+  saveChallenge(int index, double score) {
     /* save the result of the challenge */
     int stars = 0;
-    if (rightAnswers >= numberOfWords / 2) {
+    if (score >= 25 && score < 45) {
       stars = 1;
     }
-    if (rightAnswers > numberOfWords - 1) {
+    if (score >= 45 && score < 95) {
       stars = 2;
     }
-    if (rightAnswers == numberOfWords) {
+    if (score >= 95) {
       stars = 3;
     }
     if (index > this.save.length - 1) {
@@ -69,9 +69,9 @@ class SaveFile {
       this.save.add(SavedChallenge(id: 'challenge$index', stars: stars));
     } else {
       print('updating the list');
-			if (stars >= this.save[index].stars){
-      	this.save[index].stars = stars;
-			}
+      if (stars >= this.save[index].stars) {
+        this.save[index].stars = stars;
+      }
     }
     // re-write the file
     printSave();
