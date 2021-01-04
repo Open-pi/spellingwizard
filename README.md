@@ -1,3 +1,5 @@
+![alt text](https://github.com/open-segmentation-systems/spellingwizard/master/screenshots/feature.jpeg?raw=true)
+
 # SpellingWizard is a simple spelling app
 Spelling is one of those things that are particularly crucial in the English language.
 If you are preparing for a test or improving your skill, SpellingWizard is your friend.
@@ -13,7 +15,7 @@ SpellingWizard has multiple categories (Verbs, Family, etc.) with each one havin
 3. Tools
 4. Animals
 5. Abstract
-  
+
 And many more to come.
 
 ### Why does this app have a preminum version for Playstore users?
