@@ -1,4 +1,4 @@
-![alt text](https://github.com/open-segmentation-systems/spellingwizard/master/screenshots/feature.jpeg?raw=true)
+![alt text](https://github.com/open-segmentation-systems/spellingwizards/blob/master/screenshots/feature.jpeg?raw=true)
 
 # SpellingWizard is a simple spelling app
 Spelling is one of those things that are particularly crucial in the English language.
