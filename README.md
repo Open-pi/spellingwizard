@@ -30,7 +30,7 @@ Paying the premium version on PlayStore unlocks additional features. This list m
 **These features will always stay freely available for downloads from F-droid!**
 
 ## Licence
-Spellingwizard is licensed under the GPLv3. Copyright 2020-2021 Open segmentaion systems.
+Spellingwizard is licensed under the GPLv2. Copyright 2020-2021 Open segmentaion systems.
 
 ## Contributors
 * @maistrox9 -- Youssef Toukebri
