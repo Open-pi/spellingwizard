@@ -128,3 +128,9 @@ Future<File> loadMistakesFile() async {
   final file = File('$path/mistakes.csv');
   return file;
 }
+
+Future<File> loadThemeFile() async {
+  final path = await savePath();
+  final file = File('$path/theme.txt');
+  return file;
+}

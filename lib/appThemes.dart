@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:SpellingWizards/save.dart';
 import 'package:flutter/material.dart';
 
 class AppTheme with ChangeNotifier {
@@ -11,7 +14,7 @@ class AppTheme with ChangeNotifier {
     Color(0xFF202050),
   ];
 
-  void changeThemeTo(themeChoice) {
+  void changeThemeTo(themeChoice) async {
     theme = themeChoice;
     switch (themeChoice) {
       case 'Normal':
@@ -35,6 +38,7 @@ class AppTheme with ChangeNotifier {
         pickerColor = Colors.deepPurpleAccent;
         break;
     }
+    await updateThemeFile(themeChoice);
     switchState = !switchState;
     notifyListeners();
   }
@@ -276,4 +280,9 @@ class CustomTheme {
     this.gradientChallengeCardColors,
     this.gradientKeyboardColors,
   });
+}
+
+updateThemeFile(String theme) async {
+  File themeFile = await loadThemeFile();
+  themeFile.writeAsStringSync(theme);
 }

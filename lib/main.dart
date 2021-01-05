@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:SpellingWizards/save.dart';
 import 'package:flutter/material.dart';
 import 'package:SpellingWizards/dashboard.dart';
 import 'package:flutter/services.dart';
@@ -17,10 +20,19 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   @override
   void initState() {
+    loadTheme();
     super.initState();
     appTheme.addListener(() {
       setState(() {});
     });
+  }
+
+  loadTheme() async {
+    File themeFile = await loadThemeFile();
+    String theme = themeFile.readAsStringSync();
+    if (theme.isNotEmpty) {
+      appTheme.changeThemeTo(theme);
+    }
   }
 
   @override
