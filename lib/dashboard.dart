@@ -1,11 +1,11 @@
-import 'package:SpellingWizards/reviewMistakes.dart';
-import 'package:SpellingWizards/settings.dart';
+import 'package:SpellingWizard/reviewMistakes.dart';
+import 'package:SpellingWizard/settings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'about.dart';
 import 'categoryview.dart';
-import 'package:SpellingWizards/save.dart';
+import 'package:SpellingWizard/save.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
@@ -172,7 +172,7 @@ class _HomePageState extends State<HomePage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     AutoSizeText(
-                      "Spelling Wizards",
+                      "Spelling Wizard",
                       style: TextStyle(
                           fontSize: 30,
                           fontFamily: 'WorkSans',
@@ -248,7 +248,7 @@ void _bottomMenu(context) {
                     ),
                     Flexible(
                       child: AutoSizeText(
-                        'Spelling Wizards',
+                        'Spelling Wizard',
                         style: TextStyle(
                           color: appTheme.currentTheme.secondaryTextColor,
                           fontSize: 20,
@@ -382,7 +382,7 @@ _donateDialog(BuildContext context) => Dialog(
                 children: [
                   Flexible(
                     child: AutoSizeText(
-                      'Spelling Wizards',
+                      'Spelling Wizard',
                       style: TextStyle(
                           fontSize: 20,
                           color: appTheme.currentTheme.primaryTextColor,

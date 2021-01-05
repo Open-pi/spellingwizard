@@ -1,5 +1,5 @@
 library config.global;
 
-import 'package:SpellingWizards/appThemes.dart';
+import 'package:SpellingWizard/appThemes.dart';
 
 AppTheme appTheme = AppTheme();

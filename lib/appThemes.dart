@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:SpellingWizards/save.dart';
+import 'package:SpellingWizard/save.dart';
 import 'package:flutter/material.dart';
 
 class AppTheme with ChangeNotifier {

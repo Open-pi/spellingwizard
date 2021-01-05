@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'package:SpellingWizards/save.dart';
+import 'package:SpellingWizard/save.dart';
 import 'package:flutter/material.dart';
-import 'package:SpellingWizards/dashboard.dart';
+import 'package:SpellingWizard/dashboard.dart';
 import 'package:flutter/services.dart';
 import 'package:splashscreen/splashscreen.dart';
 
@@ -38,7 +38,7 @@ class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Spelling Wizards',
+      title: 'Spelling Wizard',
       theme: appTheme.currentTheme.theme,
       home: Home(),
     );
