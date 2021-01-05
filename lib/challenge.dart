@@ -125,7 +125,7 @@ class _ChallengePageState extends State<ChallengePage> {
   }
 
   @override
-  void dispose() async {
+  void dispose() {
     audioCache = null;
     super.dispose();
   }
@@ -265,6 +265,8 @@ class _ChallengePageState extends State<ChallengePage> {
                             Text(
                               'Phonetic: ${this.challengeWordList[this.i].phonetic}',
                               style: TextStyle(
+                                  fontFamily: '',
+                                  fontWeight: FontWeight.w600,
                                   color:
                                       appTheme.currentTheme.primaryTextColor),
                               textAlign: TextAlign.center,
