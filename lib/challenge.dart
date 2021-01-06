@@ -79,8 +79,7 @@ class _ChallengePageState extends State<ChallengePage> {
   GlobalKey<FlipCardState> cardKey = GlobalKey<FlipCardState>();
 
   // related to playing audio files.
-  AudioCache audioCache = AudioCache();
-  AudioPlayer advancedPlayer;
+  AudioCache audioCache = AudioCache(prefix: 'assets/audio/');
   bool isNotPlaying = true;
 
   // avatar
@@ -117,7 +116,10 @@ class _ChallengePageState extends State<ChallengePage> {
   @override
   initState() {
     super.initState();
-    audioCache = AudioCache(prefix: 'assets/audio/');
+    audioCache.loadAll([
+      for (int e = 0; e < widget.wordList.length; e++)
+        "${widget.wordList[e].word}.mp3"
+    ]);
     challengeWordList = List.from(widget.wordList);
     newMistakesList = List.from(widget.wordList);
     if (widget.isPractice && widget.isTerminationMode)
@@ -126,6 +128,7 @@ class _ChallengePageState extends State<ChallengePage> {
 
   @override
   void dispose() {
+    audioCache.clearCache();
     audioCache = null;
     super.dispose();
   }
@@ -598,7 +601,7 @@ class _ChallengePageState extends State<ChallengePage> {
 
   play(String path) async {
     isNotPlaying = false;
-    AudioPlayer player = await audioCache.play(path, volume: 1);
+    AudioPlayer player = await audioCache.play(path);
 
     player.onPlayerCompletion.listen((event) {
       setState(() {
