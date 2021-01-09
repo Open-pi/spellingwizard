@@ -118,7 +118,7 @@ class _ChallengePageState extends State<ChallengePage> {
     super.initState();
     audioCache.loadAll([
       for (int e = 0; e < widget.wordList.length; e++)
-        "${widget.wordList[e].word}.mp3"
+        "${widget.wordList[e].word.toLowerCase()}.mp3"
     ]);
     challengeWordList = List.from(widget.wordList);
     newMistakesList = List.from(widget.wordList);
@@ -591,7 +591,8 @@ class _ChallengePageState extends State<ChallengePage> {
                 setState(() {
                   this.avatar = this.avatarState[1];
                 });
-                play('${this.challengeWordList[this.i].word}.mp3');
+                play(
+                    '${this.challengeWordList[this.i].word.toLowerCase()}.mp3');
               }
             },
             child: SvgPicture.asset(this.avatar, semanticsLabel: 'Acme Logo'),
