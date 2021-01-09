@@ -105,7 +105,7 @@ class Items {
 Future<List<Items>> categoryList() async {
   Items item1 = new Items(
     title: "Verbs",
-    event: "6",
+    event: "4",
     img: "assets/verbs_category.svg",
     saveFile: await saveFileOfCategory("Verbs"),
   );
@@ -118,13 +118,13 @@ Future<List<Items>> categoryList() async {
   );
   Items item3 = new Items(
     title: "Tools",
-    event: "6",
+    event: "2",
     img: "assets/tools_category.svg",
     saveFile: await saveFileOfCategory("Tools"),
   );
   Items item4 = new Items(
     title: "Animals",
-    event: "6",
+    event: "4",
     img: "assets/animals_category.svg",
     saveFile: await saveFileOfCategory("Animals"),
   );
