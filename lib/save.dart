@@ -125,12 +125,18 @@ Future<SaveFile> saveFileOfCategory(String title) async {
 
 Future<File> loadMistakesFile() async {
   final path = await savePath();
+  if (!File('$path/mistakes.csv').existsSync())
+    new File('$path/mistakes.csv').createSync(recursive: true);
+
   final file = File('$path/mistakes.csv');
   return file;
 }
 
 Future<File> loadThemeFile() async {
   final path = await savePath();
+  if (!File('$path/theme.txt').existsSync())
+    new File('$path/theme.txt').createSync(recursive: true);
+
   final file = File('$path/theme.txt');
   return file;
 }

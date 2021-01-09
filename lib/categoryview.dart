@@ -76,7 +76,7 @@ class _CategoryViewState extends State<CategoryView> {
                 .convert(myData);
         mistakesList = getWordsListStrOnly(data);
       } else {
-        new File('$path/mistakes.csv');
+        new File('$path/mistakes.csv').createSync(recursive: true);
       }
     }
 
