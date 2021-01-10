@@ -1,9 +1,8 @@
 import 'dart:io';
 
-import 'package:audioplayers/audioplayers.dart';
 import 'package:built_in_keyboard/built_in_keyboard.dart';
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
-import 'package:audioplayers/audio_cache.dart';
 import 'package:flutter/services.dart';
 import 'package:tuple/tuple.dart';
 import 'config.dart';
@@ -79,7 +78,7 @@ class _ChallengePageState extends State<ChallengePage> {
   GlobalKey<FlipCardState> cardKey = GlobalKey<FlipCardState>();
 
   // related to playing audio files.
-  AudioCache audioCache = AudioCache(prefix: 'assets/audio/');
+  final assetsAudioPlayer = AssetsAudioPlayer();
   bool isNotPlaying = true;
 
   // avatar
@@ -116,10 +115,6 @@ class _ChallengePageState extends State<ChallengePage> {
   @override
   initState() {
     super.initState();
-    audioCache.loadAll([
-      for (int e = 0; e < widget.wordList.length; e++)
-        "${widget.wordList[e].word.toLowerCase()}.mp3"
-    ]);
     challengeWordList = List.from(widget.wordList);
     newMistakesList = List.from(widget.wordList);
     if (widget.isPractice && widget.isTerminationMode)
@@ -128,8 +123,7 @@ class _ChallengePageState extends State<ChallengePage> {
 
   @override
   void dispose() {
-    audioCache.clearCache();
-    audioCache = null;
+    assetsAudioPlayer.dispose();
     super.dispose();
   }
 
@@ -591,26 +585,24 @@ class _ChallengePageState extends State<ChallengePage> {
                 setState(() {
                   this.avatar = this.avatarState[1];
                 });
-                play(
-                    '${this.challengeWordList[this.i].word.toLowerCase()}.mp3');
+                assetsAudioPlayer.open(
+                  Audio(
+                      "assets/audio/${this.challengeWordList[this.i].word.toLowerCase()}.mp3"),
+                );
+                isNotPlaying = false;
+                assetsAudioPlayer.playlistAudioFinished
+                    .listen((Playing playing) {
+                  isNotPlaying = true;
+                  setState(() {
+                    this.avatar = this.avatarState[0];
+                  });
+                });
               }
             },
             child: SvgPicture.asset(this.avatar, semanticsLabel: 'Acme Logo'),
           ),
         ),
       );
-
-  play(String path) async {
-    isNotPlaying = false;
-    AudioPlayer player = await audioCache.play(path);
-
-    player.onPlayerCompletion.listen((event) {
-      setState(() {
-        this.avatar = this.avatarState[0];
-        isNotPlaying = true;
-      });
-    });
-  }
 
   _resultPopup(BuildContext context) => showDialog(
       barrierDismissible: false,
