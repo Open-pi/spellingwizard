@@ -66,24 +66,26 @@ class _SettingsPageState extends State<SettingsPage> {
   _colorPickerDialog() {
     return showDialog(
       context: context,
-      child: AlertDialog(
-        title: Text('Change Theme'),
-        content: SingleChildScrollView(
-          child: BlockPicker(
-            pickerColor: appTheme.pickerColor,
-            onColorChanged: changeTheme,
-            availableColors: appTheme.availableThemes,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Change Theme'),
+          content: SingleChildScrollView(
+            child: BlockPicker(
+              pickerColor: appTheme.pickerColor,
+              onColorChanged: changeTheme,
+              availableColors: appTheme.availableThemes,
+            ),
           ),
-        ),
-        actions: [
-          FlatButton(
-            child: Text('Got it'),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          )
-        ],
-      ),
+          actions: [
+            FlatButton(
+              child: Text('Got it'),
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+            )
+          ],
+        );
+      },
     );
   }
 }
