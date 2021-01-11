@@ -144,6 +144,7 @@ class _CategoryViewState extends State<CategoryView> {
                       style: titleStyle,
                     ),
                     leading: RatingBarIndicator(
+                      unratedColor: appTheme.currentTheme.primaryIconColor,
                       rating: widget.saveFile.isColored(index).toDouble(),
                       direction: Axis.horizontal,
                       itemCount: 3,
