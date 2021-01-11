@@ -1,4 +1,4 @@
-package com.openpi.spellingwizard
+package com.opensegmentationsystems.spellingwizards
 
 import io.flutter.embedding.android.FlutterActivity
 
