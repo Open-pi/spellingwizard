@@ -40,6 +40,8 @@ dependencies:
   flutter_colorpicker: ^0.3.4
   auto_size_text: ^2.1.0
   firebase_admob: ^0.10.3
+  in_app_purchase: ^0.3.4+16
+  provider: ^4.3.2+3
   shimmer: ^1.1.2
   built_in_keyboard:
     git:

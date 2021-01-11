@@ -18,7 +18,8 @@ class CategoryView extends StatefulWidget {
   final String title;
   final int itemCount;
   SaveFile saveFile;
-  CategoryView({this.title, this.itemCount, this.saveFile});
+  bool showAds;
+  CategoryView({this.title, this.itemCount, this.saveFile, this.showAds});
   @override
   _CategoryViewState createState() => _CategoryViewState();
 }
@@ -35,7 +36,7 @@ class _CategoryViewState extends State<CategoryView> {
 
   BannerAd bannerAd() {
     return BannerAd(
-      adUnitId: BannerAd.testAdUnitId,
+      adUnitId: AdManager.bannerAdUnitId,
       size: AdSize.smartBanner,
       targetingInfo: _targetingInfo,
       listener: (MobileAdEvent event) async {
@@ -51,7 +52,7 @@ class _CategoryViewState extends State<CategoryView> {
 
   InterstitialAd interstitialAd() {
     return InterstitialAd(
-      adUnitId: InterstitialAd.testAdUnitId,
+      adUnitId: AdManager.interstitialAdUnitId,
       targetingInfo: _targetingInfo,
       listener: (MobileAdEvent event) {
         print("InterstitialAd event is $event");
@@ -62,16 +63,18 @@ class _CategoryViewState extends State<CategoryView> {
   @override
   initState() {
     super.initState();
-    _bannerAd = bannerAd()..load();
+    if (widget.showAds) _bannerAd = bannerAd()..load();
   }
 
   @override
   void dispose() async {
     super.dispose();
-    try {
-      await _bannerAd?.dispose();
-      _bannerAd = null;
-    } catch (ex) {}
+    if (widget.showAds) {
+      try {
+        await _bannerAd?.dispose();
+        _bannerAd = null;
+      } catch (ex) {}
+    }
   }
 
   showBannerAd() {
@@ -217,11 +220,13 @@ class _CategoryViewState extends State<CategoryView> {
                     ),
                     trailing: stateIcon,
                     onTap: () async {
-                      try {
-                        await _bannerAd?.dispose();
-                        _bannerAd = null;
-                      } catch (ex) {}
-                      _interstitialAd = interstitialAd()..load();
+                      if (widget.showAds) {
+                        try {
+                          await _bannerAd?.dispose();
+                          _bannerAd = null;
+                        } catch (ex) {}
+                        _interstitialAd = interstitialAd()..load();
+                      }
                       Tuple3 audioPrefix = Tuple3<String, int, String>(
                         'assets/categories/${widget.title}_words/challenges_audio/',
                         index,
@@ -241,13 +246,15 @@ class _CategoryViewState extends State<CategoryView> {
                             ),
                           ),
                         ).then((value) async {
-                          if (await _interstitialAd.isLoaded()) {
-                            showInterstitialAd();
-                          } else {
-                            _interstitialAd..load();
-                            showInterstitialAd();
+                          if (widget.showAds) {
+                            if (await _interstitialAd.isLoaded()) {
+                              showInterstitialAd();
+                            } else {
+                              _interstitialAd..load();
+                              showInterstitialAd();
+                            }
+                            _bannerAd ??= bannerAd()..load();
                           }
-                          _bannerAd ??= bannerAd()..load();
                           SaveFile saveTmp =
                               await saveFileOfCategory(widget.title);
                           setState(() {

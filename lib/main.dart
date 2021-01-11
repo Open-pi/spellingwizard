@@ -1,21 +1,28 @@
 import 'dart:io';
 
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:SpellingWizard/save.dart';
 import 'package:SpellingWizard/admob.dart';
-import 'package:flutter/material.dart';
 import 'package:SpellingWizard/dashboard.dart';
-import 'package:flutter/services.dart';
+import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:splashscreen/splashscreen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_admob/firebase_admob.dart';
+import 'package:provider/provider.dart';
 
 import 'config.dart';
+import 'providermodel.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   FirebaseAdMob.instance.initialize(appId: AdManager.appId);
-  runApp(App());
+  InAppPurchaseConnection.enablePendingPurchases();
+  runApp(ChangeNotifierProvider(
+      create: (context) => ProviderModel(),
+      child:
+          MaterialApp(theme: ThemeData(fontFamily: 'WorkSans'), home: App())));
 }
 
 class App extends StatefulWidget {
@@ -27,10 +34,19 @@ class _AppState extends State<App> {
   @override
   void initState() {
     loadTheme();
+    var provider = Provider.of<ProviderModel>(context, listen: false);
+    provider.initialize();
     super.initState();
     appTheme.addListener(() {
       setState(() {});
     });
+  }
+
+  @override
+  void dispose() {
+    var provider = Provider.of<ProviderModel>(context, listen: false);
+    provider.subscription.cancel();
+    super.dispose();
   }
 
   loadTheme() async {

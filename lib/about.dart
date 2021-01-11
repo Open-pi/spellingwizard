@@ -7,6 +7,8 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
 class AboutPage extends StatefulWidget {
+  final bool isPro;
+  AboutPage(this.isPro);
   @override
   _AboutPageState createState() => _AboutPageState();
 }
@@ -50,10 +52,11 @@ class _AboutPageState extends State<AboutPage> {
                 ),
               ),
               Padding(padding: EdgeInsets.only(right: 5)),
-              Icon(
-                Icons.verified,
-                color: appTheme.currentTheme.primaryIconColor,
-              )
+              if (widget.isPro)
+                Icon(
+                  Icons.verified,
+                  color: appTheme.currentTheme.primaryIconColor,
+                )
             ],
           ),
         ),

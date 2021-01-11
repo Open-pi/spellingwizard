@@ -4,6 +4,8 @@ import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'config.dart';
 
 class SettingsPage extends StatefulWidget {
+  final bool isPro;
+  SettingsPage(this.isPro);
   @override
   _SettingsPageState createState() => _SettingsPageState();
 }
@@ -56,8 +58,11 @@ class _SettingsPageState extends State<SettingsPage> {
             size: 27,
           ),
         ),
-        onTap: () {
-          _colorPickerDialog();
+        onTap: () async {
+          if (widget.isPro)
+            _colorPickerDialog();
+          else
+            await showfeatureLockedDialog(context);
         },
       ),
     ];
@@ -94,4 +99,42 @@ void changeTheme(Color color) {
   if (color == Colors.deepPurpleAccent)
     appTheme.changeThemeTo('Normal');
   else if (color == Colors.teal) appTheme.changeThemeTo('Teal');
+}
+
+Future<bool> showfeatureLockedDialog(BuildContext context) async {
+  return await showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (context) {
+        return StatefulBuilder(builder: (context, setState) {
+          return AlertDialog(
+            elevation: 10,
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Feature Locked',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  'Upgrade to Spelling Wizard Pro to unlock this feature',
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                child: Text('Okay'),
+                onPressed: () {
+                  Navigator.of(context).pop(false);
+                },
+              ),
+            ],
+          );
+        });
+      });
 }

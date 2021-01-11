@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:885131549032:android:8ef4895c6a0de970475edd",
+        "mobilesdk_app_id": "1:885131549032:android:7217d842ab6bc5fc475edd",
         "android_client_info": {
-          "package_name": "com.example.SpellingWizards"
+          "package_name": "com.opensegmentationsystems.spellingwizards"
         }
       },
       "oauth_client": [

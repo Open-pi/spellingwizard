@@ -1,20 +1,23 @@
+import 'package:SpellingWizard/providermodel.dart';
 import 'package:SpellingWizard/reviewMistakes.dart';
 import 'package:SpellingWizard/settings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:in_app_purchase/in_app_purchase.dart';
 import 'about.dart';
 import 'categoryview.dart';
 import 'package:SpellingWizard/save.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:provider/provider.dart';
 
 import 'config.dart';
 
 class GridDashboard extends StatefulWidget {
   final List<Items> myList;
-  GridDashboard(this.myList);
+  final bool showAds;
+  GridDashboard(this.myList, {this.showAds});
   @override
   GridDashboardState createState() => GridDashboardState();
 }
@@ -47,6 +50,7 @@ class GridDashboardState extends State<GridDashboard> {
                                     title: data.title,
                                     itemCount: int.parse(data.event),
                                     saveFile: data.saveFile,
+                                    showAds: widget.showAds,
                                   ))).then((value) async {
                         SaveFile saveTmp = await saveFileOfCategory(data.title);
                         setState(() {
@@ -71,7 +75,6 @@ class GridDashboardState extends State<GridDashboard> {
                             data.title,
                             style: TextStyle(
                                 fontSize: 18,
-                                fontFamily: 'WorkSans',
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white),
                           ),
@@ -79,7 +82,6 @@ class GridDashboardState extends State<GridDashboard> {
                             data.event,
                             style: TextStyle(
                                 fontSize: 12,
-                                fontFamily: 'WorkSans',
                                 fontWeight: FontWeight.w100,
                                 color: Colors.white),
                           ),
@@ -105,7 +107,7 @@ class Items {
 Future<List<Items>> categoryList() async {
   Items item1 = new Items(
     title: "Verbs",
-    event: "4",
+    event: "6",
     img: "assets/verbs_category.svg",
     saveFile: await saveFileOfCategory("Verbs"),
   );
@@ -118,13 +120,13 @@ Future<List<Items>> categoryList() async {
   );
   Items item3 = new Items(
     title: "Tools",
-    event: "2",
+    event: "6",
     img: "assets/tools_category.svg",
     saveFile: await saveFileOfCategory("Tools"),
   );
   Items item4 = new Items(
     title: "Animals",
-    event: "4",
+    event: "6",
     img: "assets/animals_category.svg",
     saveFile: await saveFileOfCategory("Animals"),
   );
@@ -153,9 +155,17 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  ProviderModel provider;
+  InAppPurchaseConnection _iap = InAppPurchaseConnection.instance;
+  void _buyProduct(ProductDetails prod) {
+    final PurchaseParam purchaseParam = PurchaseParam(productDetails: prod);
+    _iap.buyNonConsumable(purchaseParam: purchaseParam);
+  }
+
   final double heightFactor = 0.225;
   @override
   Widget build(BuildContext context) {
+    provider = Provider.of<ProviderModel>(context);
     return Stack(fit: StackFit.expand, children: <Widget>[
       FractionallySizedBox(
         alignment: Alignment.topCenter,
@@ -175,7 +185,6 @@ class _HomePageState extends State<HomePage> {
                       "Spelling Wizard",
                       style: TextStyle(
                           fontSize: 30,
-                          fontFamily: 'WorkSans',
                           fontWeight: FontWeight.w900,
                           color: appTheme.currentTheme.primaryTextColor),
                       maxLines: 1,
@@ -187,7 +196,6 @@ class _HomePageState extends State<HomePage> {
                       "Categories",
                       style: TextStyle(
                           fontSize: 15,
-                          fontFamily: 'WorkSans',
                           fontWeight: FontWeight.w100,
                           color: appTheme.currentTheme.primaryTextColor),
                     ),
@@ -211,151 +219,173 @@ class _HomePageState extends State<HomePage> {
       FractionallySizedBox(
           alignment: Alignment.bottomCenter,
           heightFactor: 1 - heightFactor,
-          child: GridDashboard(widget.items)),
+          child: GridDashboard(
+            widget.items,
+            showAds: provider.hasPurchased(provider.products[0].id) == null,
+          )),
     ]);
   }
-}
 
-void _bottomMenu(context) {
-  showModalBottomSheet<dynamic>(
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      context: context,
-      builder: (BuildContext bc) {
-        return Container(
-            decoration: BoxDecoration(
-              color: appTheme.currentTheme.bottomMenuSheetColor,
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(16), topRight: Radius.circular(16)),
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  children: [
-                    SizedBox(
-                      width: 14.5,
-                    ),
-                    Image.asset(
-                      "assets/wizard.png",
-                      width: 36,
-                    ),
-                    SizedBox(
-                      width: 14,
-                    ),
-                    Flexible(
-                      child: AutoSizeText(
-                        'Spelling Wizard',
-                        style: TextStyle(
-                          color: appTheme.currentTheme.secondaryTextColor,
-                          fontSize: 20,
-                        ),
-                        minFontSize: 10,
-                        maxLines: 1,
+  void _bottomMenu(BuildContext context) {
+    showModalBottomSheet<dynamic>(
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        context: context,
+        builder: (BuildContext bc) {
+          return Container(
+              decoration: BoxDecoration(
+                color: appTheme.currentTheme.bottomMenuSheetColor,
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(16),
+                    topRight: Radius.circular(16)),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 14.5,
                       ),
-                    ),
-                    Padding(padding: EdgeInsets.only(right: 5)),
-                    Icon(
-                      Icons.verified,
-                      color: appTheme.currentTheme.secondaryTextColor,
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                _sheetOption(
-                  title: 'Upgrade',
-                  icon: FlutterIcons.crown_fou,
-                  color: Colors.amber,
-                  onpressed: () {
-                    Navigator.pop(context);
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return _upgradeDialog(context);
-                        });
-                  },
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                _sheetOption(
-                  title: 'Review Mistakes',
-                  icon: Icons.receipt_long,
-                  onpressed: () async {
-                    Navigator.pop(context);
-                    Navigator.of(context).push(_createRoute('ReviewMistakes'));
-                  },
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                _sheetOption(
-                  title: 'Settings',
-                  icon: Icons.settings,
-                  onpressed: () {
-                    Navigator.pop(context);
-                    Navigator.of(context).push(_createRoute('Settings'));
-                  },
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                _sheetOption(
-                  title: 'About',
-                  icon: Icons.info_outline,
-                  onpressed: () {
-                    Navigator.pop(context);
-                    Navigator.of(context).push(_createRoute('About'));
-                  },
-                ),
-              ],
-            ));
-      });
-}
+                      Image.asset(
+                        "assets/wizard.png",
+                        width: 36,
+                      ),
+                      SizedBox(
+                        width: 14,
+                      ),
+                      Flexible(
+                        child: AutoSizeText(
+                          'Spelling Wizard',
+                          style: TextStyle(
+                            color: appTheme.currentTheme.secondaryTextColor,
+                            fontSize: 20,
+                          ),
+                          minFontSize: 10,
+                          maxLines: 1,
+                        ),
+                      ),
+                      Padding(padding: EdgeInsets.only(right: 5)),
+                      provider.hasPurchased(provider.products[0].id) != null
+                          ? Icon(
+                              Icons.verified,
+                              color: appTheme.currentTheme.secondaryTextColor,
+                            )
+                          : SizedBox(),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  _sheetOption(
+                    title: 'Upgrade',
+                    icon: FlutterIcons.crown_fou,
+                    color: Colors.amber,
+                    onpressed: () {
+                      Navigator.pop(context);
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return _upgradeDialog(context);
+                          });
+                    },
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  _sheetOption(
+                    title: 'Review Mistakes',
+                    icon: Icons.receipt_long,
+                    onpressed: () async {
+                      Navigator.pop(context);
+                      for (var prod in provider.products) {
+                        if (provider.hasPurchased(prod.id) != null)
+                          Navigator.of(context)
+                              .push(_createRoute('ReviewMistakes'));
+                        else
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return _upgradeDialog(context);
+                              });
+                      }
+                    },
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  _sheetOption(
+                    title: 'Settings',
+                    icon: Icons.settings,
+                    onpressed: () {
+                      Navigator.pop(context);
+                      Navigator.of(context).push(_createRoute('Settings',
+                          isPro:
+                              provider.hasPurchased(provider.products[0].id) !=
+                                  null));
+                    },
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  _sheetOption(
+                    title: 'About',
+                    icon: Icons.info_outline,
+                    onpressed: () {
+                      Navigator.pop(context);
+                      Navigator.of(context).push(_createRoute('About',
+                          isPro:
+                              provider.hasPurchased(provider.products[0].id) !=
+                                  null));
+                    },
+                  ),
+                ],
+              ));
+        });
+  }
 
-_sheetOption(
-    {@required void Function() onpressed,
-    String title = "",
-    IconData icon = Icons.verified,
-    Color color = Colors.white}) {
-  return Material(
-    color: Colors.transparent,
-    child: InkWell(
-      splashFactory: InkRipple.splashFactory,
-      onTap: onpressed,
-      child: Padding(
-        padding: EdgeInsets.fromLTRB(20, 12.5, 20, 12.5),
-        child: Row(
-          children: [
-            Icon(
-              icon,
-              color: color,
-            ),
-            Padding(padding: EdgeInsets.only(right: 25)),
-            Flexible(
-              child: AutoSizeText(
-                title,
-                style: TextStyle(
-                  color: color,
-                  fontWeight: FontWeight.normal,
-                  fontSize: 14,
-                  height: 1.2,
+  _sheetOption(
+      {@required void Function() onpressed,
+      String title = "",
+      IconData icon = Icons.verified,
+      Color color = Colors.white}) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        splashFactory: InkRipple.splashFactory,
+        onTap: onpressed,
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(20, 12.5, 20, 12.5),
+          child: Row(
+            children: [
+              Icon(
+                icon,
+                color: color,
+              ),
+              Padding(padding: EdgeInsets.only(right: 25)),
+              Flexible(
+                child: AutoSizeText(
+                  title,
+                  style: TextStyle(
+                    color: color,
+                    fontWeight: FontWeight.normal,
+                    fontSize: 14,
+                    height: 1.2,
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
-    ),
-  );
-}
+    );
+  }
 
-_upgradeDialog(BuildContext context) => Dialog(
+  _upgradeDialog(BuildContext context) {
+    return Dialog(
       backgroundColor: Colors.transparent,
       elevation: 0,
       shape: RoundedRectangleBorder(
@@ -376,145 +406,159 @@ _upgradeDialog(BuildContext context) => Dialog(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Row(
-                children: [
-                  Flexible(
-                    child: AutoSizeText(
-                      'Spelling Wizard',
-                      style: TextStyle(
+              for (var prod in provider.products)
+                if (provider.hasPurchased(prod.id) != null) ...[
+                  Center(
+                    child: FittedBox(
+                      child: AutoSizeText(
+                        "Thank You!",
+                        style: TextStyle(
                           fontSize: 20,
                           color: appTheme.currentTheme.primaryTextColor,
                           fontWeight: FontWeight.bold,
-                          height: 1.25),
-                      maxLines: 1,
+                        ),
+                        maxLines: 1,
+                      ),
                     ),
                   ),
-                  Padding(padding: EdgeInsets.only(right: 8)),
-                  Container(
-                    padding: EdgeInsets.fromLTRB(4, 0.2, 4, 0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color: Colors.amber,
+                  _customHoriSpacer(size: 13),
+                  AutoSizeText("You are a PRO user! enjoy.",
+                      style: TextStyle(
+                        color: appTheme.currentTheme.primaryTextColor,
+                        fontWeight: FontWeight.normal,
+                      )),
+                ] else ...[
+                  Row(
+                    children: [
+                      Flexible(
+                        child: AutoSizeText(
+                          "Spelling Wizard",
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: appTheme.currentTheme.primaryTextColor,
+                              fontWeight: FontWeight.bold,
+                              height: 1.25),
+                          maxLines: 1,
+                        ),
+                      ),
+                      Padding(padding: EdgeInsets.only(right: 8)),
+                      Container(
+                        padding: EdgeInsets.fromLTRB(4, 0.2, 4, 0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          color: Colors.amber,
+                        ),
+                        child: AutoSizeText('PRO',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: appTheme.currentTheme.primaryTextColor,
+                              fontWeight: FontWeight.bold,
+                            )),
+                      ),
+                    ],
+                  ),
+                  _customHoriSpacer(size: 12),
+                  AutoSizeText(
+                      "Upgrade to support open-source software, remove ads, and enjoy some awsome features!",
+                      style: TextStyle(
+                        fontSize: 11.5,
+                        color: appTheme.currentTheme.primaryTextColor,
+                        fontWeight: FontWeight.normal,
+                      )),
+                  _customHoriSpacer(size: 13),
+                  _feature(
+                    text1: "Change app theme",
+                    icon: Icons.color_lens,
+                    color: appTheme.currentTheme.primaryTextColor,
+                  ),
+                  _customHoriSpacer(size: 11),
+                  _feature(
+                    text1: "Remove Ads",
+                    icon: Icons.eco,
+                    color: appTheme.currentTheme.primaryTextColor,
+                  ),
+                  _customHoriSpacer(size: 11),
+                  _feature(
+                    text1: "Review your mistakes",
+                    icon: Icons.receipt_long,
+                    color: appTheme.currentTheme.primaryTextColor,
+                  ),
+                  _customHoriSpacer(size: 11),
+                  _feature(
+                    text1: "Practice your mistakes",
+                    icon: FlutterIcons.form_ant,
+                    color: appTheme.currentTheme.primaryTextColor,
+                  ),
+                  _customHoriSpacer(size: 11),
+                  _feature(
+                    text1: "One time payment",
+                    text2: "All future features for free",
+                    icon: Icons.favorite,
+                    twoLines: true,
+                    color: appTheme.currentTheme.primaryTextColor,
+                  ),
+                  _customHoriSpacer(size: 13),
+                  RaisedButton(
+                    color: Colors.teal[300],
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
                     ),
-                    child: AutoSizeText('PRO',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: appTheme.currentTheme.primaryTextColor,
-                          fontWeight: FontWeight.bold,
-                        )),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.verified,
+                          color: appTheme.currentTheme.primaryIconColor,
+                        ),
+                        Padding(padding: EdgeInsets.only(right: 12)),
+                        Text(
+                          'UPGRADE',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 16,
+                              height: 1.2),
+                        ),
+                      ],
+                    ),
+                    onPressed: () => _buyProduct(prod),
                   ),
                 ],
-              ),
-              _customHoriSpacer(size: 12),
-              AutoSizeText(
-                  "Upgrade to support open-source software, remove ads, and enjoy some awsome features!",
-                  style: TextStyle(
-                    fontSize: 11.5,
-                    color: appTheme.currentTheme.primaryTextColor,
-                    fontWeight: FontWeight.normal,
-                  )),
-              _customHoriSpacer(size: 13),
-              _feature(
-                text1: "Change app theme",
-                icon: Icons.color_lens,
-                color: appTheme.currentTheme.primaryTextColor,
-              ),
-              _customHoriSpacer(size: 11),
-              _feature(
-                text1: "Remove Ads",
-                icon: Icons.eco,
-                color: appTheme.currentTheme.primaryTextColor,
-              ),
-              _customHoriSpacer(size: 11),
-              _feature(
-                text1: "Review your mistakes",
-                icon: Icons.receipt_long,
-                color: appTheme.currentTheme.primaryTextColor,
-              ),
-              _customHoriSpacer(size: 11),
-              _feature(
-                text1: "Practice your mistakes",
-                icon: FlutterIcons.form_ant,
-                color: appTheme.currentTheme.primaryTextColor,
-              ),
-              _customHoriSpacer(size: 11),
-              _feature(
-                text1: "One time payment",
-                text2: "All future features for free",
-                icon: Icons.favorite,
-                twoLines: true,
-                color: appTheme.currentTheme.primaryTextColor,
-              ),
-              _customHoriSpacer(size: 13),
-              RaisedButton(
-                color: Colors.teal[300],
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.verified,
-                      color: appTheme.currentTheme.primaryIconColor,
-                    ),
-                    Padding(padding: EdgeInsets.only(right: 12)),
-                    Text(
-                      'UPGRADE',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16,
-                          height: 1.2),
-                    ),
-                  ],
-                ),
-                onPressed: () {},
-              ),
             ],
           ),
         ),
       ),
     );
+  }
 
-_customHoriSpacer({double size = 30}) => SizedBox(height: size);
+  _customHoriSpacer({double size = 30}) => SizedBox(height: size);
 
-_feature(
-    {String text1 = "",
-    String text2 = "",
-    IconData icon = Icons.favorite,
-    Color color = Colors.white,
-    bool twoLines = false}) {
-  return Padding(
-    padding: const EdgeInsets.only(right: 12, left: 12),
-    child: Row(
-      children: [
-        Icon(
-          icon,
-          color: color,
-          size: 20,
-        ),
-        SizedBox(
-          width: 10,
-        ),
-        Flexible(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              AutoSizeText(
-                text1,
-                style: TextStyle(
-                  fontSize: 11.5,
-                  color: color,
-                  fontWeight: FontWeight.normal,
-                ),
-                maxLines: 1,
-              ),
-              if (twoLines)
+  _feature(
+      {String text1 = "",
+      String text2 = "",
+      IconData icon = Icons.favorite,
+      Color color = Colors.white,
+      bool twoLines = false}) {
+    return Padding(
+      padding: const EdgeInsets.only(right: 12, left: 12),
+      child: Row(
+        children: [
+          Icon(
+            icon,
+            color: color,
+            size: 20,
+          ),
+          SizedBox(
+            width: 10,
+          ),
+          Flexible(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
                 AutoSizeText(
-                  text2,
+                  text1,
                   style: TextStyle(
                     fontSize: 11.5,
                     color: color,
@@ -522,45 +566,48 @@ _feature(
                   ),
                   maxLines: 1,
                 ),
-            ],
-          ),
-        )
-      ],
-    ),
-  );
-}
+                if (twoLines)
+                  AutoSizeText(
+                    text2,
+                    style: TextStyle(
+                      fontSize: 11.5,
+                      color: color,
+                      fontWeight: FontWeight.normal,
+                    ),
+                    maxLines: 1,
+                  ),
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
 
-Route _createRoute(String page) {
-  return PageRouteBuilder(
-    pageBuilder: (context, animation, secondaryAnimation) {
-      if (page == 'About') {
-        return AboutPage();
-      } else if (page == 'Settings') {
-        return SettingsPage();
-      } else if (page == 'ReviewMistakes') {
-        return ReviewMistakesPage();
-      }
-    },
-    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      var begin = Offset(0.0, 1.0);
-      var end = Offset.zero;
-      var curve = Curves.ease;
+  Route _createRoute(String page, {bool isPro = false}) {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) {
+        if (page == 'About') {
+          return AboutPage(isPro);
+        } else if (page == 'Settings') {
+          return SettingsPage(isPro);
+        } else if (page == 'ReviewMistakes') {
+          return ReviewMistakesPage();
+        }
+      },
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        var begin = Offset(0.0, 1.0);
+        var end = Offset.zero;
+        var curve = Curves.ease;
 
-      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+        var tween =
+            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
 
-      return SlideTransition(
-        position: animation.drive(tween),
-        child: child,
-      );
-    },
-  );
-}
-
-_donationUrl() async {
-  const url = 'https://www.buymeacoffee.com/OpenPi';
-  if (await canLaunch(url)) {
-    await launch(url);
-  } else {
-    throw 'Could not launch $url';
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
+      },
+    );
   }
 }
