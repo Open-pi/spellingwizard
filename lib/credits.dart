@@ -53,7 +53,7 @@ List<Widget> body() {
           ),
         )),
     SizedBox(height: 3),
-    _contributor(name: 'Mr X'),
+    _contributor(name: 'kiara305', link: 'https://www.fiverr.com/kiara305'),
   ];
 }
 
