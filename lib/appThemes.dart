@@ -9,9 +9,7 @@ class AppTheme with ChangeNotifier {
   Color pickerColor = Colors.deepPurpleAccent;
   List<Color> availableThemes = [
     Colors.deepPurpleAccent,
-    Color(0xFF121212),
     Colors.teal,
-    Color(0xFF202050),
   ];
 
   void changeThemeTo(themeChoice) async {
@@ -21,17 +19,9 @@ class AppTheme with ChangeNotifier {
         currentTheme = defaultTheme;
         pickerColor = Colors.deepPurpleAccent;
         break;
-      case 'Dark':
-        currentTheme = darkTheme;
-        pickerColor = Color(0xFF121212);
-        break;
       case 'Teal':
         currentTheme = tealTheme;
         pickerColor = Colors.teal;
-        break;
-      case 'DarkBlue':
-        currentTheme = darkBlueTheme;
-        pickerColor = Color(0xFF202050);
         break;
       default:
         currentTheme = defaultTheme;
@@ -131,41 +121,6 @@ class AppTheme with ChangeNotifier {
     ],
   );
 
-  static CustomTheme darkTheme = CustomTheme(
-    theme: ThemeData(
-      fontFamily: 'WorkSans',
-      scaffoldBackgroundColor: Color(0xFF121212),
-      appBarTheme: AppBarTheme(
-        color: Color(0xFF121212),
-      ),
-    ),
-    primaryColor: Color(0xFF121212),
-    secondaryColor: Color(0xFF212121),
-    darkClosedColor: Colors.white38,
-    challengeBackColor: Colors.white,
-    challengeAccentColor: Colors.purple[500],
-    primaryTextColor: Colors.white,
-    secondaryTextColor: Colors.white70,
-    specialTextColor: Colors.black,
-    primaryIconColor: Colors.white,
-    secondaryIconColor: Colors.white70,
-    bottomMenuSheetColor: Color(0xFF121212),
-    inputTextColor: Colors.indigo[900],
-    settingsColor: Colors.teal,
-    gradientDashboardCardsColors: [
-      Colors.purpleAccent[100],
-      Colors.deepPurpleAccent[700]
-    ],
-    gradientDialogColors: [Colors.purple, Colors.deepPurpleAccent[700]],
-    gradientCategoryviewColors: [Color(0xFF212121), Color(0xFF121212)],
-    gradientCategoryviewCardColors: [
-      Colors.deepPurpleAccent[700],
-      Colors.purpleAccent
-    ],
-    gradientChallengeCardColors: [Colors.purpleAccent[100], Color(0xFF121212)],
-    gradientKeyboardColors: [Colors.purpleAccent[100], Color(0xFF121212)],
-  );
-
   static CustomTheme tealTheme = CustomTheme(
     theme: ThemeData(
       fontFamily: 'WorkSans',
@@ -193,41 +148,6 @@ class AppTheme with ChangeNotifier {
     gradientCategoryviewCardColors: [Colors.teal[700], Colors.tealAccent[700]],
     gradientChallengeCardColors: [Colors.tealAccent[700], Colors.teal[700]],
     gradientKeyboardColors: [Colors.tealAccent[700], Colors.teal[700]],
-  );
-
-  static CustomTheme darkBlueTheme = CustomTheme(
-    theme: ThemeData(
-      fontFamily: 'WorkSans',
-      scaffoldBackgroundColor: Color(0xFF202050),
-      appBarTheme: AppBarTheme(
-        color: Color(0xFF202050),
-      ),
-    ),
-    primaryColor: Color(0xFF202050),
-    secondaryColor: Color(0xFF232357),
-    darkClosedColor: Colors.white38,
-    challengeBackColor: Colors.white,
-    challengeAccentColor: Colors.purple[500],
-    primaryTextColor: Colors.white,
-    secondaryTextColor: Colors.white70,
-    specialTextColor: Colors.black,
-    primaryIconColor: Colors.white,
-    secondaryIconColor: Colors.white70,
-    bottomMenuSheetColor: Color(0xFF202050),
-    inputTextColor: Colors.indigo[900],
-    settingsColor: Colors.teal,
-    gradientDashboardCardsColors: [
-      Colors.purpleAccent[100],
-      Colors.deepPurpleAccent[700]
-    ],
-    gradientDialogColors: [Colors.purple, Colors.deepPurpleAccent[700]],
-    gradientCategoryviewColors: [Color(0xFF232357), Color(0xFF202050)],
-    gradientCategoryviewCardColors: [
-      Colors.deepPurpleAccent[700],
-      Colors.purpleAccent
-    ],
-    gradientChallengeCardColors: [Colors.purpleAccent[100], Color(0xFF202050)],
-    gradientKeyboardColors: [Colors.purpleAccent[100], Color(0xFF202050)],
   );
 }
 

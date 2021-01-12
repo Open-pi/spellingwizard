@@ -93,9 +93,5 @@ class _SettingsPageState extends State<SettingsPage> {
 void changeTheme(Color color) {
   if (color == Colors.deepPurpleAccent)
     appTheme.changeThemeTo('Normal');
-  else if (color == Color(0xFF121212))
-    appTheme.changeThemeTo('Dark');
-  else if (color == Colors.teal)
-    appTheme.changeThemeTo('Teal');
-  else if (color == Color(0xFF202050)) appTheme.changeThemeTo('DarkBlue');
+  else if (color == Colors.teal) appTheme.changeThemeTo('Teal');
 }
