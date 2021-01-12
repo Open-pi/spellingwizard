@@ -411,22 +411,9 @@ class _ChallengePageState extends State<ChallengePage> {
             }
           }
         }
-        if (this.answerFeedback) {
-          this.answerFeedback = false;
-          this.avatar = this.avatarState[2];
-          this.enableTextController = false;
-          this.textController.text =
-              this.challengeWordList[this.i].word.toUpperCase();
-          this.inputBackgroundColor = Colors.green[100];
-          this.restartOrEndofgame = true;
-        } else {
-          move = true;
-          this.answerFeedback = true;
-        }
         if (this.restartOrEndofgame) {
           this.restartOrEndofgame = false;
-          if (lastPage &&
-              (this.attempt < 1 || (isCorrectAnswer && this.attempt == 3))) {
+          if (lastPage) {
             // If we reached the last word or the answer is correct from the first try
             if (widget.isPractice && widget.isTerminationMode) {
               this.practiceWordsList = [];
@@ -457,7 +444,18 @@ class _ChallengePageState extends State<ChallengePage> {
             }
           }
         }
-        // here
+        if (this.answerFeedback) {
+          this.answerFeedback = false;
+          this.avatar = this.avatarState[2];
+          this.enableTextController = false;
+          this.textController.text =
+              this.challengeWordList[this.i].word.toUpperCase();
+          this.inputBackgroundColor = Colors.green[100];
+          this.restartOrEndofgame = true;
+        } else {
+          move = true;
+          this.answerFeedback = true;
+        }
       } else {
         if (this.attempt == 3) {
           this.inputBackgroundColor = Colors.red[100];
