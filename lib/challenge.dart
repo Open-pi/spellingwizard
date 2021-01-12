@@ -145,7 +145,6 @@ class _ChallengePageState extends State<ChallengePage> {
             gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomCenter,
-                stops: [0.01, 1],
                 colors: appTheme.currentTheme.gradientKeyboardColors),
           ),
           child: Stack(
@@ -189,7 +188,6 @@ class _ChallengePageState extends State<ChallengePage> {
                         gradient: LinearGradient(
                             begin: Alignment.topLeft,
                             end: Alignment.bottomCenter,
-                            stops: [0.001, 1],
                             colors: appTheme
                                 .currentTheme.gradientChallengeCardColors),
                       ),
@@ -633,7 +631,6 @@ class _ChallengePageState extends State<ChallengePage> {
           gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomCenter,
-              stops: [0.01, 1],
               colors: appTheme.currentTheme.gradientDialogColors),
         ),
         child: Column(
@@ -763,7 +760,6 @@ class _ChallengePageState extends State<ChallengePage> {
             gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
-                stops: [0.001, 1],
                 colors: appTheme.currentTheme.gradientDialogColors),
           ),
           width: double.infinity,

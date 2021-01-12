@@ -58,7 +58,6 @@ class GridDashboardState extends State<GridDashboard> {
                           gradient: LinearGradient(
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
-                              stops: [0.01, 1],
                               colors: appTheme
                                   .currentTheme.gradientDashboardCardsColors),
                           borderRadius: BorderRadius.circular(10)),
@@ -370,7 +369,6 @@ _donateDialog(BuildContext context) => Dialog(
           gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              stops: [0.001, 1],
               colors: appTheme.currentTheme.gradientDialogColors),
         ),
         child: Padding(

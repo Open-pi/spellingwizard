@@ -47,7 +47,6 @@ class _CategoryViewState extends State<CategoryView> {
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            stops: [0.01, 1],
             colors: appTheme.currentTheme.gradientCategoryviewColors,
           ),
         ),
@@ -134,7 +133,6 @@ class _CategoryViewState extends State<CategoryView> {
                     gradient: LinearGradient(
                       begin: Alignment.topLeft,
                       end: Alignment.bottomCenter,
-                      stops: [0.01, 1],
                       colors: colors,
                     ),
                   ),
