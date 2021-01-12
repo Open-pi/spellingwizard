@@ -5,6 +5,9 @@ Spelling is one of those things that are particularly crucial in the English lan
 If you are preparing for a test or improving your skill, SpellingWizard is your friend.
 SpellingWizard will be available on PlayStore and F-droid.
 
+[<img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
+    alt="Get it on Google Play"
+    height="80">](https://play.google.com/store/apps/details?id=com.opensegmentationsystems.spellingwizards)
 ## Screenshots
 
 ## Features
