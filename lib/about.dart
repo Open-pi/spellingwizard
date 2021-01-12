@@ -102,7 +102,7 @@ class _AboutPageState extends State<AboutPage> {
         title: 'Rate this app',
         icon: Icons.star_rate,
         color: appTheme.currentTheme.primaryTextColor,
-        onpressed: () {},
+        onpressed: _launchStore,
       ),
       SizedBox(
         height: 7,
@@ -182,6 +182,16 @@ _launchGitRepo() async {
 _sendEmailFeedback() async {
   const url =
       'mailto:open-segmentation-systems@protonmail.com?subject=S.W-Feedback%20&body=';
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
+  }
+}
+
+_launchStore() async {
+  const url =
+      'https://play.google.com/store/apps/details?id=com.opensegmentationsystems.spellingwizards';
   if (await canLaunch(url)) {
     await launch(url);
   } else {
