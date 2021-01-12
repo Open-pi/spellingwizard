@@ -112,6 +112,10 @@ class _ChallengePageState extends State<ChallengePage> {
         false;
   }
 
+  navigateBack() {
+    Navigator.of(context).pop(true);
+  }
+
   @override
   initState() {
     super.initState();
@@ -703,8 +707,8 @@ class _ChallengePageState extends State<ChallengePage> {
                   children: <Widget>[
                     FlatButton(
                       onPressed: () {
-                        Navigator.pop(context);
-                        Navigator.pop(context);
+                        Navigator.of(context).pop(false);
+                        navigateBack();
                       },
                       child: Text('Quit'),
                       textColor: appTheme.currentTheme.primaryTextColor,
@@ -729,7 +733,7 @@ class _ChallengePageState extends State<ChallengePage> {
                           this.avatar = this.avatarState[0];
                           this.enableTextController = true;
                         });
-                        Navigator.pop(context, true);
+                        Navigator.of(context).pop(true);
                       },
                       child: Text('Retake'),
                       color: appTheme.currentTheme.challengeBackColor,
