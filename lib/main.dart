@@ -70,7 +70,7 @@ class HomeState extends State<Home> {
       navigateAfterFuture: loadFromFuture(),
       image: new Image.asset('assets/splash_icon.png'),
       photoSize: 120.0,
-      backgroundColor: Colors.purple[900],
+      backgroundColor: Colors.deepPurpleAccent[700],
       loaderColor: Colors.white,
       seconds: 2,
     );
