@@ -54,7 +54,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_native_splash: ^0.1.9
-  flutter_launcher_icons: "^0.8.0"
+  flutter_launcher_icons: "^0.8.1"
 
 flutter_native_splash:
     image: assets/splash_icon.png
@@ -62,10 +62,11 @@ flutter_native_splash:
     android_disable_fullscreen: true
 
 flutter_icons:
-  image_path: "assets/icons.png"
+  image_path: "assets/icon.png"
   android: true
   ios: true
-  adaptive_icon_foreground: "assets/icons.png"
+  adaptive_icon_foreground: "assets/icon.png"
+  adaptive_icon_background: "assets/icon.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
