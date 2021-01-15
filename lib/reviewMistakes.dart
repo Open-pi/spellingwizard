@@ -137,8 +137,7 @@ class _ReviewMistakesPageState extends State<ReviewMistakesPage> {
                   SizedBox(
                     height: 10,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  Wrap(
                     children: [
                       Row(
                         children: [
