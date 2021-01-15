@@ -3,6 +3,7 @@ import 'package:SpellingWizard/settings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'about.dart';
 import 'categoryview.dart';
 import 'package:SpellingWizard/save.dart';
@@ -447,7 +448,7 @@ _donateDialog(BuildContext context) => Dialog(
                         ),
                       ],
                     ),
-                    onPressed: () {},
+                    onPressed: _donationUrl,
                   ),
                   RaisedButton(
                     color: Colors.teal[300],
@@ -477,7 +478,7 @@ _donateDialog(BuildContext context) => Dialog(
                         ),
                       ],
                     ),
-                    onPressed: () {},
+                    onPressed: _donationUrl,
                   ),
                 ],
               ),
@@ -511,4 +512,13 @@ Route _createRoute(String page) {
       );
     },
   );
+}
+
+_donationUrl() async {
+  const url = 'https://www.buymeacoffee.com/OpenPi';
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
+  }
 }
