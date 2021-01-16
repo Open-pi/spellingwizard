@@ -2,13 +2,20 @@
 
 # SpellingWizard is a simple spelling app
 Spelling is one of those things that are particularly crucial in the English language.
-If you are preparing for a test or improving your skill, SpellingWizard is your friend.
-SpellingWizard will be available on PlayStore and F-droid.
+If you are preparing for a test or improving your skill, **SpellingWizard** is your friend.
+
+**SpellingWizard** is simple yet feature rich spelling app. As opposed to other spelling apps that have a robotic voice to pronounce the words and an archaic user experience, SW has :
+
+  * a **userfriendly**, and **beautiful** interface (as well as addtional themes to choose from)
+  * An **awesome** and **clear** human voice.
+
+**SpellingWizard** will be available on **PlayStore and F-droid**.
 
 [<img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
     alt="Get it on Google Play"
     height="80">](https://play.google.com/store/apps/details?id=com.opensegmentationsystems.spellingwizards)
 ## Screenshots
+<img src="https://github.com/Open-pi/spellingwizard/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/4.png" alt="drawing" width="200" heigth="200"/><img src="https://github.com/Open-pi/spellingwizard/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/6.png" alt="drawing" width="200" heigth="200"/>
 
 ## Features
 SpellingWizard has multiple categories (Verbs, Family, etc.) with each one having multiple challenges. Complete them all to master that category.
