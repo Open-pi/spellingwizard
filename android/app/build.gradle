@@ -41,8 +41,8 @@ android {
         applicationId "com.openpi.spellingwizard"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 9
-        versionName "1.0.4"
+        versionCode flutterVersionCode.toInteger()
+        versionName flutterVersionName
     }
 
     buildTypes {

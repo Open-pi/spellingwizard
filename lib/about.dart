@@ -63,7 +63,7 @@ class _AboutPageState extends State<AboutPage> {
       ),
       _aboutOption(
         title: 'Version',
-        subTitle: '1.0.4',
+        subTitle: '1.0.5',
         icon: Icons.info_outline,
         color: appTheme.currentTheme.primaryTextColor,
         enableSubTitle: true,
