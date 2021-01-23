@@ -13,7 +13,9 @@ If you are preparing for a test or improving your skill, **SpellingWizard** is y
 
 [<img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
     alt="Get it on Google Play"
-    height="80">](https://play.google.com/store/apps/details?id=com.opensegmentationsystems.spellingwizards)
+    height="80">](https://play.google.com/store/apps/details?id=com.opensegmentationsystems.spellingwizards)[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
+    alt="Get it on F-Droid"
+    height="80">](https://f-droid.org/packages/com.openpi.spellingwizard)
 ## Screenshots
 <img src="https://github.com/Open-pi/spellingwizard/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/4.png" alt="drawing" width="200" heigth="200"/><img src="https://github.com/Open-pi/spellingwizard/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/6.png" alt="drawing" width="200" heigth="200"/>
 
