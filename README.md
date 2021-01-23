@@ -9,8 +9,6 @@ If you are preparing for a test or improving your skill, **SpellingWizard** is y
   * a **userfriendly**, and **beautiful** interface (as well as addtional themes to choose from)
   * An **awesome** and **clear** human voice.
 
-**SpellingWizard** will be available on **PlayStore and F-droid**.
-
 [<img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
     alt="Get it on Google Play"
     height="80">](https://play.google.com/store/apps/details?id=com.opensegmentationsystems.spellingwizards)[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
