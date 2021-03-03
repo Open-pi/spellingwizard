@@ -140,3 +140,12 @@ Future<File> loadThemeFile() async {
   final file = File('$path/theme.txt');
   return file;
 }
+
+Future<File> loadProStatusFile() async {
+  final path = await savePath();
+  if (!File('$path/ProStatus.txt').existsSync())
+    new File('$path/ProStatus.txt').createSync(recursive: true);
+
+  final file = File('$path/ProStatus.txt');
+  return file;
+}

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:SpellingWizard/providermodel.dart';
 import 'package:SpellingWizard/reviewMistakes.dart';
 import 'package:SpellingWizard/settings.dart';
@@ -111,7 +113,6 @@ Future<List<Items>> categoryList() async {
     img: "assets/verbs_category.svg",
     saveFile: await saveFileOfCategory("Verbs"),
   );
-
   Items item2 = new Items(
     title: "Family",
     event: "3",
@@ -156,16 +157,37 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   ProviderModel provider;
+  bool isPro = false;
   InAppPurchaseConnection _iap = InAppPurchaseConnection.instance;
+  final double heightFactor = 0.225;
   void _buyProduct(ProductDetails prod) {
     final PurchaseParam purchaseParam = PurchaseParam(productDetails: prod);
     _iap.buyNonConsumable(purchaseParam: purchaseParam);
   }
 
-  final double heightFactor = 0.225;
+  checkIsPro() async {
+    provider = Provider.of<ProviderModel>(context);
+    File proStatusFile = await loadProStatusFile();
+    if (provider.available) {
+      if (provider.products.length > 0) {
+        setState(() {
+          isPro = provider.hasPurchased(provider.products[0].id) != null;
+          proStatusFile.writeAsStringSync(isPro.toString());
+        });
+      }
+    } else {
+      String proStatus = proStatusFile.readAsStringSync();
+      if (proStatus.toLowerCase() == 'true') {
+        setState(() {
+          isPro = true;
+        });
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    provider = Provider.of<ProviderModel>(context);
+    checkIsPro();
     return Stack(fit: StackFit.expand, children: <Widget>[
       FractionallySizedBox(
         alignment: Alignment.topCenter,
@@ -221,7 +243,7 @@ class _HomePageState extends State<HomePage> {
           heightFactor: 1 - heightFactor,
           child: GridDashboard(
             widget.items,
-            showAds: provider.hasPurchased(provider.products[0].id) == null,
+            showAds: !isPro,
           )),
     ]);
   }
@@ -269,7 +291,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       Padding(padding: EdgeInsets.only(right: 5)),
-                      provider.hasPurchased(provider.products[0].id) != null
+                      isPro
                           ? Icon(
                               Icons.verified,
                               color: appTheme.currentTheme.secondaryTextColor,
@@ -301,17 +323,15 @@ class _HomePageState extends State<HomePage> {
                     icon: Icons.receipt_long,
                     onpressed: () async {
                       Navigator.pop(context);
-                      for (var prod in provider.products) {
-                        if (provider.hasPurchased(prod.id) != null)
-                          Navigator.of(context)
-                              .push(_createRoute('ReviewMistakes'));
-                        else
-                          showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return _upgradeDialog(context);
-                              });
-                      }
+                      if (isPro)
+                        Navigator.of(context)
+                            .push(_createRoute('ReviewMistakes'));
+                      else
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return _upgradeDialog(context);
+                            });
                     },
                   ),
                   SizedBox(
@@ -322,10 +342,8 @@ class _HomePageState extends State<HomePage> {
                     icon: Icons.settings,
                     onpressed: () {
                       Navigator.pop(context);
-                      Navigator.of(context).push(_createRoute('Settings',
-                          isPro:
-                              provider.hasPurchased(provider.products[0].id) !=
-                                  null));
+                      Navigator.of(context)
+                          .push(_createRoute('Settings', isPro: isPro));
                     },
                   ),
                   SizedBox(
@@ -336,10 +354,8 @@ class _HomePageState extends State<HomePage> {
                     icon: Icons.info_outline,
                     onpressed: () {
                       Navigator.pop(context);
-                      Navigator.of(context).push(_createRoute('About',
-                          isPro:
-                              provider.hasPurchased(provider.products[0].id) !=
-                                  null));
+                      Navigator.of(context)
+                          .push(_createRoute('About', isPro: isPro));
                     },
                   ),
                 ],
@@ -406,126 +422,125 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              for (var prod in provider.products)
-                if (provider.hasPurchased(prod.id) != null) ...[
-                  Center(
-                    child: FittedBox(
+              if (isPro) ...[
+                Center(
+                  child: FittedBox(
+                    child: AutoSizeText(
+                      "Thank You!",
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: appTheme.currentTheme.primaryTextColor,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      maxLines: 1,
+                    ),
+                  ),
+                ),
+                _customHoriSpacer(size: 13),
+                AutoSizeText("You are a PRO user! enjoy.",
+                    style: TextStyle(
+                      color: appTheme.currentTheme.primaryTextColor,
+                      fontWeight: FontWeight.normal,
+                    )),
+              ] else ...[
+                Row(
+                  children: [
+                    Flexible(
                       child: AutoSizeText(
-                        "Thank You!",
+                        "Spelling Wizard",
                         style: TextStyle(
-                          fontSize: 20,
-                          color: appTheme.currentTheme.primaryTextColor,
-                          fontWeight: FontWeight.bold,
-                        ),
+                            fontSize: 20,
+                            color: appTheme.currentTheme.primaryTextColor,
+                            fontWeight: FontWeight.bold,
+                            height: 1.25),
                         maxLines: 1,
                       ),
                     ),
-                  ),
-                  _customHoriSpacer(size: 13),
-                  AutoSizeText("You are a PRO user! enjoy.",
-                      style: TextStyle(
-                        color: appTheme.currentTheme.primaryTextColor,
-                        fontWeight: FontWeight.normal,
-                      )),
-                ] else ...[
-                  Row(
-                    children: [
-                      Flexible(
-                        child: AutoSizeText(
-                          "Spelling Wizard",
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: appTheme.currentTheme.primaryTextColor,
-                              fontWeight: FontWeight.bold,
-                              height: 1.25),
-                          maxLines: 1,
-                        ),
+                    Padding(padding: EdgeInsets.only(right: 8)),
+                    Container(
+                      padding: EdgeInsets.fromLTRB(4, 0.2, 4, 0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: Colors.amber,
                       ),
-                      Padding(padding: EdgeInsets.only(right: 8)),
-                      Container(
-                        padding: EdgeInsets.fromLTRB(4, 0.2, 4, 0),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          color: Colors.amber,
-                        ),
-                        child: AutoSizeText('PRO',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: appTheme.currentTheme.primaryTextColor,
-                              fontWeight: FontWeight.bold,
-                            )),
+                      child: AutoSizeText('PRO',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: appTheme.currentTheme.primaryTextColor,
+                            fontWeight: FontWeight.bold,
+                          )),
+                    ),
+                  ],
+                ),
+                _customHoriSpacer(size: 12),
+                AutoSizeText(
+                    "Upgrade to support open-source software, remove ads, and enjoy some awsome features!",
+                    style: TextStyle(
+                      fontSize: 11.5,
+                      color: appTheme.currentTheme.primaryTextColor,
+                      fontWeight: FontWeight.normal,
+                    )),
+                _customHoriSpacer(size: 13),
+                _feature(
+                  text1: "Change app theme",
+                  icon: Icons.color_lens,
+                  color: appTheme.currentTheme.primaryTextColor,
+                ),
+                _customHoriSpacer(size: 11),
+                _feature(
+                  text1: "Remove Ads",
+                  icon: Icons.eco,
+                  color: appTheme.currentTheme.primaryTextColor,
+                ),
+                _customHoriSpacer(size: 11),
+                _feature(
+                  text1: "Review your mistakes",
+                  icon: Icons.receipt_long,
+                  color: appTheme.currentTheme.primaryTextColor,
+                ),
+                _customHoriSpacer(size: 11),
+                _feature(
+                  text1: "Practice your mistakes",
+                  icon: FlutterIcons.form_ant,
+                  color: appTheme.currentTheme.primaryTextColor,
+                ),
+                _customHoriSpacer(size: 11),
+                _feature(
+                  text1: "One time payment",
+                  text2: "All future features for free",
+                  icon: Icons.favorite,
+                  twoLines: true,
+                  color: appTheme.currentTheme.primaryTextColor,
+                ),
+                _customHoriSpacer(size: 13),
+                RaisedButton(
+                  color: Colors.teal[300],
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.verified,
+                        color: appTheme.currentTheme.primaryIconColor,
+                      ),
+                      Padding(padding: EdgeInsets.only(right: 12)),
+                      Text(
+                        'UPGRADE',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 16,
+                            height: 1.2),
                       ),
                     ],
                   ),
-                  _customHoriSpacer(size: 12),
-                  AutoSizeText(
-                      "Upgrade to support open-source software, remove ads, and enjoy some awsome features!",
-                      style: TextStyle(
-                        fontSize: 11.5,
-                        color: appTheme.currentTheme.primaryTextColor,
-                        fontWeight: FontWeight.normal,
-                      )),
-                  _customHoriSpacer(size: 13),
-                  _feature(
-                    text1: "Change app theme",
-                    icon: Icons.color_lens,
-                    color: appTheme.currentTheme.primaryTextColor,
-                  ),
-                  _customHoriSpacer(size: 11),
-                  _feature(
-                    text1: "Remove Ads",
-                    icon: Icons.eco,
-                    color: appTheme.currentTheme.primaryTextColor,
-                  ),
-                  _customHoriSpacer(size: 11),
-                  _feature(
-                    text1: "Review your mistakes",
-                    icon: Icons.receipt_long,
-                    color: appTheme.currentTheme.primaryTextColor,
-                  ),
-                  _customHoriSpacer(size: 11),
-                  _feature(
-                    text1: "Practice your mistakes",
-                    icon: FlutterIcons.form_ant,
-                    color: appTheme.currentTheme.primaryTextColor,
-                  ),
-                  _customHoriSpacer(size: 11),
-                  _feature(
-                    text1: "One time payment",
-                    text2: "All future features for free",
-                    icon: Icons.favorite,
-                    twoLines: true,
-                    color: appTheme.currentTheme.primaryTextColor,
-                  ),
-                  _customHoriSpacer(size: 13),
-                  RaisedButton(
-                    color: Colors.teal[300],
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.verified,
-                          color: appTheme.currentTheme.primaryIconColor,
-                        ),
-                        Padding(padding: EdgeInsets.only(right: 12)),
-                        Text(
-                          'UPGRADE',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 16,
-                              height: 1.2),
-                        ),
-                      ],
-                    ),
-                    onPressed: () => _buyProduct(prod),
-                  ),
-                ],
+                  onPressed: () => _buyProduct(provider.products[0]),
+                ),
+              ],
             ],
           ),
         ),
