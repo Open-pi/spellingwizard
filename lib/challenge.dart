@@ -137,7 +137,7 @@ class _ChallengePageState extends State<ChallengePage> {
     return new WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
-        resizeToAvoidBottomPadding: true,
+        resizeToAvoidBottomInset: true,
         backgroundColor: Colors.transparent,
         body: Container(
           decoration: BoxDecoration(
